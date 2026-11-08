@@ -1,6 +1,11 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { domainTitle, resolveApi, unwrapResponse } from '../utils'
+import {
+  DIM_COLORS, DIM_TITLES, DIM_ORDER, domainTitle, estimateSizeGb,
+  renamePreviewOf, resolveApi, tierOf, unwrapResponse,
+} from '../utils'
+import ParseBatch from './ParseBatch.vue'
+import ParseCompare from './ParseCompare.vue'
 
 const props = defineProps({
   api: { type: Object, default: () => ({}) },
@@ -9,35 +14,6 @@ const props = defineProps({
 
 const pluginBase = computed(() => `plugin/${props.pluginId}`)
 const apiClient = computed(() => resolveApi(props.api))
-
-// 与后端 parse_engine.DIM_COLORS 保持一致
-const DIM_COLORS = {
-  episode: 'indigo',
-  resolution: 'green',
-  source: 'blue',
-  vcodec: 'teal',
-  audio: 'orange',
-  edition: 'deep-purple',
-  format: 'green',
-  quality: 'teal',
-  release_type: 'deep-orange',
-  year: 'brown',
-  group: 'pink',
-}
-
-const DIM_TITLES = {
-  episode: '季集',
-  resolution: '分辨率',
-  source: '来源',
-  vcodec: '视频编码',
-  audio: '音轨',
-  edition: '制式/HDR',
-  format: '格式',
-  quality: '规格',
-  release_type: '发行类型',
-  year: '年份',
-  group: '发布组',
-}
 
 // 文件名结构图解：与解析高亮配色一致（Q2 教学卡）
 const structureGuide = [
@@ -52,6 +28,13 @@ const structureGuide = [
   { label: '.mkv', title: '封装格式', color: 'grey' },
 ]
 const showGuide = ref(true)
+
+const mode = ref('single')
+const modeOptions = [
+  { title: '单个解析', value: 'single', icon: 'mdi-magnify' },
+  { title: '批量解析', value: 'batch', icon: 'mdi-format-list-numbered' },
+  { title: '版本对比', value: 'compare', icon: 'mdi-compare-horizontal' },
+]
 
 const input = ref('')
 const kind = ref('auto')
@@ -86,7 +69,6 @@ const termByRef = computed(() => {
   return map
 })
 
-const DIM_ORDER = ['episode', 'resolution', 'source', 'vcodec', 'audio', 'edition', 'format', 'quality', 'release_type', 'year', 'group']
 const dimEntries = computed(() => {
   if (!parsed.value) return []
   const dims = parsed.value.dims || {}
@@ -184,54 +166,18 @@ function tryExample(text) {
   runParse()
 }
 
-// 画质档次徽章：按最高分辨率 × 来源映射（与天梯口径一致）
-const tier = computed(() => {
-  if (!parsed.value || parsed.value.kind !== 'video') return null
-  if ((parsed.value.warnings || []).length) {
-    return { icon: 'mdi-alert-octagon', color: 'error', text: '应急枪版' }
-  }
-  const dims = parsed.value.dims || {}
-  const res = dims.resolution?.[0]?.value || ''
-  const src = (dims.source || []).map(s => s.value).join('|')
-  const is2160 = /2160|4K|UHD/i.test(res)
-  const is1080 = /1080/.test(res)
-  const highSrc = /REMUX|BDMV/i.test(src)
-  const midSrc = /WEB-DL|BluRay|Blu-Ray/i.test(src)
-  if (is2160 && highSrc) return { icon: 'mdi-crown-outline', color: 'amber-darken-2', text: '顶配收藏级' }
-  if ((is2160 && midSrc) || (is1080 && (midSrc || highSrc))) {
-    return { icon: 'mdi-star-outline', color: 'primary', text: '优选主流' }
-  }
-  if (res || src) return { icon: 'mdi-thumb-up-outline', color: 'success', text: '够用先行' }
-  return null
-})
+// 画质档次徽章与体积估算：共享逻辑见 utils.js（批量/对比模式复用）
+const tier = computed(() => tierOf(parsed.value))
 
-// 体积估算：分辨率 × 来源 查矩阵
 const sizeEstimate = computed(() => {
   if (!preview.value || preview.value.media_type === '音乐' || !parsed.value) return null
-  const matrix = dictSizeMatrix.value
-  if (!matrix?.rows || !matrix?.columns) return null
-  const dims = parsed.value.dims || {}
-  const res = dims.resolution?.[0]?.value || ''
-  const rowKey = /2160|4K|UHD/i.test(res)
-    ? '2160p'
-    : /1080/.test(res)
-      ? '1080p'
-      : /720/.test(res)
-        ? '720p'
-        : /[45]76|480/.test(res)
-          ? '480p'
-          : null
-  const srcVals = (dims.source || []).map(s => `${s.value} ${s.label}`).join(' ')
-  let col = null
-  if (/枪版|CAM|TeleSync/i.test(srcVals)) col = '枪版'
-  else if (/REMUX/i.test(srcVals)) col = 'REMUX'
-  else if (/BDMV|原盘/i.test(srcVals)) col = 'BDMV 原盘'
-  else if (/HDTV/i.test(srcVals)) col = 'HDTV'
-  else if (/BluRay|Blu-Ray|蓝光/i.test(srcVals)) col = 'BluRay 转码'
-  else if (/WEB-DL|WEBRip|流媒体/i.test(srcVals)) col = 'WEB-DL'
-  if (!rowKey || !col) return null
-  const val = matrix.rows?.[rowKey]?.[matrix.columns.indexOf(col)]
-  return val != null ? { gb: val, combo: `${rowKey} × ${col}` } : null
+  return estimateSizeGb(dictSizeMatrix.value, parsed.value)
+})
+
+// 重命名预览（推断展示）
+const renamePreview = computed(() => {
+  if (!preview.value || !parsed.value) return null
+  return renamePreviewOf(parsed.value)
 })
 
 onMounted(() => {
@@ -277,6 +223,17 @@ onMounted(() => {
       </VCardText>
     </VCard>
 
+    <!-- 模式切换 -->
+    <VCard variant="tonal" color="primary" class="mb-4 pa-1">
+      <VBtnToggle v-model="mode" mandatory color="primary" variant="text" class="w-100">
+        <VBtn v-for="m in modeOptions" :key="m.value" :value="m.value" class="flex-grow-1">
+          <VIcon start size="small" :icon="m.icon" />
+          {{ m.title }}
+        </VBtn>
+      </VBtnToggle>
+    </VCard>
+
+    <template v-if="mode === 'single'">
     <VCard variant="flat" class="pa-4 mb-4">
       <VRow align="center" no-gutters>
         <VSelect
@@ -485,6 +442,16 @@ onMounted(() => {
             >
               预计体积：<b>约 {{ sizeEstimate.gb }} GB</b>（{{ sizeEstimate.combo }} · 估算值，随片长与码率浮动）
             </VAlert>
+            <VAlert
+              v-if="renamePreview"
+              type="success"
+              variant="tonal"
+              density="compact"
+              class="mb-2"
+            >
+              整理后命名预览：<b>{{ renamePreview }}</b>
+              <span class="text-caption">（推断展示，以实际整理结果为准）</span>
+            </VAlert>
           </template>
 
           <VAlert
@@ -522,9 +489,24 @@ onMounted(() => {
         </VCardText>
       </VCard>
     </template>
+    </template>
+
+    <ParseBatch
+      v-if="mode === 'batch'"
+      :api="api"
+      :plugin-id="pluginId"
+      :size-matrix="dictSizeMatrix"
+      @open-term="openRef"
+    />
+    <ParseCompare
+      v-else-if="mode === 'compare'"
+      :api="api"
+      :plugin-id="pluginId"
+      @open-term="openRef"
+    />
 
     <VEmptyState
-      v-else-if="!loading && !error"
+      v-if="mode === 'single' && !loading && !error && !parsed"
       icon="mdi-magnify-scan"
       headline="粘贴文件名开始解析"
       text="支持影视命名（来源/分辨率/编码/音轨/季集/发布组）与音乐命名（格式/规格/发行类型）"

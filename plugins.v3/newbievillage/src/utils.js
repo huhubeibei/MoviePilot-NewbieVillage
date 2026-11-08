@@ -1,5 +1,5 @@
 /**
- * 公共工具：响应解包、领域名映射、轻量 markdown 渲染。
+ * 公共工具：响应解包、领域名映射、轻量 markdown 渲染、解析共享逻辑。
  */
 
 /** 解包 MP 插件 API 响应：{success, message, data} → data。 */
@@ -9,6 +9,127 @@ export function unwrapResponse(response) {
     return response.data
   }
   return response?.data ?? response
+}
+
+// ---------- 解析共享逻辑（与后端 parse_engine.DIM_* 保持一致） ----------
+
+export const DIM_COLORS = {
+  episode: 'indigo',
+  resolution: 'green',
+  source: 'blue',
+  vcodec: 'teal',
+  audio: 'orange',
+  edition: 'deep-purple',
+  format: 'green',
+  quality: 'teal',
+  release_type: 'deep-orange',
+  year: 'brown',
+  group: 'pink',
+}
+
+export const DIM_TITLES = {
+  episode: '季集',
+  resolution: '分辨率',
+  source: '来源',
+  vcodec: '视频编码',
+  audio: '音轨',
+  edition: '制式/HDR',
+  format: '格式',
+  quality: '规格',
+  release_type: '发行类型',
+  year: '年份',
+  group: '发布组',
+}
+
+export const DIM_ORDER = ['episode', 'resolution', 'source', 'vcodec', 'audio', 'edition', 'format', 'quality', 'release_type', 'year', 'group']
+
+// 天梯口径的档次排序（数字越大越好）
+export const RES_RANK = [
+  [/^(480|576)/, 0], [/^720/, 1], [/^1080/, 2], [/^(2160|4K|UHD)/i, 3],
+]
+export const SRC_RANK = [
+  [/枪版|CAM|TeleSync|TeleCine/i, 0], [/TVRip/i, 1], [/HDTV/i, 2],
+  [/WEB-DL|WEBRip|AMZN|Netflix|流媒体/i, 3], [/BluRay|蓝光/i, 4],
+  [/REMUX/i, 5], [/BDMV|原盘/i, 6],
+]
+export const AUDIO_RANK = [
+  [/AAC/i, 1], [/DD\b|AC3/i, 2], [/DDP/i, 3], [/DTS-HD|DTS/i, 3.5],
+  [/TrueHD|LPCM|无损/i, 5],
+]
+
+function rankOf(value, ranks) {
+  for (const [pat, rank] of ranks) {
+    if (pat.test(String(value))) return rank
+  }
+  return null
+}
+
+export function dimValues(parsed, dim) {
+  return (parsed?.dims?.[dim] || []).map(e => String(e.value))
+}
+
+/** 画质档位徽章（影视命名专用）。 */
+export function tierOf(parsed) {
+  if (!parsed || parsed.kind !== 'video') return null
+  if ((parsed.warnings || []).length) {
+    return { icon: 'mdi-alert-octagon', color: 'error', text: '应急枪版' }
+  }
+  const dims = parsed.dims || {}
+  const res = dimValues(parsed, 'resolution').join('|')
+  const src = dimValues(parsed, 'source').join('|')
+  const is2160 = /2160|4K|UHD/i.test(res)
+  const is1080 = /1080/.test(res)
+  const highSrc = /REMUX|BDMV/i.test(src)
+  const midSrc = /WEB-DL|BluRay|Blu-Ray/i.test(src)
+  if (is2160 && highSrc) return { icon: 'mdi-crown-outline', color: 'amber-darken-2', text: '顶配收藏级' }
+  if ((is2160 && midSrc) || (is1080 && (midSrc || highSrc))) {
+    return { icon: 'mdi-star-outline', color: 'primary', text: '优选主流' }
+  }
+  if (res || src) return { icon: 'mdi-thumb-up-outline', color: 'success', text: '够用先行' }
+  return null
+}
+
+/** 体积估算（分辨率 × 来源 查矩阵），返回 {gb, combo} 或 null。 */
+export function estimateSizeGb(sizeMatrix, parsed) {
+  if (!parsed || parsed.kind !== 'video' || !sizeMatrix?.rows || !sizeMatrix?.columns) return null
+  const dims = parsed.dims || {}
+  const res = dimValues(parsed, 'resolution').join(' ')
+  const rowKey = /2160|4K|UHD/i.test(res) ? '2160p'
+    : /1080/.test(res) ? '1080p'
+    : /720/.test(res) ? '720p'
+    : /[45]76|480/.test(res) ? '480p'
+    : null
+  const srcVals = dimValues(parsed, 'source').join(' ')
+  let col = null
+  if (/枪版|CAM|TeleSync/i.test(srcVals)) col = '枪版'
+  else if (/REMUX/i.test(srcVals)) col = 'REMUX'
+  else if (/BDMV|原盘/i.test(srcVals)) col = 'BDMV 原盘'
+  else if (/HDTV/i.test(srcVals)) col = 'HDTV'
+  else if (/BluRay|Blu-Ray|蓝光/i.test(srcVals)) col = 'BluRay 转码'
+  else if (/WEB-DL|WEBRip|流媒体/i.test(srcVals)) col = 'WEB-DL'
+  if (!rowKey || !col || !sizeMatrix.columns.includes(col)) return null
+  const val = sizeMatrix.rows?.[rowKey]?.[sizeMatrix.columns.indexOf(col)]
+  return val != null ? { gb: val, combo: `${rowKey} × ${col}` } : null
+}
+
+/** 重命名预览（推断展示，非 MP 实际模板）。 */
+export function renamePreviewOf(parsed) {
+  if (!parsed || parsed.kind !== 'video') return null
+  const dims = parsed.dims || {}
+  const title = parsed.title_hint || ''
+  const year = dims.year?.[0]?.value || ''
+  if (!title) return null
+  const quality = dimValues(parsed, 'resolution')[0] || ''
+  const episodeHit = dims.episode?.[0]?.value || ''
+  const seasonMatch = episodeHit.match(/S(\d{1,2})/)
+  const epMatch = episodeHit.match(/E(\d{1,3})/)
+  const name = quality ? `${title} - ${quality}` : title
+  if (episodeHit && epMatch) {
+    const season = seasonMatch ? seasonMatch[1].padStart(2, '0') : '01'
+    const ep = epMatch[1].padStart(2, '0')
+    return `${title}${year ? ` (${year})` : ''}/Season ${season}/${name} - S${season}E${ep}.mkv`
+  }
+  return `${title}${year ? ` (${year})` : ''}/${name}${year ? ` (${year})` : ''}.mkv`
 }
 
 /**

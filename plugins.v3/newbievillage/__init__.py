@@ -6,10 +6,12 @@ M1（当前）：骨架 + 词典 + 案例 + 每日一词卡片 + 远端词典刷
 M2 预留：命名解析器与联动预告；M4 预留：LLM 兜底。见 docs/实现方案共识.md。
 """
 
+import json
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from apscheduler.triggers.cron import CronTrigger
 from fastapi import Query
 
 from app import schemas
@@ -17,7 +19,7 @@ from app.api.endpoints.plugin import register_plugin_api
 from app.plugins import _PluginBase
 from app.sdk.events import Event, eventmanager
 from app.sdk.logging import logger
-from app.schemas.types import EventType
+from app.schemas.types import EventType, NotificationType
 
 from .app import llm_fallback
 from .app.case_service import CaseService
@@ -35,6 +37,9 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "remote_dict_url": "",
     "auto_refresh_days": 7,
     "llm_fallback": False,
+    # 每周定时体检 + 异常推送（复用 MP 消息通道）。
+    "health_notify_enabled": True,
+    "health_cron": "0 9 * * 0",
 }
 
 
@@ -46,7 +51,7 @@ class NewbieVillage(_PluginBase):
     plugin_name = "影音新手村"
     plugin_desc = "影视/音乐新手词典、命名解析与联动预告，新手村通关手册。"
     plugin_icon = "icon.png"
-    plugin_version = "1.4.0"
+    plugin_version = "1.5.0"
     plugin_author = "jinyu"
     plugin_order = 60
 
@@ -152,7 +157,7 @@ class NewbieVillage(_PluginBase):
     # ---------- 仪表盘 ----------
 
     def get_dashboard_meta(self) -> List[Dict[str, str]]:
-        return [{"key": "daily", "name": "每日一词"}]
+        return [{"key": "daily", "name": "影音新手村"}]
 
     def get_dashboard(
         self, key: str = "", **kwargs: Any
@@ -161,7 +166,7 @@ class NewbieVillage(_PluginBase):
         if key not in ("", "daily"):
             return None
         cols = {"cols": 12, "md": 6, "sm": 12}
-        attrs = {"border": True, "title": "每日一词", "subtitle": "影音新手村"}
+        attrs = {"border": True, "title": "影音新手村", "subtitle": "每日一词 · 配置体检"}
         return cols, attrs, None
 
     # ---------- API ----------
@@ -188,6 +193,10 @@ class NewbieVillage(_PluginBase):
              "auth": "bear", "summary": "测试 LLM 连通性"},
             {"path": "/health/checks", "endpoint": self.api_health_checks, "methods": ["GET"],
              "auth": "bear", "summary": "运行配置体检"},
+            {"path": "/health/last", "endpoint": self.api_health_last, "methods": ["GET"],
+             "auth": "bear", "summary": "获取最近一次体检报告"},
+            {"path": "/parse/batch", "endpoint": self.api_parse_batch, "methods": ["POST"],
+             "auth": "bear", "summary": "批量解析多行文件名"},
             {"path": "/cases", "endpoint": self.api_cases, "methods": ["GET"],
              "auth": "bear", "summary": "获取案例列表"},
             {"path": "/cases/{case_id}", "endpoint": self.api_case_detail, "methods": ["GET"],
@@ -261,6 +270,25 @@ class NewbieVillage(_PluginBase):
             logger.error(f"影音新手村联动预告失败：{err}")
             return schemas.Response(success=False, message=f"联动预告失败：{err}")
 
+    def api_parse_batch(self, payload: Optional[dict] = None) -> schemas.Response:
+        """批量解析：多行文本逐行解析（上限 100 行）。"""
+        try:
+            raw_texts = (payload or {}).get("texts")
+            kind = str((payload or {}).get("kind") or "auto")
+            if not isinstance(raw_texts, list):
+                return schemas.Response(success=False, message="texts 必须为字符串数组")
+            texts = [str(t).strip() for t in raw_texts if str(t).strip()][:100]
+            if not texts:
+                return schemas.Response(success=False, message="没有可解析的内容")
+            results = [
+                {"text": text, "parse": self.parse_engine.parse(text, kind=kind)}
+                for text in texts
+            ]
+            return schemas.Response(success=True, data={"count": len(results), "results": results})
+        except Exception as err:
+            logger.error(f"影音新手村批量解析失败：{err}")
+            return schemas.Response(success=False, message=f"批量解析失败：{err}")
+
     def api_llm_status(self) -> schemas.Response:
         """本机 LLM 配置状态（前端据此决定是否显示 AI 兜底入口）。"""
         try:
@@ -301,10 +329,65 @@ class NewbieVillage(_PluginBase):
     def api_health_checks(self) -> schemas.Response:
         """配置体检：读真实配置逐项检测（只读，网络探测带超时）。"""
         try:
-            return schemas.Response(success=True, data=run_all_checks())
+            report = run_all_checks()
+            self._save_health_report(report)
+            return schemas.Response(success=True, data=report)
         except Exception as err:
             logger.error(f"影音新手村配置体检失败：{err}")
             return schemas.Response(success=False, message=f"配置体检失败：{err}")
+
+    def _health_report_file(self) -> Path:
+        return Path(self.get_data_path()) / "health_last.json"
+
+    def _save_health_report(self, report: Dict[str, Any]) -> None:
+        """缓存最近一次体检报告（仪表盘卡片读取）。"""
+        try:
+            report = dict(report)
+            report["saved_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+            self._health_report_file().write_text(
+                json.dumps(report, ensure_ascii=False), encoding="utf-8"
+            )
+        except Exception as err:
+            logger.warning(f"影音新手村保存体检报告失败：{err}")
+
+    def api_health_last(self) -> schemas.Response:
+        """最近一次体检报告（仪表盘卡片用，不重新体检）。"""
+        try:
+            f = self._health_report_file()
+            if f.exists():
+                return schemas.Response(success=True, data=json.loads(f.read_text(encoding="utf-8")))
+            return schemas.Response(success=True, data=None, message="尚未体检")
+        except Exception as err:
+            return schemas.Response(success=True, data=None, message=f"读取体检报告失败：{err}")
+
+    def run_weekly_health(self) -> None:
+        """每周定时体检：缓存报告，异常时通过 MP 消息通道推送。"""
+        try:
+            report = run_all_checks()
+            self._save_health_report(report)
+            if not self._config.get("health_notify_enabled"):
+                return
+            s = report.get("summary") or {}
+            bad = int(s.get("error") or 0) + int(s.get("warn") or 0)
+            if bad <= 0:
+                self.post_message(
+                    mtype=NotificationType.Plugin,
+                    title="【影音新手村】每周配置体检：全部通过",
+                    text=f"共 {report.get('total', 0)} 项检查全部通过，配置状态良好。",
+                )
+                return
+            lines = [
+                f"[{r['status']}] {r['title']}：{r['message']}"
+                for r in report.get("results", [])
+                if r["status"] in ("warn", "error")
+            ]
+            self.post_message(
+                mtype=NotificationType.Plugin,
+                title=f"【影音新手村】每周配置体检：{s.get('error', 0)} 错误 / {s.get('warn', 0)} 警告",
+                text="\n".join(lines)[:1500] + "\n\n打开插件「体检」页查看明细。",
+            )
+        except Exception as err:
+            logger.error(f"影音新手村每周体检失败：{err}")
 
     def api_cases(self) -> schemas.Response:
         try:
@@ -343,18 +426,35 @@ class NewbieVillage(_PluginBase):
     # ---------- 定时服务 ----------
 
     def get_service(self) -> List[Dict[str, Any]]:
-        """词典远端刷新检查：每天 04:30 检查，按 auto_refresh_days 决定是否实际拉取。"""
-        if not self.get_state() or int(self._config.get("auto_refresh_days") or 0) <= 0:
+        """词典远端刷新检查 + 每周定时体检。"""
+        if not self.get_state():
             return []
-        return [
-            {
-                "id": "NewbieVillageDictRefresh",
-                "name": "词典远端刷新检查",
-                "trigger": "cron",
-                "func": self.check_remote_dict,
-                "kwargs": {"hour": 4, "minute": 30},
-            }
-        ]
+        services: List[Dict[str, Any]] = []
+        if int(self._config.get("auto_refresh_days") or 0) > 0:
+            services.append(
+                {
+                    "id": "NewbieVillageDictRefresh",
+                    "name": "词典远端刷新检查",
+                    "trigger": "cron",
+                    "func": self.check_remote_dict,
+                    "kwargs": {"hour": 4, "minute": 30},
+                }
+            )
+        cron = str(self._config.get("health_cron") or "").strip()
+        if self._config.get("health_notify_enabled") and cron:
+            try:
+                services.append(
+                    {
+                        "id": "NewbieVillageWeeklyHealth",
+                        "name": "每周配置体检",
+                        "trigger": CronTrigger.from_crontab(cron),
+                        "func": self.run_weekly_health,
+                        "kwargs": {},
+                    }
+                )
+            except Exception as err:
+                logger.warning(f"影音新手村体检 cron 无效（{cron}）：{err}")
+        return services
 
     def check_remote_dict(self) -> None:
         """按周期拉取远端词典；任何失败只记日志，不影响现有词典。"""
