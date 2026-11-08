@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "kind": "music",
+  "note": "音乐命名解析规则（3 维起步：格式/规格/发行类型）。CUE、分轨细节、多碟等模糊形态交给 LLM 兜底（M4）。",
+  "dimensions": ["format", "quality", "release_type", "year"],
+  "rules": [
+    {
+      "id": "fmt_flac",
+      "dim": "format",
+      "pattern": "\\bFLAC\\b",
+      "flags": "i",
+      "label": "FLAC（无损）",
+      "ref": "FLAC",
+      "priority": 20
+    },
+    {
+      "id": "fmt_ape",
+      "dim": "format",
+      "pattern": "\\bAPE\\b",
+      "flags": "i",
+      "label": "APE（无损）",
+      "ref": "APE",
+      "priority": 20
+    },
+    {
+      "id": "fmt_wav",
+      "dim": "format",
+      "pattern": "\\bWAV\\b",
+      "flags": "i",
+      "label": "WAV（无压缩）",
+      "ref": "WAV",
+      "priority": 20
+    },
+    {
+      "id": "fmt_alac",
+      "dim": "format",
+      "pattern": "\\bALAC\\b|\\bM4A\\b",
+      "flags": "i",
+      "label": "ALAC（苹果无损）",
+      "ref": "ALAC",
+      "priority": 20
+    },
+    {
+      "id": "fmt_dsd",
+      "dim": "format",
+      "pattern": "\\bDSF\\b|\\bDFF\\b|\\bDSD\\d*\\b|\\bSACD\\b|SACD[.\\-_ ]?ISO",
+      "flags": "i",
+      "label": "DSF / DSD",
+      "ref": "DSF / DSD",
+      "priority": 22
+    },
+    {
+      "id": "fmt_mp3",
+      "dim": "format",
+      "pattern": "\\bMP3\\b",
+      "flags": "i",
+      "label": "MP3（有损）",
+      "ref": "MP3",
+      "priority": 20
+    },
+    {
+      "id": "fmt_lossy_other",
+      "dim": "format",
+      "pattern": "\\b(AAC|OGG|OPUS|WMA)\\b|\\b320[Kk]bps\\b|\\b320K\\b|\\bV0\\b|\\bV2\\b",
+      "flags": "i",
+      "label": "其他有损格式",
+      "priority": 15
+    },
+    {
+      "id": "fmt_other",
+      "dim": "format",
+      "pattern": "\\b(AIFF|AIF|WV|WavPack|TAK|TTA|SHN)\\b",
+      "flags": "i",
+      "label": "其他无损格式",
+      "priority": 15
+    },
+    {
+      "id": "ql_bitdepth",
+      "dim": "quality",
+      "pattern": "\\b(16|24|32)[.\\-_ ]?bit\\b",
+      "flags": "i",
+      "label": "位深",
+      "ref": "16bit / 24bit",
+      "priority": 20,
+      "value_group": 0
+    },
+    {
+      "id": "ql_samplerate",
+      "dim": "quality",
+      "pattern": "\\b(\\d{2}(?:\\.\\d)?)\\s*[kK]?Hz\\b",
+      "label": "采样率",
+      "priority": 18,
+      "value_group": 0
+    },
+    {
+      "id": "ql_hires",
+      "dim": "quality",
+      "pattern": "\\bHi-?Res\\b|高解析|\\bMQA\\b|\\bDXD\\b|\\bUHQCD\\b|\\bSHM[-. ]?CD\\b|\\bSACD\\b",
+      "flags": "i",
+      "label": "Hi-Res",
+      "ref": "Hi-Res",
+      "priority": 20
+    },
+    {
+      "id": "ql_lossless",
+      "dim": "quality",
+      "pattern": "无损|\\bLossless\\b",
+      "flags": "i",
+      "label": "无损标记",
+      "priority": 10
+    },
+    {
+      "id": "rt_tracks",
+      "dim": "release_type",
+      "pattern": "分轨|\\b[Tt]racks?\\b|\\bTRACKS?\\b",
+      "label": "分轨",
+      "ref": "分轨",
+      "priority": 20
+    },
+    {
+      "id": "rt_image",
+      "dim": "release_type",
+      "pattern": "整轨|\\b[Ii]mage\\b|\\bIMG\\b|整轨镜像",
+      "label": "整轨",
+      "ref": "整轨",
+      "priority": 20
+    },
+    {
+      "id": "rt_cue",
+      "dim": "release_type",
+      "pattern": "\\bCUE\\b",
+      "flags": "i",
+      "label": "CUE 索引",
+      "ref": "CUE",
+      "priority": 20
+    },
+    {
+      "id": "rt_log",
+      "dim": "release_type",
+      "pattern": "\\bLOG(\\(\\d+\\))?\\b|\\bEAC\\b|\\bXLD\\b|\\bCUERipper\\b",
+      "flags": "i",
+      "label": "抓轨日志",
+      "ref": "CUE",
+      "priority": 18
+    },
+    {
+      "id": "rt_album",
+      "dim": "release_type",
+      "pattern": "\\bAlbum\\b|\\bEP\\b|\\bSingle\\b",
+      "flags": "i",
+      "label": "发行类型",
+      "ref": "Album / EP / Single",
+      "priority": 12
+    },
+    {
+      "id": "rt_edition",
+      "dim": "release_type",
+      "pattern": "Deluxe|豪华版|\\bRemaster(ed)?\\b|重制|\\bLive\\b|现场版|\\bCompilation\\b|合辑|\\bVinyl\\b|黑胶|\\bBonus\\b|\\bLimited\\b|限定版",
+      "flags": "i",
+      "label": "版本标记",
+      "ref": "Album / EP / Single",
+      "priority": 12
+    },
+    {
+      "id": "rt_disc",
+      "dim": "release_type",
+      "pattern": "\\bDisc\\s*\\d+\\b|CD\\s*\\d+|多碟",
+      "flags": "i",
+      "label": "多碟",
+      "priority": 10
+    },
+    {
+      "id": "yr_year",
+      "dim": "year",
+      "pattern": "\\b(19\\d{2}|20\\d{2})\\b",
+      "label": "年份",
+      "priority": 8,
+      "value_group": 1
+    }
+  ]
+}

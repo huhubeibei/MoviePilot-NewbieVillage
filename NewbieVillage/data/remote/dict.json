@@ -1,0 +1,1952 @@
+{
+  "version": 2,
+  "updated_at": "2026-11-08",
+  "terms": [
+    {
+      "term": "WEB-DL",
+      "aliases": [
+        "WEBDL",
+        "网络源",
+        "流媒体源"
+      ],
+      "domain": "video",
+      "one_line": "从 Netflix、Disney+ 等流媒体平台直接抓取的无损转封装版本",
+      "detail": "WEB-DL 是从流媒体服务端下载的原始码流直接封装（无损、无二次转码），画质和音质与平台播出时一致，通常带平台自制的杜比视界/HDR 和 DD+ 音轨。与 REMUX（蓝光原盘抽取）相比码率略低，但体积小得多，是日常追剧的主流选择。文件名里出现的 Netflix、AMZN（Amazon）、HMAX（HBO Max）、DSNP（Disney+）等是来源平台标记。",
+      "examples": [
+        "The.Bear.S02E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "过滤规则组",
+          "hint": "设置 → 过滤规则组 中可按来源（WEB-DL/BluRay 等）筛选种子"
+        }
+      ],
+      "tags": [
+        "来源",
+        "画质"
+      ]
+    },
+    {
+      "term": "WEBRip",
+      "aliases": [
+        "网络录制源"
+      ],
+      "domain": "video",
+      "one_line": "对流媒体播放画面重新录制/转码的版本，质量低于 WEB-DL",
+      "detail": "WEBRip 通常是在没有直连源的情况下，通过录屏或抓取播放流再转码得到，经历过有损转码，画质、音质都次于 WEB-DL。发布组有时会把两者混标，一般规律：文件名同时有 WEB-DL 就是抓取源，标 WEBRip 的码率往往明显更低。追新剧时优先选 WEB-DL。",
+      "examples": [
+        "Arrival.2016.1080p.WEBRip.x264-RARBG"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源"
+      ]
+    },
+    {
+      "term": "HDTV",
+      "aliases": [
+        "高清电视录制"
+      ],
+      "domain": "video",
+      "one_line": "从电视广播信号直接录制的版本，可能带台标和广告",
+      "detail": "HDTV 是用采集卡录制有线/卫星/地面波电视信号得到的版本，优点是播出后能最快拿到，缺点是画质受广播码率限制，且可能残留台标、跑马灯甚至广告。美剧首播抢发常见，正式收藏一般会被 WEB-DL 或 BluRay 替换（即「洗版」）。",
+      "examples": [
+        "House.of.the.Dragon.S02E01.1080p.HDTV.H264-DARKFLiX"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源"
+      ]
+    },
+    {
+      "term": "BluRay",
+      "aliases": [
+        "蓝光",
+        "BDRip",
+        "原盘转码"
+      ],
+      "domain": "video",
+      "one_line": "以蓝光碟为来源的版本，文件名直接标 BluRay 的多为对原盘的有损转码",
+      "detail": "BluRay 表示来源是蓝光光碟。严格来说文件名里的 BluRay 涵盖了从原盘转码（x264/x265 encode）到无损抽取（REMUX）的多种形态，具体看编码标记：标 x264/x265 的是转码版（体积小、有画质损失），标 REMUX 的是无损抽取（体积巨大）。同一部电影 1080p BluRay x264 一般 8~15GB，REMUX 则 25~45GB。",
+      "examples": [
+        "Oppenheimer.2023.1080p.BluRay.x264-FGT"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源",
+        "画质"
+      ]
+    },
+    {
+      "term": "BDMV",
+      "aliases": [
+        "蓝光原盘",
+        "Full BD",
+        "UHD 原盘"
+      ],
+      "one_line": "蓝光光碟的原始目录结构（BDMV/STREAM 目录），未做任何处理",
+      "domain": "video",
+      "detail": "BDMV 是蓝光碟的原始文件结构（包含 index.bdmv、PLAYLIST、STREAM 等目录），也就是常说的「原盘」，电影正片 + 菜单 + 花絮全部保留，一部 UHD 原盘 50~90GB。媒体服务器（Emby/Jellyfin/Plex）识别原盘需要指向 BDMV/index.bdmv 或相关目录结构。收藏党最终形态，但下载和存储成本都很高。",
+      "examples": [
+        "Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "目录映射",
+          "hint": "原盘建议单独设目录，避免与普通剧集混放"
+        }
+      ],
+      "tags": [
+        "来源",
+        "收藏"
+      ]
+    },
+    {
+      "term": "REMUX",
+      "aliases": [
+        "无损抽取",
+        "原盘直取"
+      ],
+      "domain": "video",
+      "one_line": "从蓝光原盘中无损抽出正片封装成 mkv，音画质与原盘完全一致",
+      "detail": "REMUX 把原盘正片的视频、音频、字幕流原样（无损）重新封装进 mkv，去掉了菜单和花絮，体积仍然很大（1080p 约 20~40GB，4K 约 40~80GB）。与原盘的唯一区别是没有菜单，与转码版的区别是没有画质损失。硬盘党收藏 4K 的主流选择。",
+      "examples": [
+        "Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源",
+        "收藏"
+      ]
+    },
+    {
+      "term": "2160p",
+      "aliases": [
+        "4K",
+        "UHD",
+        "超高清"
+      ],
+      "domain": "video",
+      "one_line": "垂直分辨率 2160 行的 4K 超高清视频，横向约 3840 像素",
+      "detail": "2160p 即常说的 4K/UHD，分辨率 3840×2160，是 1080p 的四倍像素量。4K 片源通常伴随 HDR、杜比视界、高码率音轨，文件体积也成倍增长（WEB-DL 约 10~25GB，REMUX 40GB+）。播放端需要 4K 屏幕和支持 HDR 的电视才能真正受益。",
+      "examples": [
+        "Dune.2021.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "二级分类",
+          "hint": "很多人按分辨率建 4K/1080P 二级分类，见 分类策略"
+        }
+      ],
+      "tags": [
+        "分辨率"
+      ]
+    },
+    {
+      "term": "1080p",
+      "aliases": [
+        "全高清",
+        "FHD"
+      ],
+      "domain": "video",
+      "one_line": "1920×1080 全高清分辨率，当前资源量最大、兼容性最好的规格",
+      "detail": "1080p 是目前 PT 站资源量最大、播放设备兼容性最好的分辨率规格，体积（4~15GB）与画质平衡最佳。除非你有 4K 观影环境和足够存储，1080p 的 BluRay 或 WEB-DL 是大多数人的主力收藏规格。",
+      "examples": [
+        "Inception.2010.1080p.BluRay.x264.DTS-WiKi"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "分辨率"
+      ]
+    },
+    {
+      "term": "H.265 / HEVC",
+      "aliases": [
+        "HEVC",
+        "h265",
+        "x265"
+      ],
+      "domain": "video",
+      "one_line": "新一代视频编码，同画质体积比 H.264 小约一半，4K 时代的主流编码",
+      "detail": "HEVC（H.265）是 H.264 的继任者，压缩效率提升约 50%，4K 内容几乎全部使用该编码。文件名里的 x265 是开源实现（标 x265 多为民间转码组），标 HEVC 的可能来自官方源转封装。注意：老设备（2015 年前的电视盒子）可能硬解不了 HEVC 10bit，播放卡顿先想到编码兼容性。",
+      "examples": [
+        "Shogun.2024.S01E01.2160p.WEB-DL.DDP5.1.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "视频编码"
+      ]
+    },
+    {
+      "term": "H.264 / AVC",
+      "aliases": [
+        "AVC",
+        "h264",
+        "x264"
+      ],
+      "domain": "video",
+      "one_line": "最通用的视频编码标准，所有设备都能硬解，1080p 时代的王者",
+      "detail": "H.264（AVC）是普及度最高的视频编码，任何设备都能流畅硬解，兼容性无敌。x264 是其开源编码器，文件名标 x264 的基本是转码组作品。虽然 H.265 体积更小，但 1080p 资源仍有大量 H.264 编码，旧设备用户优先选它。",
+      "examples": [
+        "The.Shawshank.Redemption.1994.1080p.BluRay.x264-WiKi"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "视频编码"
+      ]
+    },
+    {
+      "term": "杜比视界 Dolby Vision",
+      "aliases": [
+        "DV",
+        "DoVi",
+        "DolbyVision",
+        "杜比视界"
+      ],
+      "domain": "video",
+      "one_line": "杜比的动态 HDR 标准，逐帧调整亮度和色彩，效果优于 HDR10",
+      "detail": "杜比视界（Dolby Vision，文件名常缩写 DV/DoVi）是动态元数据 HDR，能逐帧优化亮度色彩，观感上限比静态的 HDR10 更高，但需要设备支持杜比认证。注意兼容性坑：双层的 DV（BL+EL/RPU）在部分播放器上会偏紫或偏绿；Emby/Jellyfin 直接播放 DV mkv 时，不支持的服务端会尝试转码。文件名里 DV+HDR10 组合（DV HDR10 / DV HDR）表示双格式兼容。",
+      "examples": [
+        "The.Boy.and.the.Heron.2023.2160p.WEB-DL.DV.HDR.H.265.Atmos.DDP5.1-NetAllM"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 对 DV mkv 的直出能力因版本而异，出现偏色先查此项"
+        }
+      ],
+      "tags": [
+        "HDR",
+        "画质"
+      ]
+    },
+    {
+      "term": "HDR10+",
+      "aliases": [
+        "HDR10P",
+        "动态HDR"
+      ],
+      "domain": "video",
+      "one_line": "三星主导的动态 HDR 标准，是杜比视界的开放替代品",
+      "detail": "HDR10+ 同样是动态元数据 HDR（逐帧调亮度），由三星主导、免认证费，多见于 Amazon 原创内容（AMZN 源）。与杜比视界互不兼容：设备支持哪个就看哪个，都支持时看片源的封装。文件名标 HDR10+ 或 HDR10Plus。",
+      "examples": [
+        "The.Rings.of.Power.S02E01.2160p.AMZN.WEB-DL.HDR10+.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "HDR",
+        "画质"
+      ]
+    },
+    {
+      "term": "HDR",
+      "aliases": [
+        "HDR10",
+        "高动态范围"
+      ],
+      "domain": "video",
+      "one_line": "高动态范围成像的基础标准（HDR10），静态元数据，大幅提升亮暗层次",
+      "detail": "HDR10 是最基础的 HDR 标准（静态元数据，整部片子一个亮度曲线），文件名里单独的 HDR 一般就指 HDR10。它和 SDR（标准动态范围）的区别是亮部和暗部细节大幅提升，观感差异非常明显。设备不支持 HDR 时播放 HDR 片源会显得灰暗，需要播放器做 tone mapping（色调映射）。",
+      "examples": [
+        "Interstellar.2014.2160p.WEB-DL.HDR.HEVC.DTS-HD.MA5.1-MUse"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "HDR",
+        "画质"
+      ]
+    },
+    {
+      "term": "DDP / DD+",
+      "aliases": [
+        "DolbyDigitalPlus",
+        "E-AC3",
+        "DDP5.1"
+      ],
+      "domain": "video",
+      "one_line": "杜比数字+ 音频编码，流媒体平台的标准音轨格式",
+      "detail": "DDP（Dolby Digital Plus，也叫 DD+/E-AC3）是流媒体平台（Netflix/Disney+ 等）标配的有损音频编码，WEB-DL 源里最常见，DDP5.1 表示 5.1 声道。音质介于 DD（AC3）和 TrueHD 之间：比原盘的 TrueHD/DTS-HD 差，但比同码率 AC3 好。追剧场景下 DDP5.1 完全够用。",
+      "examples": [
+        "Fallout.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨"
+      ]
+    },
+    {
+      "term": "杜比全景声 Atmos",
+      "aliases": [
+        "Atmos",
+        "全景声",
+        "DDP5.1.Atmos",
+        "TrueHD.Atmos"
+      ],
+      "domain": "video",
+      "one_line": "杜比的沉浸式三维声场技术，在 5.1/7.1 基础上增加顶部声道",
+      "detail": "Atmos（全景声）在传统 5.1/7.1 声道之外加入天空声道对象，声场更有包围感。文件名里常见两种载体：DDP5.1.Atmos（流媒体源，有损）和 TrueHD.Atmos（原盘，无损）。家庭影院需要全套 Atmos 音箱才能完全发挥，普通设备会自动降级为普通 5.1 播放，无兼容性问题。",
+      "examples": [
+        "Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨"
+      ]
+    },
+    {
+      "term": "S01E01 季集标记",
+      "aliases": [
+        "SxxExx",
+        "季集",
+        "E00 特典"
+      ],
+      "domain": "video",
+      "one_line": "剧名后用 SxxExx 标注第几季第几集，E00 一般是特典/花絮集",
+      "detail": "S02E05 = 第 2 季第 5 集，这是剧集命名的标准格式，也是媒体库识别剧集的核心依据。E00 是个特殊存在：通常表示特典、花絮、幕后或未播集，Emby/Jellyfin/Plex 会把它归入特典（Extras）。季集号错了会导致识别到错误剧集或识别失败，这是新手最常踩的坑之一，可用 MP 的「识别词」修正。",
+      "examples": [
+        "Shogun.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "识别词",
+          "hint": "设置 → 识别词 可用正则修正识别错的剧名/季集"
+        }
+      ],
+      "tags": [
+        "季集",
+        "识别"
+      ]
+    },
+    {
+      "term": "PROPER / REPACK",
+      "aliases": [
+        "修正版",
+        "REPACK",
+        "EXTENDED",
+        "UNRATED"
+      ],
+      "domain": "video",
+      "one_line": "表示该版本是对之前发布版本的修正，一般优先选择",
+      "detail": "PROPER/REPACK 表示发布组发现先前的版本有问题（音画不同步、缺帧、字幕错误等）后重新发布，遇到时优先选它。同文件名区域还会出现 EXTENDED（加长版）、UNRATED（未分级版）、REMASTERED（重制版）、IMAX（IMAX 摄影机拍摄片段），这些是影片版本差异，收藏时按喜好选择即可。",
+      "examples": [
+        "Avatar.The.Way.of.Water.2022.PROPER.1080p.WEB-DL.DDP5.1.Atmos.H.264-SMURF"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "版本"
+      ]
+    },
+    {
+      "term": "DVDRip",
+      "aliases": [
+        "DVD来源",
+        "DVD转码"
+      ],
+      "domain": "video",
+      "one_line": "以 DVD 碟为来源转码的版本，480p/576p 标清时代的主流",
+      "detail": "DVDRip 把 DVD（480p NTSC / 576p PAL）转码为更小的文件，是早年老资源站的绝对主力。现在主要用于老电影、冷门片源——蓝光从未发行过的片子只能收到 DVD 版。画质按今天的标准属于标清，收藏老片时常遇到。",
+      "examples": [
+        "Cinema.Paradiso.1988.DVDRip.x264-iLG"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源"
+      ]
+    },
+    {
+      "term": "720p",
+      "aliases": [
+        "HD"
+      ],
+      "domain": "video",
+      "one_line": "1280×720 高清分辨率，介于标清与全高清之间",
+      "detail": "720p 是早期高清标准，如今新资源已经很少见，多见于老剧集、快速抢发的 HDTV 录制和小体积收藏。带宽/存储极度受限的场景仍有价值，追新和收藏建议直接 1080p 起步。",
+      "examples": [
+        "Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "分辨率"
+      ]
+    },
+    {
+      "term": "10bit",
+      "aliases": [
+        "色深",
+        "10-bit"
+      ],
+      "domain": "video",
+      "one_line": "10 位色深编码，色彩过渡更平滑，能有效消除色带",
+      "detail": "10bit 指每个颜色通道用 10 位表示（8bit 的两倍灰阶），暗部和天空等渐变场景不易出现色带（banding）。x265 编码的动画/动漫资源几乎标配 10bit，即使片源是 8bit 也能受益。需要播放器支持 HEVC 10bit 硬解，老设备可能卡顿。",
+      "examples": [
+        "Suzume.no.Tojimari.2022.1080p.BluRay.x265.10bit.FLAC.2.0-ZR-"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "画质"
+      ]
+    },
+    {
+      "term": "SDR",
+      "aliases": [
+        "标准动态范围"
+      ],
+      "domain": "video",
+      "one_line": "标准动态范围，与 HDR 相对的传统画质规格",
+      "detail": "SDR（Standard Dynamic Range）是没有 HDR 的传统视频规格。同一部片常同时有 SDR 和 HDR 版本：不支持 HDR 的老电视放 HDR 片源会发灰，需要播放器做色调映射；SDR 版在这些设备上反而观感正常。文件名标 SDR 表示刻意发布的非 HDR 版本。",
+      "examples": [
+        "Dune.2021.2160p.WEB-DL.SDR.HEVC.DDP5.1-CMRG"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "HDR",
+        "画质"
+      ]
+    },
+    {
+      "term": "TrueHD",
+      "aliases": [
+        "Dolby TrueHD",
+        "无损音轨"
+      ],
+      "domain": "video",
+      "one_line": "杜比的无损音频编码，蓝光原盘的旗舰音轨",
+      "detail": "TrueHD 是杜比的无损音频编码，只出现在蓝光/原盘（REMUX、BDMV）中，音质与录音室母带一致，常见 TrueHD 7.1 或与 Atmos 全景声绑定（TrueHD.Atmos）。体积很大（一部电影 5~10GB 音轨），WEB-DL 流媒体源不会有它。家庭影院玩家收藏 4K 原盘的核心理由之一。",
+      "examples": [
+        "Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨",
+        "收藏"
+      ]
+    },
+    {
+      "term": "DTS-HD MA",
+      "aliases": [
+        "DTSHD",
+        "DTS-HD",
+        "DTS",
+        "MA"
+      ],
+      "domain": "video",
+      "one_line": "DTS 的无损音频编码，与 TrueHD 齐名的原盘音轨",
+      "detail": "DTS-HD Master Audio 是 DTS 阵营的无损编码，常见于蓝光原盘和 REMUX，与杜比 TrueHD 定位相当。文件名中 DTS-HD.MA.5.1 表示 5.1 声道无损；只标 DTS（无 HD/MA）的是老式有损 DTS-Core。两家音轨的取舍更多看片源提供哪种，音质层面都是无损旗舰。",
+      "examples": [
+        "Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨",
+        "收藏"
+      ]
+    },
+    {
+      "term": "AAC 音轨",
+      "aliases": [
+        "AAC2.0",
+        "AAC5.1"
+      ],
+      "domain": "video",
+      "one_line": "高效有损音频编码，多见于 HDTV 录制与动画资源",
+      "detail": "AAC 在视频文件里是有损音轨（与音乐里的 AAC 同源），码率低、体积小，HDTV 抢发版和老动画资源常见 AAC 2.0。音质弱于 DDP/TrueHD，追首发时能接受，收藏建议换 DDP 以上音轨的版本。",
+      "examples": [
+        "Shogun.S01E00.Behind.the.Scenes.1080p.WEB-DL.AAC2.0.H.264-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨"
+      ]
+    },
+    {
+      "term": "简繁双语字幕 (CHS/CHT)",
+      "aliases": [
+        "CHS",
+        "CHT",
+        "简中",
+        "繁中",
+        "双语",
+        "中英双字"
+      ],
+      "domain": "video",
+      "one_line": "内封/外挂的简体、繁体中文字幕标记，中英双字最常见",
+      "detail": "CHS = 简体中文，CHT = 繁体中文，文件名里的「简繁外挂」「中英双字」「CHT+ENG」描述字幕配置。注意区分：内封字幕（封装在 mkv 里，播放器可选开关）和内嵌字幕（烧死在画面上，去不掉）。国内发布组的 mkv 一般内封简繁双语，选片时优先。",
+      "examples": [
+        "Oppenheimer.2023.2160p.WEB-DL.DDP5.1.Atmos.H.265.简繁英字幕-NOSIVAD"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 可设置默认字幕轨与语言偏好"
+        }
+      ],
+      "tags": [
+        "字幕"
+      ]
+    },
+    {
+      "term": "IMAX Enhanced",
+      "aliases": [
+        "IMAX"
+      ],
+      "domain": "video",
+      "one_line": "IMAX 画幅比认证版本，画幅更高、带专属音效规格",
+      "detail": "IMAX Enhanced 表示经过 IMAX 认证的版本：画幅从 2.39:1 展开到 1.90:1（上下多了画面，IMAX 摄影机拍摄的内容更完整），并可能带 DTS:X 音效。部分场景（如诺兰电影）IMAX 画幅内容占比很高，值得优先选择。迪士尼+ 流媒体的 IMAX Enhanced 源会标 IMAX 或 IMAX.E。",
+      "examples": [
+        "Oppenheimer.2023.2160p.IMAX.ENHANCED.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "版本",
+        "画质"
+      ]
+    },
+    {
+      "term": "Hybrid",
+      "aliases": [
+        "混合来源",
+        "混血版"
+      ],
+      "domain": "video",
+      "one_line": "混合不同来源素材封装的版本（如杜比视界层 + 其他源的正片）",
+      "detail": "Hybrid 表示发布组把不同来源的视频层拼接重封装：典型如「A 源的杜比视界增强层 + B 源的 HDR10 基础层」，或者补帧版（MEL/FEL 处理）。质量取决于发布组的处理水平，好的 Hybrid 能兼得两源优点，翻车时会出现色调异常。同片有原生版本时一般优先原生。",
+      "examples": [
+        "Dune.2021.2160p.Hybrid.REMUX.HDR10+.HEVC.DTS-HD.MA.5.1-FraMeSToR"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "版本"
+      ]
+    },
+    {
+      "term": "Remastered",
+      "aliases": [
+        "重制版",
+        "修复版"
+      ],
+      "domain": "video",
+      "one_line": "从原始胶片重新扫描修复的版本，老片画质救星",
+      "detail": "Remastered（重制/修复版）表示老片用原始胶片重新做数字中间片：色彩、噪点、细节全面翻新。老电影的蓝光常有多代版本，修复版（4K Remastered）是收藏首选；注意与「重映版」「导演剪辑版」是不同概念。",
+      "examples": [
+        "The.Godfather.1972.2160p.UHD.BluRay.REMUX.HDR.HEVC.TrueHD.7.1.Atmos-FGT"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "版本",
+        "收藏"
+      ]
+    },
+    {
+      "term": "DD / AC3",
+      "aliases": [
+        "DolbyDigital",
+        "AC-3",
+        "DD5.1"
+      ],
+      "domain": "video",
+      "one_line": "杜比数字第一代有损音频编码，DDP 的前辈",
+      "detail": "DD（Dolby Digital，即 AC-3）是 1990 年代的有损环绕声编码，DVD 时代的标配，DD5.1 表示 5.1 声道。如今多见于老资源、DVD 来源和部分 HDTV。码率和效率都不及 DDP（Dolby Digital Plus），同一片源有 DDP 版时优先 DDP。",
+      "examples": [
+        "Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨"
+      ]
+    },
+    {
+      "term": "全季包 Season Pack",
+      "aliases": [
+        "整季",
+        "S01.Complete",
+        "全季"
+      ],
+      "domain": "video",
+      "one_line": "一整季打包发布的种子，追完党一次下完",
+      "detail": "Season Pack 把整季所有集打成一个种子（文件名常见 Season.1.Complete、S01S02），适合开播后整季收藏。注意坑：整季包对 H&R 站意味着整季做种压力；MP 的订阅洗版对整季包的集数匹配依赖识别词；流量党要留意体积（一季 4K 可达数百 GB）。",
+      "examples": [
+        "The.Bear.S01.S02.Complete.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "订阅",
+          "hint": "订阅可指定只下单集，避免整季包占用超额空间"
+        }
+      ],
+      "tags": [
+        "季集",
+        "PT"
+      ]
+    },
+    {
+      "term": "内封字幕与外挂字幕",
+      "aliases": [
+        "内封",
+        "外挂",
+        "内嵌",
+        "SUP",
+        "PGS",
+        "SRT",
+        "ASS"
+      ],
+      "domain": "video",
+      "one_line": "内封 = 封装进容器可开关；内嵌 = 烧进画面去不掉；外挂 = 独立字幕文件",
+      "detail": "三种形态要分清：内封字幕（mkv 里的一条字幕轨，可开可关，最理想）；内嵌/硬字幕（压进画面，永远去不掉，慎选）；外挂字幕（独立的 .srt/.ass/.sup 文件，配合正片使用）。格式上 SRT 纯文本最通用，ASS 支持特效样式，SUP/PGS 是图形字幕（蓝光原盘标配，需要播放器 OCR 才能改样式）。",
+      "examples": [
+        "Movie.2024.2160p.BluRay.HEVC.TrueHD.7.1.Atmos.CHS@网盘组"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "刮削",
+          "hint": "MP 刮削可自动匹配外挂字幕文件"
+        }
+      ],
+      "tags": [
+        "字幕"
+      ]
+    },
+    {
+      "term": "双音轨",
+      "aliases": [
+        "国语粤语",
+        "多音轨",
+        "Dual Audio"
+      ],
+      "domain": "video",
+      "one_line": "一个文件封装两条以上音轨（如国语+粤语、中英双语）",
+      "detail": "双音轨文件同时封装多种配音（常见国语/粤语/英语），播放器里切换。国内发布组的经典操作是「国语+粤语双音轨」或「中英双音轨」。体积相应增大，媒体服务器需要设置首选音轨语言，否则默认播的可能不是你想要的那条。",
+      "examples": [
+        "Kung.Fu.Panda.2008.1080p.BluRay.x264.国粤英三音轨-WiKi"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 设置首选音频语言可自动选轨"
+        }
+      ],
+      "tags": [
+        "音轨"
+      ]
+    },
+    {
+      "term": "TS / M2TS 封装",
+      "aliases": [
+        "ts",
+        "m2ts",
+        "BDMV STREAM"
+      ],
+      "domain": "video",
+      "one_line": "蓝光/广播原生的传输流封装格式，原盘正片的真实载体",
+      "detail": "TS（Transport Stream）是为广播设计的封装，M2TS 是蓝光盘内 STREAM 目录的实际文件。注意与「TELESYNC（枪版）」的 TS 缩写区分——同一个词两个含义：封装格式 vs 影院枪录版。文件名里 .ts 后缀是封装，TeleSync/TS 出现在来源位置是枪版标记（画质灾难，坚决别下）。",
+      "examples": [
+        "00330.m2ts（BDMV/STREAM 目录内）"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "封装",
+        "识别"
+      ]
+    },
+    {
+      "term": "AV1",
+      "aliases": [
+        "AOM AV1"
+      ],
+      "domain": "video",
+      "one_line": "新一代开放视频编码，同画质体积再省 30%，播放设备要求高",
+      "detail": "AV1 是 H.265 之后的新一代编码，压缩效率再提升约 30%，且免专利费，流媒体平台（YouTube/Netflix）已大量采用。文件名标 AV1 的资源体积明显更小，但 2020 年前的设备基本没有硬解，播放卡顿率高于 H.265。设备新可以收，老设备回避。",
+      "examples": [
+        "Shogun.2024.S01E01.2160p.WEB-DL.AV1.10bit.HDR.OPUS.5.1-NOSIVAD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "视频编码"
+      ]
+    },
+    {
+      "term": "FLAC",
+      "aliases": [
+        "flac",
+        "无损音频",
+        "Free Lossless Audio Codec"
+      ],
+      "domain": "music",
+      "one_line": "最通用的开源无损音频格式，音乐收藏的事实标准",
+      "detail": "FLAC（Free Lossless Audio Codec）是无损压缩：还原的音频与 CD 母带完全一致，体积约为 WAV 的一半。它是 PT 音乐站和本地收藏的主流格式，几乎全部播放器和手机都支持。MP 的音乐入库和 Emby/Jellyfin/Plex 对 FLAC 支持都很完善，直接收即可。",
+      "examples": [
+        "Jay Chou - 最伟大的作品 (2022) [FLAC 24bit-44.1kHz] 分轨"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体库目录",
+          "hint": "音乐媒体库与影视分开建目录，便于服务器按音乐类型识别"
+        }
+      ],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "APE",
+      "aliases": [
+        "ape",
+        "Monkey's Audio"
+      ],
+      "domain": "music",
+      "one_line": "老牌无损格式，压缩率略高但兼容性远不如 FLAC，正逐渐被淘汰",
+      "detail": "APE（Monkey's Audio）是上世纪的无损格式，压缩率比 FLAC 略高，但解码消耗大、移动设备支持差。早年国内无损论坛常用，现在新发布基本都用 FLAC。收到 APE 的资源可以无转换直接听，想规范化收藏时建议转成 FLAC（无损转无损零损失）。",
+      "examples": [
+        "Faye Wong - 浮躁 (1996) [APE 整轨+CUE]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "ALAC",
+      "aliases": [
+        "m4a",
+        "Apple Lossless",
+        "苹果无损"
+      ],
+      "domain": "music",
+      "one_line": "苹果的无损格式，Apple Music 下载收藏的常见产物",
+      "detail": "ALAC（Apple Lossless Audio Codec）是苹果的无损格式，音质与 FLAC 完全等价，只是封装不同（多为 .m4a）。Apple Music 无损曲库下载或 iOS 生态用户常用。Emby/Jellyfin/Plex 均支持。FLAC 与 ALAC 互转都是无损的，无需担心损失。",
+      "examples": [
+        "Taylor Swift - 1989 (Taylor's Version) (2023) [ALAC 24bit-48kHz]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "DSF / DSD",
+      "aliases": [
+        "dsf",
+        "dff",
+        "DSD64",
+        "DSD128",
+        "SACD"
+      ],
+      "domain": "music",
+      "one_line": "SACD 的 1-bit 超采样音频格式，Hi-End 发烧圈收藏格式",
+      "detail": "DSD（Direct Stream Digital）是 SACD 碟片使用的 1-bit 超采样编码，常见规格 DSD64（2.8MHz）/DSD128（5.6MHz），封装为 .dsf 或 .dff。它比特流特性特殊，大部分播放软件和手机不支持或需要转 PCM。除非有专业解码器，普通用户收 FLAC/24bit 即可，DSD 是烧友领域。",
+      "examples": [
+        "Adele - 30 (2021) [SACD ISO → DSF DSD64 2.8MHz]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "WAV",
+      "aliases": [
+        "wav",
+        "PCM",
+        "无压缩"
+      ],
+      "domain": "music",
+      "one_line": "无压缩的 PCM 音频，音质无损但体积最大、标签支持差",
+      "detail": "WAV 是原始 PCM 波形文件，无压缩所以体积最大（CD 音质约 10MB/分钟）。音质与 FLAC 完全一致（都是无损），但 WAV 对标签（封面、歌名、歌手）支持很差，长期收藏管理不便。作为发布格式越来越少，多见于录音室直出文件。",
+      "examples": [
+        "Various Artists - Test CD (1998) [WAV 整轨]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "MP3",
+      "aliases": [
+        "mp3",
+        "320k",
+        "V0",
+        "有损"
+      ],
+      "domain": "music",
+      "one_line": "最经典的有损压缩格式，320kbps 是其音质上限",
+      "detail": "MP3 是普及度最高的有损格式，320kbps（CBR）或 V0（VBR 最高档）在普通设备上与无损的盲听差异很小。日常通勤听歌完全够用，但 PT 音乐站多数板块只收无损，MP3 通常只在特定板块或演出录音（Bootleg）区出现。别拿 128k 的 MP3 当收藏，那是流量时代的老古董。",
+      "examples": [
+        "Jay Chou - 范特西 (2001) [MP3 320K]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "有损"
+      ]
+    },
+    {
+      "term": "16bit / 24bit",
+      "aliases": [
+        "位深",
+        "bit depth",
+        "24bit-96kHz",
+        "Hi-Res 位深"
+      ],
+      "domain": "music",
+      "one_line": "采样位深决定动态范围：16bit 是 CD 标准，24bit 是 Hi-Res 标准",
+      "detail": "位深（bit depth）决定音量刻度的精细度：16bit 动态范围 96dB（CD 标准），24bit 达 144dB（录音室/Hi-Res 标准）。文件名里 `[FLAC 24bit-96kHz]` 表示 24bit 位深、96kHz 采样率，属于 Hi-Res 规格。注意位深越高体积越大，且只有解码器和耳机/音箱跟得上才有意义。",
+      "examples": [
+        "Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz] MQA UHQCD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "Hi-Res",
+      "aliases": [
+        "高解析",
+        "Hi-Res Audio",
+        "母带",
+        "24bit-192kHz"
+      ],
+      "domain": "music",
+      "one_line": "超越 CD 规格（16bit/44.1kHz）的高解析音频统称",
+      "detail": "Hi-Res（High Resolution Audio）泛指采样率或位深超过 CD（16bit/44.1kHz）的音频，常见 24bit/96kHz、24bit/192kHz。来源包括母带直出、SACD 转制、流媒体平台（Apple Digital Masters、Qobuz 等）。文件名中 Hi-Res、24bit-96kHz、MQA、DXD 等字样都是 Hi-Res 标记。",
+      "examples": [
+        "Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "二级分类",
+          "hint": "可在分类策略中按「Hi-Res/无损/有损」给音乐分二级目录"
+        }
+      ],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "分轨",
+      "aliases": [
+        "Tracks",
+        "分曲",
+        "Per-Track",
+        "TRACK"
+      ],
+      "domain": "music",
+      "one_line": "整张专辑按歌曲拆成单个文件（一歌一文件），收藏首选形态",
+      "detail": "分轨指专辑里每首歌是独立的音频文件（01.xxx.flac、02.xxx.flac……），选曲、标签管理、媒体库识别都最方便。文件名里写「分轨」「[TRACKS]」「+LOG+CUE」的通常是分轨版。与整轨相对，做本地音乐库优先收分轨。",
+      "examples": [
+        "Eason Chan - C'mon in~ (2018) [FLAC 分轨] [24bit-48kHz]"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Plex 音乐库对分轨识别最友好，整轨需要 CUE 配合"
+        }
+      ],
+      "tags": [
+        "发行形态"
+      ]
+    },
+    {
+      "term": "整轨",
+      "aliases": [
+        "Image",
+        "整轨镜像",
+        "Single File",
+        "IMG"
+      ],
+      "domain": "music",
+      "one_line": "整张专辑压成一个大文件，靠 CUE 文件定位每首歌的起止",
+      "detail": "整轨（Image）把整张 CD 压成一个音频文件（一个 .flac/.ape/.wav），配合 CUE 文件记录每首歌的时间偏移。播放器读 CUE 才能按曲切分。优点是 rip 传输最保真（EAC 抓轨的原始形态），缺点是移动设备支持差、标签只能整轨一份、媒体库识别容易出问题。收到整轨可用 foobar2000/CUETools 无损转分轨。",
+      "examples": [
+        "Beyond - 海阔天空 (1993) [APE 整轨+CUE]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "发行形态"
+      ]
+    },
+    {
+      "term": "CUE",
+      "aliases": [
+        "cue",
+        "cue文件",
+        "EAC Log"
+      ],
+      "domain": "music",
+      "one_line": "记录整轨音频中每首歌时间点的索引文件，配合整轨使用",
+      "detail": "CUE 是纯文本索引文件，记录整轨镜像中每首歌的起始时间、曲名、ISRC 等。没有 CUE 的整轨只能整张连播，等于废了一半。下载整轨时确认带 CUE；文件名里 LOG/LOG+EAC 表示附带了 Exact Audio Copy 抓轨日志，可以核对抓轨质量（Confidence、AccurateRip 结果），是音乐站考核的重要项。",
+      "examples": [
+        "Faye Wong - 唱游 (1998) [FLAC 整轨] [CUE+LOG+EAC V1.3]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "发行形态",
+        "抓轨"
+      ]
+    },
+    {
+      "term": "Album / EP / Single",
+      "aliases": [
+        "专辑",
+        "EP",
+        "单曲",
+        "Deluxe",
+        "豪华版",
+        "Live",
+        "合辑"
+      ],
+      "domain": "music",
+      "one_line": "发行类型：Album 正式专辑、EP 迷你专辑（3-6 首）、Single 单曲",
+      "detail": "Album 是正式专辑（一般 8 首以上），EP 是迷你专辑（3~6 首），Single 是单曲（1~3 首）。文件名/目录名还常见 Deluxe Edition（豪华版，多 bonus track）、Live（现场录音）、Compilation（合辑）、Remaster（重制版）、Deluxe、Bonus Disc 等标记，它们描述同一音乐的不同发行版本，洗版时按此区分。",
+      "examples": [
+        "Linkin Park - Hybrid Theory (20th Anniversary Deluxe Edition) (2020) [FLAC 分轨]"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "目录结构",
+          "hint": "音乐库建议按「歌手/专辑」两级建目录，EP/Single 也归入对应歌手目录"
+        }
+      ],
+      "tags": [
+        "发行类型"
+      ]
+    },
+    {
+      "term": "AAC / M4A",
+      "aliases": [
+        "aac",
+        "m4a",
+        "256kbps AAC"
+      ],
+      "domain": "music",
+      "one_line": "苹果系有损格式，iTunes/Apple Music 下载的常见产物",
+      "detail": "AAC（封装多为 .m4a）是有损格式，iTunes Store 时代的 256kbps AAC VBR 音质在听感上非常接近无损，是「有损天花板」之一。Apple Music 歌曲文件即 AAC。日常听歌足够，收藏党仍建议无损。",
+      "examples": [
+        "Jay Chou - 叶惠美 (2003) [AAC 256kbps iTunes]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "有损"
+      ]
+    },
+    {
+      "term": "Opus",
+      "aliases": [
+        "opus",
+        "ogg"
+      ],
+      "domain": "music",
+      "one_line": "开源高效的有损编码，同码率音质最佳，兼容性一般",
+      "detail": "Opus 是 Xiph 开源的有损编码，同码率下音质最优（160k 约等于 AAC 256k），流媒体直播和在线音乐常用。本地收藏支持尚可但不如 MP3/FLAC 普及，老车机、旧播放器可能不支持。",
+      "examples": [
+        "Various Artists - Sample Pack (2020) [OPUS 160k]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "有损"
+      ]
+    },
+    {
+      "term": "采样率 (44.1kHz~192kHz)",
+      "aliases": [
+        "44.1kHz",
+        "48kHz",
+        "96kHz",
+        "192kHz",
+        "sample rate"
+      ],
+      "domain": "music",
+      "one_line": "每秒采样次数：CD 是 44.1kHz，96/192kHz 属于 Hi-Res",
+      "detail": "采样率决定高频还原上限（奈奎斯特定理）：44.1kHz 是 CD 标准，正好覆盖人耳 20kHz 上限；88.2/96/176.4/192kHz 是 Hi-Res 规格。文件名里 `24bit-96kHz` 读作「24 位深、96 千赫兹采样率」。注意超过 48kHz 的收益存在争议，转码时随意升降采样率反而有害。",
+      "examples": [
+        "Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "无损与有损",
+      "aliases": [
+        "Lossless",
+        "Lossy",
+        "无损压缩",
+        "有损压缩"
+      ],
+      "domain": "music",
+      "one_line": "无损可完整还原母带（FLAC/APE/ALAC），有损永久丢弃细节（MP3/AAC/Opus）",
+      "detail": "无损编码是可逆压缩：解压出的音频与源文件逐位一致；有损编码按心理声学模型丢弃「听不太出来」的成分，压缩率高但不可逆。关键常识：有损转无损不会变回真无损（假无损），无损转有损是单向损失。PT 音乐站考核「真无损」，频谱检测就是为了抓有损转的假无损。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "概念"
+      ]
+    },
+    {
+      "term": "WV / WavPack",
+      "aliases": [
+        "wv",
+        "WavPack 镜像",
+        "wvc"
+      ],
+      "domain": "music",
+      "one_line": "WavPack 无损格式，整轨镜像常用 .wv 封装",
+      "detail": "WavPack 是开源无损编码，压缩率和速度与 FLAC 相近，特色是可生成纠错文件（.wvc）。部分老牌音乐站整轨镜像用 .wv 发布（配 CUE），播放兼容性不如 FLAC，收到后可无损转 FLAC。",
+      "examples": [
+        "Various Artists - Test Disc (2000) [WV 整轨+CUE]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "AIFF",
+      "aliases": [
+        "aif",
+        "aiff",
+        "Audio Interchange"
+      ],
+      "domain": "music",
+      "one_line": "苹果的无压缩 PCM 格式，WAV 的 Mac 亲兄弟",
+      "detail": "AIFF 是苹果系的无压缩 PCM 音频，音质与 WAV 完全一致，区别是 AIFF 对标签（ID3）支持好于 WAV。母带工程师和苹果生态用户偶尔用它做存档。本地收藏建议转 FLAC（无损转无损，零损失，体积减半）。",
+      "examples": [
+        "Norah Jones - Not Too Late (2007) [AIFF 24bit-96kHz 母带]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "格式",
+        "无损"
+      ]
+    },
+    {
+      "term": "Vinyl Rip 黑胶转录",
+      "aliases": [
+        "黑胶",
+        "Vinyl",
+        "LP",
+        "24bit-96kHz Vinyl"
+      ],
+      "domain": "music",
+      "one_line": "从黑胶唱片实时转录的数字文件，温暖的模拟味",
+      "detail": "Vinyl Rip 是用唱针+唱放+ADC 把黑胶唱片转成数字音频，保留黑胶特有的模拟质感（也保留炒豆声）。发烧圈对好设备的好转录评价很高，常以 24bit-96kHz FLAC 发布。与数字母带是两种风味，按喜好选择。",
+      "examples": [
+        "Pink Floyd - The Dark Side of the Moon (1973) [FLAC 24bit-96kHz Vinyl Rip]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "MQA",
+      "aliases": [
+        "mqa",
+        "Master Quality Authenticated"
+      ],
+      "domain": "music",
+      "one_line": "可折叠传输的 Hi-Res 编码技术，Tidal 主推（已式微）",
+      "detail": "MQA（Master Quality Authenticated）把高规格音频折叠进 24bit/48kHz 流传输，解码后展开还原。Tidal 曾以此为主打，但 2023 年后 Tidal 转向 FLAC Hi-Res，MQA 生态明显萎缩。文件名标 MQA 的资源需要硬/软解码器才能完全展开，普通播放只相当于 48kHz 有损——收藏优先选普通 FLAC Hi-Res。",
+      "examples": [
+        "Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz MQA UHQCD]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "Bonus Track",
+      "aliases": [
+        "加值曲目",
+        "隐藏曲目",
+        "Japan Bonus",
+        "BONUS"
+      ],
+      "domain": "music",
+      "one_line": "特定版本附赠的额外曲目（日本版豪华版常见）",
+      "detail": "Bonus Track 是特定发行版额外附赠的曲目，日本版专辑以「ボーナストラック / Japan Bonus Tracks」闻名——同一张专辑日版常多 1~2 首。洗版/合辑党会比较各版本曲目表，日版完整度通常最高，文件名里标 Japan Bonus 的版本更全。",
+      "examples": [
+        "Coldplay - Parachutes (2000) [FLAC 分轨] [Japan Bonus Track]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "发行类型"
+      ]
+    },
+    {
+      "term": "音乐标签 (ID3/Vorbis)",
+      "aliases": [
+        "ID3",
+        "Tag",
+        "标签",
+        "metadata"
+      ],
+      "domain": "music",
+      "one_line": "音频文件内嵌的曲名/歌手/专辑/封面元数据，媒体库识别的命脉",
+      "detail": "音乐标签（Tag）是藏在音频文件里的元数据：MP3 用 ID3v2，FLAC/OGG 用 Vorbis Comment。标签质量决定媒体服务器能否正确按歌手/专辑归档、显示封面。下载的音乐先检查标签（推荐 MusicTag、Mp3tag），整轨转换分轨时务必保留标签。MP 的音乐入库也依赖文件名与标签的规范程度。",
+      "examples": [
+        "Jay Chou - 最伟大的作品 (2022) [FLAC 分轨]（每轨含完整 ID3+封面）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体库目录",
+          "hint": "媒体服务器按标签而非文件名归档，标签乱了目录就乱"
+        }
+      ],
+      "tags": [
+        "规格",
+        "工具"
+      ]
+    },
+    {
+      "term": "Transcode 频谱检测",
+      "aliases": [
+        "频谱",
+        "假无损",
+        "Transcode",
+        "Spectrogram"
+      ],
+      "domain": "music",
+      "one_line": "用频谱图识别「有损转无损」的假无损文件",
+      "detail": "真无损的高频可以延伸到 22kHz（44.1kHz 采样），而有损编码（MP3/AAC）在 16~20kHz 附近有明显截止。把 WAV/FLAC 打开看频谱图：16kHz 处齐刷刷切掉的就是有损转的假无损。PT 音乐站用它判定考核，工具推荐 Spek、Lossless Audio Checker。下载整轨时「FLAC 但频谱 16k 截止」的谨慎收。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "工具",
+        "PT"
+      ]
+    },
+    {
+      "term": "母带 (Master)",
+      "aliases": [
+        "母带直出",
+        "Digital Master",
+        "Apple Digital Masters"
+      ],
+      "domain": "music",
+      "one_line": "录音室最终成品直出的最高规格数字音源",
+      "detail": "母带（Master）是录音混音后的最终成品，一切发行版本的源头。文件名里的「母带直出」「Apple Digital Masters」「Mastered for iTunes」表示从母带直接编码，比二次转制的版本少一代损失。Hi-Res 党的最优解就是母带直出的 24bit FLAC。",
+      "examples": [
+        "Adele - 30 (2021) [FLAC 24bit-48kHz 母带直出]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ]
+    },
+    {
+      "term": "发行平台标记",
+      "aliases": [
+        "Qobuz",
+        "HDtracks",
+        "Tidal",
+        "iTunes",
+        "Bandcamp",
+        "7digital"
+      ],
+      "domain": "music",
+      "one_line": "文件名里的 Qobuz/HDtracks/Tidal 等字样标明数字音源平台",
+      "detail": "数字音乐发行平台各有规格特色：Qobuz/HDtracks 主打 Hi-Res 无损下载，Tidal 以 MQA 起家，Bandcamp 是独立音乐人直售（常见 FLAC）。文件名标平台名说明来源（如 [FLAC 24bit-96kHz Qobuz]），Qobuz/HDtracks 来源的 Hi-Res 可信度高。",
+      "examples": [
+        "Daft Punk - Random Access Memories (2013) [FLAC 24bit-88.2kHz Qobuz]"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源"
+      ]
+    },
+    {
+      "term": "PT",
+      "aliases": [
+        "Private Tracker",
+        "私用种子",
+        "PT站"
+      ],
+      "domain": "pt",
+      "one_line": "基于私有 Tracker 的社区型下载分享体系，讲究分享与规则",
+      "detail": "PT（Private Tracker）是与公开 BT 相对的私有体系：站点用私有 Tracker 记录每个用户的上传下载量，靠邀请制和社区规则维持生态。核心逻辑是「你上传得越多、分享率越高，权限和等级越高；只下不上会被封号」。MP 的站点模块、刷流插件都是围绕 PT 站工作的。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "站点维护",
+          "hint": "设定 → 站点 里配置各 PT 站的 Cookie/ApiKey 后 MP 才能读取你的数据"
+        }
+      ],
+      "tags": [
+        "PT"
+      ]
+    },
+    {
+      "term": "做种 Seeding",
+      "aliases": [
+        "做种",
+        "Seeding",
+        "上传",
+        "保活"
+      ],
+      "domain": "pt",
+      "one_line": "下载完成后继续上传给他人，是 PT 生态的核心义务",
+      "detail": "做种 = 下载完成后保持任务运行让别人从你这下载。PT 的生存法则是「只下不做会死」：分享率（上传/下载）低于站点红线会被限制甚至封号。qBittorrent/Transmission 里的任务做种时间、做种比例可以设置，但 PT 站一般要求无限做种或达到考核条件才能删。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "下载器",
+          "hint": "设定 → 下载器 配置 qBittorrent/Transmission 对接"
+        }
+      ],
+      "tags": [
+        "PT",
+        "行为"
+      ]
+    },
+    {
+      "term": "分享率 Ratio",
+      "aliases": [
+        "分享率",
+        "上传下载比",
+        "Ratio"
+      ],
+      "domain": "pt",
+      "one_line": "上传量 ÷ 下载量，衡量你对社区贡献的硬指标",
+      "detail": "分享率 = 总上传 / 总下载。站点通常有全局最低分享率要求（如 0.5），低于阈值会收到警告，持续不达标就封号。新手常用「魔力值兑换上传」或参加 Free 活动来养分享率。注意站点计算的是全站累计值，单一种子的 ratio 只是它自己的贡献。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "站点概览",
+          "hint": "MP 首页站点卡片会展示各站的上传/下载/分享率"
+        }
+      ],
+      "tags": [
+        "PT",
+        "指标"
+      ]
+    },
+    {
+      "term": "魔力值 Bonus",
+      "aliases": [
+        "魔力",
+        "Bonus",
+        "魔力值",
+        "做种积分"
+      ],
+      "domain": "pt",
+      "one_line": "按做种数量/时间累积的站点积分，可兑换上传量、邀请等",
+      "detail": "魔力值（Bonus）是站点按你做种的种子数量和时长持续发放的积分，在站点商店兑换上传量、邀请、VIP 时长等。多挂冷门大包、长期不断种是攒魔力的主要方式，「挂机赚魔力」也是刷流党的重要收入。各站计算公式不同，通常做种人数越少的种子单位时间魔力越高。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "指标"
+      ]
+    },
+    {
+      "term": "H&R (Hit and Run)",
+      "aliases": [
+        "HR",
+        "Hit and Run",
+        "考核",
+        "H&R"
+      ],
+      "domain": "pt",
+      "one_line": "下载后未达做种要求就删种会记违规，累计可封号",
+      "detail": "H&R（Hit and Run）指下载后没有按站点要求做种（如做满 48 小时或达到指定分享率）就停止/删除任务，站点会记一次 H&R，累计多次封号。避坑要点：删种前看站点的 H&R 规则；MP 的「洗版」「自动删种」功能对有 H&R 考核的站点要格外小心，建议配置排除条件或延长做种时间。有些站免费种子也考核 H&R，别以为 Free 就能随便删。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "自动删种",
+          "hint": "刷流/自动删种插件需按站点 H&R 规则配置保种时长"
+        }
+      ],
+      "tags": [
+        "PT",
+        "风险"
+      ]
+    },
+    {
+      "term": "保种",
+      "aliases": [
+        "保种",
+        "长期做种",
+        "官方保种"
+      ],
+      "domain": "pt",
+      "one_line": "站点标记为需要长期维持做种的资源，删除前务必确认",
+      "detail": "保种是站点为防止资源断种发起的机制：官方保种/申请保种的种子会被记录，要求下载者长期做种。蓝光原盘、老电影等冷门资源常在保种名单里。删除任务前先确认是否属于保种资源（站点资源页有标记），误删保种资源是新手常见事故，部分站点处罚很重。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "风险"
+      ]
+    },
+    {
+      "term": "Freeleech",
+      "aliases": [
+        "免费",
+        "Free",
+        "2xFree",
+        "自由"
+      ],
+      "domain": "pt",
+      "one_line": "下载量不计入统计的促销活动，是养分享率的最佳时机",
+      "detail": "Freeleech（Free/免费）期间下载不计量，上传照常计算，是新手攒分享率、囤资源的黄金窗口。促销还有 2xFree（下载免费且上传翻倍）、2xUp（上传翻倍）等组合。各站促销由官方或用户捐赠触发，可用 MP 的订阅/刷流插件盯促销自动下载。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "订阅",
+          "hint": "MP 订阅设置里可勾选「仅下载 Free 种子」"
+        }
+      ],
+      "tags": [
+        "PT",
+        "促销"
+      ]
+    },
+    {
+      "term": "辅种",
+      "aliases": [
+        "辅种",
+        "交叉辅种",
+        "IYUU",
+        "Reseed"
+      ],
+      "domain": "pt",
+      "one_line": "把已下载的资源在多个站点间互相补种，一源多站赚上传",
+      "detail": "同一部资源常在多个 PT 站发布（同 infohash 的官方组资源），辅种就是用 IYUU 等工具比对哈希，把 A 站已下载的任务「补」到 B 站继续做种——不下载新数据、纯赚 B 站上传。前提是多个站使用同一发布组的相同种子文件。MP 生态的 IYUUAutoSeed 插件就是干这个的，是效率党的标配。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "辅种插件",
+          "hint": "安装 IYUUAutoSeed 插件并配置各站 API Token"
+        }
+      ],
+      "tags": [
+        "PT",
+        "技巧"
+      ]
+    },
+    {
+      "term": "刷流",
+      "aliases": [
+        "刷流",
+        "BrushFlow",
+        "刷上传"
+      ],
+      "domain": "pt",
+      "one_line": "自动批量下载促销种子做种赚取上传量，配上限防止爆盘",
+      "detail": "刷流是通过脚本/插件自动挑选站点促销（Free/2xFree）种子批量下载做种来刷上传量。风险点：下太多爆硬盘、H&R 站没考核完就删种、下载速度抢占正常使用。刷流插件（如 BrushFlow）的任务参数（站点、体积上限、做种时长、删除条件）就是为控制这些风险设计的，新手建议小规模试跑。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "刷流插件",
+          "hint": "BrushFlow 等插件可配置站点白名单、磁盘水位和删除策略"
+        }
+      ],
+      "tags": [
+        "PT",
+        "技巧"
+      ]
+    },
+    {
+      "term": "Seeders / Leechers",
+      "aliases": [
+        "做种人数",
+        "下载人数",
+        "热门度"
+      ],
+      "domain": "pt",
+      "one_line": "当前做种/下载该种子的人数，决定下载速度与存活期",
+      "detail": "Seeders（做种数）是当前正在上传这个种子的人数，Leechers（下载者）是正在下载的人数。做种人数越多下载越快、资源越不容易断种；冷门资源做种人数个位数时随时可能绝种。PT 站种子列表的 ↑/↓ 两列就是这两个值，选资源时优先做种数多的，抢首发才需要下做种数少的。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "指标"
+      ]
+    },
+    {
+      "term": "官方组 (官组)",
+      "aliases": [
+        "官组",
+        "官方发布组",
+        "Scene"
+      ],
+      "domain": "pt",
+      "one_line": "站点认证的发布组，资源规范、命名统一，是辅种的基石",
+      "detail": "官方组（官组）是站点认可、按规范发布的资源组：命名统一、同一资源跨站 infohash 一致。同一部电影的官组资源在 A 站和 B 站是同一个种子哈希，这就是 IYUU 辅种能「一站下载、多站做种」的前提。非官组（转载、重打包）资源各站哈希不同，无法辅种。",
+      "examples": [
+        "WiKi、FraMeSToR、SMURF 等都是知名影视官组"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "辅种插件",
+          "hint": "官组资源是 IYUUAutoSeed 辅种的主要对象"
+        }
+      ],
+      "tags": [
+        "PT",
+        "技巧"
+      ]
+    },
+    {
+      "term": "匿名发布",
+      "aliases": [
+        "匿名",
+        "Anonymous",
+        "不显示上传者"
+      ],
+      "domain": "pt",
+      "one_line": "发布时不显示上传者身份的选项，避免被针对性加好友",
+      "detail": "匿名发布是上传种子时的可选设置：种子页面不显示「上传者」是你的用户名。用处分两类：低调党避免引人注目；发布敏感资源的用户保护隐私。对做种收益、魔力值没有任何影响，纯隐私选项。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "行为"
+      ]
+    },
+    {
+      "term": "邀请 (Invite)",
+      "aliases": [
+        "邀请",
+        "Invite",
+        "邀请码",
+        "开蹲"
+      ],
+      "domain": "pt",
+      "one_line": "进入 PT 站的通行证，只能由站内成员有限制地发出",
+      "detail": "PT 站不开放注册，新用户只能凭站内成员的邀请注册。邀请是稀缺资源：有邀请名额限制、经常只在特定活动（开蹲）放出，滥用邀请会连累邀请人（连坐制）。收到邀请后按要求填写注册信息，进门后先读规则再下载。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "风险"
+      ]
+    },
+    {
+      "term": "用户等级 (Class)",
+      "aliases": [
+        "等级",
+        "Class",
+        "升级",
+        "User Class"
+      ],
+      "domain": "pt",
+      "one_line": "按分享率/做种/注册时长划分的用户级别，决定权限与福利",
+      "detail": "用户等级（Class）由分享率、做种数、注册时长等指标决定，从新手（User/Peasant）到精英（Elite/Crazy/Insane）、VIP、管理层逐级向上。等级越高权限越多（更多邀请名额、更高并发、专属促销、免考核等），长期低于要求的等级（如 Peasant 候选）会被封号。等级体系各站差异很大，以站点 FAQ 为准。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": [
+        "PT",
+        "指标"
+      ]
+    },
+    {
+      "term": "Tracker",
+      "aliases": [
+        "tracker 服务器",
+        "announce",
+        "私用 tracker"
+      ],
+      "domain": "pt",
+      "one_line": "记录「谁在做种/下载哪个种子」的协调服务器，PT 的核心设施",
+      "detail": "Tracker 是 BT 协议里的协调服务器：客户端下载/做种时向它 announce，它返回「同一种子当前有哪些 peer」。PT 站的 tracker 是私有的，只有验证过 passkey 的用户才能连——这就是「Private Tracker」的含义。MP 下载依赖下载器正确连接站点 tracker，连不上时检查 passkey、域名连通性和代理。",
+      "examples": [
+        "https://tracker.example.org/announce.php?passkey=xxxxxxxx"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "下载器",
+          "hint": "任务卡在「连接 tracker」时优先检查 passkey 与网络"
+        }
+      ],
+      "tags": [
+        "PT",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "速度限制",
+      "aliases": [
+        "限速",
+        "上传限速",
+        "download limit",
+        "upload limit"
+      ],
+      "domain": "pt",
+      "one_line": "在下载器里为任务设置上下行速度上限，保住家庭网络体验",
+      "detail": "速度限制是 qBittorrent/Transmission 里的基础设置：全局限速、单任务限速、按时段限速（.alt_speed / 深夜全速）。刷流党必配——不限速的刷流会把家庭宽带吃满，影响其他设备；而 PT 的上传又是美德，合理平衡是「上传尽量给满，下载按需限制」。MP 的刷流插件也有限速参数直接对接下载器。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "刷流插件",
+          "hint": "任务参数里的 maxupspeed/maxdlspeed 就是限速配置"
+        }
+      ],
+      "tags": [
+        "PT",
+        "技巧"
+      ]
+    },
+    {
+      "term": "MoviePilot",
+      "aliases": [
+        "MP",
+        "MoviePilot v2",
+        "MoviePilot v3"
+      ],
+      "domain": "moviepilot",
+      "one_line": "自动化影视/音乐管理工具：订阅、搜索、下载、整理、入库一条龙",
+      "detail": "MoviePilot（MP）把 PT 下载站的资源自动搬运进你的媒体库：订阅追剧 → 自动搜索下载 → 整理改名 → 媒体服务器入库 → 消息通知。v2 起前端改为 Vue，v3 是当前大版本（本插件仅支持 v3）。理解 MP 的关键在于理清三样东西：目录映射、下载器、媒体服务器。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "基础配置",
+          "hint": "设定 → 系统/服务/存储 是 MP 三大基础配置区"
+        }
+      ],
+      "tags": [
+        "MP"
+      ]
+    },
+    {
+      "term": "目录映射",
+      "aliases": [
+        "路径映射",
+        "Directory Mapping",
+        "下载目录/媒体库目录"
+      ],
+      "domain": "moviepilot",
+      "one_line": "告诉 MP「容器内路径 = 实际存储路径」的对应关系，配错整条链路失灵",
+      "detail": "MP 运行在 Docker 里，它看到的路径（容器路径）和真实存储路径往往不同。目录映射就是一张「容器路径 ↔ 本地路径」对照表，MP 用它把下载器报来的路径翻译成真实路径，再决定整理去哪。配错的典型症状：下载完成不整理、提示找不到文件、媒体库识别不到。原则：下载器和 MP 必须用相同方式挂载同一个下载目录。",
+      "examples": [
+        "/downloads（容器内） ↔ /mnt/user/downloads（Unraid 实际路径）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "目录映射",
+          "hint": "设定 → 存储 → 目录映射，逐条添加映射关系"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "硬链接 Hard Link",
+      "aliases": [
+        "硬链接",
+        "HardLink",
+        "link 整理模式"
+      ],
+      "domain": "moviepilot",
+      "one_line": "同一份数据的多个目录入口，零额外空间、秒完成，是整理模式首选",
+      "detail": "硬链接给同一份文件数据开多个「门牌」，两个目录都能访问、只占一份空间，整理瞬间完成且不占下载空间。生效前提：源和目标必须在同一个文件系统/同一块盘（或同一个 Unraid 共享的同一盘上）。MP 整理模式选「硬链接」后，链接失败会按配置回退为复制。",
+      "examples": [
+        "/mnt/user/downloads/movie.mkv ⇄ /mnt/user/library/电影/movie.mkv"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "整理模式",
+          "hint": "目录配置的「整理方式」可选 link/copy/move/softlink"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "跨盘硬链接",
+      "aliases": [
+        "跨盘",
+        "跨文件系统",
+        "EXDEV",
+        "Invalid cross-device link"
+      ],
+      "domain": "moviepilot",
+      "one_line": "硬链接不能跨盘/跨文件系统，跨了就只能复制，占双倍空间",
+      "detail": "文件系统层面的硬性限制：硬链接无法跨盘（跨文件系统）创建，Unraid 多盘、ZFS 不同池、NFS 挂载点之间都不行。症状是整理日志报 Invalid cross-device link 或静默回退成复制（空间瞬间翻倍）。解法：把下载目录和媒体库目录放到同一个共享（Unraid 会自动落在同一盘），或干脆分开两个目录配置分别处理。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "共享配置",
+          "hint": "Unraid 侧确认 downloads 和 library 共享的分配方式一致"
+        }
+      ],
+      "tags": [
+        "MP",
+        "坑"
+      ]
+    },
+    {
+      "term": "整理模式",
+      "aliases": [
+        "整理方式",
+        "link/copy/move",
+        "转移方式"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP 把下载文件搬进媒体库的方式：硬链接/复制/移动/软链接",
+      "detail": "四种整理模式各有取舍：link（硬链接）零空间秒完成但要求同盘；copy 占双倍空间但跨盘可用、下载目录可立即删；move 不占双份但下载目录清空、做种会断（PT 用户慎用）；softlink（软链接）只是个路径指针，容器路径没映射对就是死链。PT 党标准姿势：下载目录和媒体库同盘 + link 模式。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "目录配置",
+          "hint": "每个「下载目录→媒体库目录」条目单独设置整理方式"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "二级分类",
+      "aliases": [
+        "二级分类",
+        "子分类",
+        "分类目录"
+      ],
+      "domain": "moviepilot",
+      "one_line": "媒体库下再按分辨率/来源/类型细分目录（如 4K/1080P、华语/外语）",
+      "detail": "二级分类是媒体库目录下的再分层，常见维度：分辨率（4K/1080P）、来源（WEB-DL/BluRay）、地区语言（华语/外语/动画）。MP 根据识别出的媒体信息 + 分类策略自动归类。配置入口在分类策略里给每个媒体类型定义 categories。注意：改分类只影响之后入库的文件，存量文件需要手动重新整理。",
+      "examples": [
+        "/mnt/library/电影/1080P/Inception (2010)/Inception (2010).mkv"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "分类策略",
+          "hint": "设定 → 分类策略 中编辑各媒体类型的二级分类规则"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "分类策略 MediaClassificationPolicy",
+      "aliases": [
+        "分类策略",
+        "MediaClassificationPolicy"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP v3 的分类规则引擎：categories 定义目录、rules 定义归属、fallbacks 兜底",
+      "detail": "MP v3 把分类逻辑收敛为 MediaClassificationPolicy：categories（有哪些二级分类）、rules（什么媒体信息归入哪个分类）、fallbacks（不命中任何规则时的兜底分类）。结构是 active + history 双份配置，history 的 revision 必须早于 active（pydantic 校验），手工改 JSON 时最容易在这里出错。改完策略只有新整理的文件生效。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "分类策略",
+          "hint": "设定 → 分类策略，建议用界面编辑而非手改 JSON"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "识别词",
+      "aliases": [
+        "自定义识别词",
+        "CustomIdentifyWords",
+        "识别修正"
+      ],
+      "domain": "moviepilot",
+      "one_line": "用正则或替换规则修正识别错的文件名（剧名、季集、年份）",
+      "detail": "当文件名起得太艺术（如把剧名简写成缩写、季集写成 Part 2），MP 识别会错或失败，识别词就是人工修正手段：支持替换、正则捕获、集数偏移等操作类型。识别词按优先级顺序执行，可在识别词页面拖动排序。改完用「识别测试」功能先验证再保存。",
+      "examples": [
+        "把 'ABC.S2024' 修正为剧名 ABC、2024 年作品"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "识别词",
+          "hint": "设定 → 识别词，支持正则、替换、集数偏移等多种类型"
+        }
+      ],
+      "tags": [
+        "MP",
+        "工具"
+      ]
+    },
+    {
+      "term": "过滤规则组",
+      "aliases": [
+        "规则组",
+        "FilterRuleGroup",
+        "过滤规则"
+      ],
+      "domain": "moviepilot",
+      "one_line": "订阅/搜索时筛选种子的条件组合：体积、来源、促销、做种数等",
+      "detail": "过滤规则组（FilterRuleGroup）决定「哪些种子允许被自动下载」：可按分辨率、来源、编码、体积区间、促销类型（Free）、做种人数等组合条件。规则串用 ID 组合：&（与）、>（或）、!（非）。订阅和搜索可分别套用不同规则组。规则引用了被删除的规则 ID 会导致整组失效——删规则前先确认引用关系。",
+      "examples": [
+        "『音乐无损』组 include (?i)FLAC|APE|WAVPACK|DSF|DSD|24bit|Hi-Res|无损"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "过滤规则组",
+          "hint": "设定 → 过滤规则组；订阅与搜索分开指定使用的规则组"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "洗版",
+      "aliases": [
+        "洗版",
+        "升级收藏",
+        "Reupgrade"
+      ],
+      "domain": "moviepilot",
+      "one_line": "用更高质量的版本替换已收藏的资源（如 HDTV → WEB-DL → REMUX）",
+      "detail": "洗版指已有收藏后，等更好的版本（更高分辨率、更好来源、修复版）出现时自动替换：MP 的订阅洗版功能按你定义的质量优先级自动下载新版、替换旧版。洗版会触发删除旧文件，注意 H&R 站点的做种考核和保种资源别被自动删掉。收藏原则一句话：先收占位，后续逐步洗到目标规格。",
+      "examples": [
+        "HDTV 抢先收藏 → 洗版到 WEB-DL → 最终洗到 REMUX"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "订阅洗版",
+          "hint": "订阅设置中开启洗版并定义版本优先级"
+        }
+      ],
+      "tags": [
+        "MP",
+        "技巧"
+      ]
+    },
+    {
+      "term": "订阅 Subscribe",
+      "aliases": [
+        "订阅",
+        "Subscribe",
+        "追剧订阅"
+      ],
+      "domain": "moviepilot",
+      "one_line": "登记想看的影视/音乐，MP 自动在站点里蹲资源并下载",
+      "detail": "订阅是 MP 的核心工作流：从豆瓣/TMDB 添加想看的作品，MP 周期性在各站点搜索，命中你的过滤规则组（体积、分辨率、促销）就自动下载入库。订阅支持洗版（自动升级到更好版本）、指定优先下载 Free 种子。订阅失败排查三板斧：站点可用性 → 过滤规则是否太严 → 订阅站的搜索词匹配。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "订阅",
+          "hint": "设定 → 订阅 可配置搜索周期与默认规则组"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "刮削 Scraping",
+      "aliases": [
+        "刮削",
+        "Scraping",
+        "元数据抓取",
+        "海报墙"
+      ],
+      "domain": "moviepilot",
+      "one_line": "按识别结果抓取海报、简介、演员表等元数据写入媒体库",
+      "detail": "刮削是媒体库「好看」的秘密：MP 整理文件后，媒体服务器（或 MP 自身的刮削插件）按 TMDB 识别结果抓取海报、背景图、简介、演员、评分，写成 NFO 和图片放进媒体目录。刮削失败常见原因：识别错了（改名都不对）、目录权限问题、TMDB 网络不通——最后一个配代理解决。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "刮削",
+          "hint": "目录配置里每条可单独开关 scraping；插件市场有增强刮削插件"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "TMDB",
+      "aliases": [
+        "TheMovieDB",
+        "themoviedb",
+        "TMDB API"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP 默认的影视元数据库，识别、分类、刮削都靠它",
+      "detail": "TMDB（The Movie Database）是 MP 影视识别的元数据源：文件名 → 识别出 TMDB 条目 → 拿到类型/年份/语言/题材 → 决定二级分类和刮削内容。TMDB 在国内直连不稳，MP 需要配代理或 API 地址中转，否则「识别失败/刮削不出图」大概率是它。电视剧的季集结构、动画的特别篇编号也都以 TMDB 为准。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "系统设置",
+          "hint": "设定 → 系统 里配置 TMDB 的代理或 API 地址"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "NFO",
+      "aliases": [
+        "nfo",
+        ".nfo",
+        "Kodi NFO"
+      ],
+      "domain": "moviepilot",
+      "one_line": "媒体元数据的 XML 文件，刮削结果的本地持久化",
+      "detail": "NFO 是 XML 格式的元数据文件（movie.nfo / tvshow.nfo），保存 TMDB ID、标题、简介、演员、海报地址。价值在于：媒体服务器可以「优先读取本地 NFO」而不再联网抓取，识别错可以手改 NFO 纠正，多服务器（Emby+Jellyfin）共享同一份元数据。MP 刮削开关打开后会在媒体目录生成 NFO。",
+      "examples": [
+        "/media/links/电影/沙丘 (2021)/movie.nfo"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 设置「NFO 元数据」插件可读取本地文件"
+        }
+      ],
+      "tags": [
+        "MP",
+        "工具"
+      ]
+    },
+    {
+      "term": "媒体服务器 Media Server",
+      "aliases": [
+        "Emby",
+        "Jellyfin",
+        "Plex",
+        "媒体库服务器"
+      ],
+      "domain": "moviepilot",
+      "one_line": "负责海报墙播放体验的服务端，MP 整理完通知它刷新入库",
+      "detail": "Emby/Jellyfin/Plex 三大媒体服务器把文件变成「有海报有简介可播放」的库，MP 整理完成后通过 webhook/API 通知它们刷新对应目录。三者对硬链接的媒体库都能直读；选型一句话：Emby 生态成熟（部分收费）、Jellyfin 开源免费、Plex 生态最完善（账号体系）。MP 的「媒体服务器」设定里配置连接，播完记录、续播提醒也靠这条链路。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "设定 → 媒体服务器 配置 Emby/Jellyfin/Plex 的地址与 ApiKey"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "strm 文件",
+      "aliases": [
+        "strm",
+        ".strm",
+        "网盘挂载"
+      ],
+      "domain": "moviepilot",
+      "one_line": "只含一个 URL 路径的文本文件，媒体服务器按它实时读取真实媒体",
+      "detail": "strm 是个极小的文本文件，内容是媒体的真实地址（本地路径或网盘直链）。玩法：媒体不用下载到本地，115/阿里云盘挂载后生成 strm 入库，播放时媒体服务器按 strm 里的地址实时取流。省空间、库大如海，代价是播放依赖网络与直链可用性。P115StrmHelper 等插件就是围绕这条链路的增强工具。",
+      "examples": [
+        "/media/links/电影/沙丘 (2021)/Dune.2021.2160p.strm"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "strm 插件",
+          "hint": "使用 strm 方案时 MP 的整理目标指向 strm 生成目录"
+        }
+      ],
+      "tags": [
+        "MP",
+        "技巧"
+      ]
+    },
+    {
+      "term": "存储 Storage",
+      "aliases": [
+        "storage",
+        "本地存储",
+        "网盘存储",
+        "rclone",
+        "NFS",
+        "SMB"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP v3 里目录配置的存储类型：local 本地 / rclone / 网盘等",
+      "detail": "MP v3 的目录配置带 storage 字段：local（本地路径）、rclone（挂载的网盘）、以及其他存储后端。选型的分水岭是硬链接可行性：本地同一文件系统 → link 秒完成零占用；跨存储（本地→网盘/NFS）→ 只能 copy/move，占空间或断做种。把「下载放本地、库放网盘」的组合想清楚再配目录。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "存储",
+          "hint": "设定 → 存储里先添加存储后端，目录配置才能引用"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "消息通知 Notification",
+      "aliases": [
+        "通知",
+        "Telegram 通知",
+        "Webhook",
+        "微信通知",
+        "Slack"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP 的事件推送渠道：下载完成、订阅更新、入库提醒发到 TG/微信等",
+      "detail": "MP 的通知体系支持 Telegram、企业微信、Slack、Webhook 等渠道，事件包括：订阅完成、下载开始/完成、整理入库、站点异常。TG 渠道在国内必须配代理（api.telegram.org 直连不通）。通知可以按事件类型开关，聊天工具里还能反向发指令给 MP（远程搜索/订阅）。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "通知",
+          "hint": "设定 → 通知 添加渠道；TG 必须填可用代理"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    },
+    {
+      "term": "下载器 Downloader",
+      "aliases": [
+        "qBittorrent",
+        "Transmission",
+        "qb",
+        "tr",
+        "下载器对接"
+      ],
+      "domain": "moviepilot",
+      "one_line": "MP 通过 API 控制 qBittorrent/Transmission 完成实际下载与做种",
+      "detail": "MP 自己不下载，而是驱动下载器：添加任务、查进度、读路径、分类打标。对接要点：地址端口正确、凭据两侧同步（改密码两边都改）、MP 与下载器对同一目录的挂载方式一致（容器路径映射对齐，否则下载完成不整理）。qB 的分类/标签还会被 MP 用来联动目录配置的「下载分类」过滤。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "下载器",
+          "hint": "设定 → 下载器 添加 qB/TR，保存前先点「测试连接」"
+        }
+      ],
+      "tags": [
+        "MP",
+        "核心概念"
+      ]
+    }
+  ]
+}

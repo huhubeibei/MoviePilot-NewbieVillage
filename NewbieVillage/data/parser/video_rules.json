@@ -1,0 +1,342 @@
+{
+  "version": 1,
+  "kind": "video",
+  "note": "影视命名解析规则。dims 顺序即展示顺序；priority 数值越大越优先；ref 必须与词典 term 完全一致才有跳转。",
+  "dimensions": ["episode", "resolution", "source", "vcodec", "audio", "edition", "year", "group"],
+  "rules": [
+    {
+      "id": "ep_sxxexx",
+      "dim": "episode",
+      "pattern": "\\bS(\\d{1,2})E(\\d{1,3})(?:[-~]?E?(\\d{1,3}))?\\b",
+      "flags": "i",
+      "label": "季集标记",
+      "ref": "S01E01 季集标记",
+      "priority": 20,
+      "value_group": 0
+    },
+    {
+      "id": "ep_e00",
+      "dim": "episode",
+      "pattern": "\\bS\\d{1,2}E00\\b|\\bE00\\b",
+      "flags": "i",
+      "label": "E00 特典/花絮",
+      "ref": "S01E01 季集标记",
+      "priority": 30
+    },
+    {
+      "id": "ep_cn",
+      "dim": "episode",
+      "pattern": "第\\s*(\\d{1,4})\\s*[集话話]",
+      "label": "中文集数",
+      "priority": 10,
+      "value_group": 0
+    },
+    {
+      "id": "res_2160p",
+      "dim": "resolution",
+      "pattern": "(?<![0-9])2160[pi](?![0-9])",
+      "flags": "i",
+      "label": "2160p（4K）",
+      "ref": "2160p",
+      "priority": 20
+    },
+    {
+      "id": "res_4k_uhd",
+      "dim": "resolution",
+      "pattern": "(?<![0-9A-Za-z])4K(?![0-9A-Za-z])|(?<![A-Za-z])UHD(?![A-Za-z])",
+      "flags": "i",
+      "label": "4K / UHD",
+      "ref": "2160p",
+      "priority": 15
+    },
+    {
+      "id": "res_1080p",
+      "dim": "resolution",
+      "pattern": "(?<![0-9])1080[pi](?![0-9])",
+      "flags": "i",
+      "label": "1080p",
+      "ref": "1080p",
+      "priority": 20
+    },
+    {
+      "id": "res_720p",
+      "dim": "resolution",
+      "pattern": "(?<![0-9])720p(?![0-9])",
+      "flags": "i",
+      "label": "720p",
+      "priority": 20
+    },
+    {
+      "id": "res_sd",
+      "dim": "resolution",
+      "pattern": "(?<![0-9])[45]76[pi](?![0-9])",
+      "flags": "i",
+      "label": "标清（480/576p）",
+      "priority": 20
+    },
+    {
+      "id": "src_webdl",
+      "dim": "source",
+      "pattern": "WEB[.\\-_ ]?DL",
+      "flags": "i",
+      "label": "WEB-DL（网络源）",
+      "ref": "WEB-DL",
+      "priority": 20
+    },
+    {
+      "id": "src_webrip",
+      "dim": "source",
+      "pattern": "WEB[.\\-_ ]?Rip",
+      "flags": "i",
+      "label": "WEBRip（网络转码源）",
+      "ref": "WEBRip",
+      "priority": 20
+    },
+    {
+      "id": "src_hdtv",
+      "dim": "source",
+      "pattern": "\\bHDTV\\b",
+      "flags": "i",
+      "label": "HDTV（电视录制）",
+      "ref": "HDTV",
+      "priority": 20
+    },
+    {
+      "id": "src_bluray",
+      "dim": "source",
+      "pattern": "Blu[.\\-_ ]?Ray|\\bBDRip\\b|\\bBD(25|50)\\b",
+      "flags": "i",
+      "label": "BluRay（蓝光来源）",
+      "ref": "BluRay",
+      "priority": 20
+    },
+    {
+      "id": "src_bdmv",
+      "dim": "source",
+      "pattern": "\\bBDMV\\b|Full[.\\-_ ]?Blu[.\\-_ ]?Ray",
+      "flags": "i",
+      "label": "BDMV（蓝光原盘）",
+      "ref": "BDMV",
+      "priority": 25
+    },
+    {
+      "id": "src_remux",
+      "dim": "source",
+      "pattern": "\\bREMUX\\b",
+      "flags": "i",
+      "label": "REMUX（无损抽取）",
+      "ref": "REMUX",
+      "priority": 25
+    },
+    {
+      "id": "src_dvd",
+      "dim": "source",
+      "pattern": "\\bDVD(Rip|R|5|9)?\\b",
+      "flags": "i",
+      "label": "DVD 来源",
+      "priority": 15
+    },
+    {
+      "id": "src_platform",
+      "dim": "source",
+      "pattern": "\\b(AMZN|Netflix|HMAX|HBO[.\\-_ ]?Max|DSNP|ATVP|PCOK|PMTP|MUBI|CRIT|HULU|PEACOCK|STAN|SHO|iT)\\b",
+      "label": "流媒体平台标记",
+      "ref": "WEB-DL",
+      "priority": 10
+    },
+    {
+      "id": "vc_hevc",
+      "dim": "vcodec",
+      "pattern": "H[.\\-_ ]?265|\\bHEVC\\b|\\bx265\\b",
+      "flags": "i",
+      "label": "H.265 / HEVC",
+      "ref": "H.265 / HEVC",
+      "priority": 20
+    },
+    {
+      "id": "vc_avc",
+      "dim": "vcodec",
+      "pattern": "H[.\\-_ ]?264|\\bAVC\\b|\\bx264\\b",
+      "flags": "i",
+      "label": "H.264 / AVC",
+      "ref": "H.264 / AVC",
+      "priority": 20
+    },
+    {
+      "id": "vc_other",
+      "dim": "vcodec",
+      "pattern": "\\b(XVID|DIVX|VP9|AV1|VP6|RV40)\\b",
+      "flags": "i",
+      "label": "其他视频编码",
+      "priority": 15
+    },
+    {
+      "id": "vc_10bit",
+      "dim": "vcodec",
+      "pattern": "\\b10 ?bit\\b",
+      "flags": "i",
+      "label": "10bit 色深",
+      "priority": 10
+    },
+    {
+      "id": "au_ddp",
+      "dim": "audio",
+      "pattern": "\\bDDP ?\\d?\\.?\\d?\\b|\\bDD\\+\\b|\\bE-?AC-?3\\b|Dolby[.\\-_ ]?Digital[.\\-_ ]?Plus",
+      "flags": "i",
+      "label": "DDP（杜比数字+）",
+      "ref": "DDP / DD+",
+      "priority": 22
+    },
+    {
+      "id": "au_dd_ac3",
+      "dim": "audio",
+      "pattern": "\\bDD ?\\d\\.\\d\\b|\\bAC-?3\\b",
+      "flags": "i",
+      "label": "DD / AC3",
+      "priority": 18
+    },
+    {
+      "id": "au_truehd",
+      "dim": "audio",
+      "pattern": "\\bTrueHD(?![A-Za-z])",
+      "flags": "i",
+      "label": "TrueHD（无损）",
+      "priority": 20
+    },
+    {
+      "id": "au_dts",
+      "dim": "audio",
+      "pattern": "\\bDTS(?:[.\\-_ ]?HD)?(?:[.\\-_ ]?MA)?(?:[.\\-_ ]?X)?(?![A-Za-z])|\\bDTSHD\\b",
+      "flags": "i",
+      "label": "DTS / DTS-HD MA",
+      "priority": 20
+    },
+    {
+      "id": "au_atmos",
+      "dim": "audio",
+      "pattern": "\\bAtmos\\b|全景声",
+      "flags": "i",
+      "label": "杜比全景声",
+      "ref": "杜比全景声 Atmos",
+      "priority": 25
+    },
+    {
+      "id": "au_aac",
+      "dim": "audio",
+      "pattern": "\\bAAC[.\\-_ ]?\\d?(\\.\\d)?\\b",
+      "flags": "i",
+      "label": "AAC",
+      "priority": 15
+    },
+    {
+      "id": "au_flac",
+      "dim": "audio",
+      "pattern": "\\bFLAC\\b",
+      "flags": "i",
+      "label": "FLAC 音轨",
+      "priority": 15
+    },
+    {
+      "id": "au_channels",
+      "dim": "audio",
+      "pattern": "\\b([257]\\.1|2\\.0|1\\.0)\\b",
+      "label": "声道标记",
+      "priority": 5,
+      "value_group": 1
+    },
+    {
+      "id": "ed_proper",
+      "dim": "edition",
+      "pattern": "\\bPROPER\\b",
+      "flags": "i",
+      "label": "PROPER（修正版）",
+      "ref": "PROPER / REPACK",
+      "priority": 20
+    },
+    {
+      "id": "ed_repack",
+      "dim": "edition",
+      "pattern": "\\bREPACK\\b",
+      "flags": "i",
+      "label": "REPACK（重新打包）",
+      "ref": "PROPER / REPACK",
+      "priority": 20
+    },
+    {
+      "id": "ed_extended",
+      "dim": "edition",
+      "pattern": "\\b(EXTENDED|UNRATED|REMASTERED)\\b",
+      "flags": "i",
+      "label": "加长/未分级/重制版",
+      "ref": "PROPER / REPACK",
+      "priority": 15
+    },
+    {
+      "id": "ed_imax",
+      "dim": "edition",
+      "pattern": "\\bIMAX( Enhanced)?\\b|\\bHYBRID\\b",
+      "flags": "i",
+      "label": "IMAX / Hybrid",
+      "priority": 15
+    },
+    {
+      "id": "ed_dv",
+      "dim": "edition",
+      "pattern": "\\b(DV|DoVi|Dolby[.\\-_ ]?Vision)\\b(?![.\\-_ ]?Audio)",
+      "flags": "i",
+      "label": "杜比视界",
+      "ref": "杜比视界 Dolby Vision",
+      "priority": 22
+    },
+    {
+      "id": "ed_hdr10p",
+      "dim": "edition",
+      "pattern": "\\bHDR10\\+(?![A-Za-z0-9])|\\bHDR10P\\b",
+      "flags": "i",
+      "label": "HDR10+",
+      "ref": "HDR10+",
+      "priority": 22
+    },
+    {
+      "id": "ed_hdr",
+      "dim": "edition",
+      "pattern": "\\bHDR\\b",
+      "flags": "i",
+      "label": "HDR",
+      "ref": "HDR",
+      "priority": 18
+    },
+    {
+      "id": "ed_sdr",
+      "dim": "edition",
+      "pattern": "\\bSDR\\b",
+      "flags": "i",
+      "label": "SDR（标准动态范围）",
+      "priority": 15
+    },
+    {
+      "id": "yr_year",
+      "dim": "year",
+      "pattern": "\\b(19\\d{2}|20\\d{2})\\b",
+      "label": "年份",
+      "priority": 8,
+      "value_group": 1
+    },
+    {
+      "id": "grp_trailing",
+      "dim": "group",
+      "pattern": "-([A-Za-z0-9][A-Za-z0-9@_.]*?)(?:\\.(?:mkv|mp4|ts|m2ts|iso|avi))?$",
+      "label": "发布组",
+      "priority": 12,
+      "value_group": 1
+    },
+    {
+      "id": "grp_bracket",
+      "dim": "group",
+      "pattern": "[\\[({]([A-Za-z0-9][A-Za-z0-9@&_.]{1,30})[\\])}]$",
+      "label": "发布组（括号）",
+      "priority": 10,
+      "value_group": 1
+    }
+  ]
+}

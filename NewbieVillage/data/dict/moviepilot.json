@@ -1,0 +1,233 @@
+{
+  "version": 1,
+  "terms": [
+    {
+      "term": "MoviePilot",
+      "aliases": ["MP", "MoviePilot v2", "MoviePilot v3"],
+      "domain": "moviepilot",
+      "one_line": "自动化影视/音乐管理工具：订阅、搜索、下载、整理、入库一条龙",
+      "detail": "MoviePilot（MP）把 PT 下载站的资源自动搬运进你的媒体库：订阅追剧 → 自动搜索下载 → 整理改名 → 媒体服务器入库 → 消息通知。v2 起前端改为 Vue，v3 是当前大版本（本插件仅支持 v3）。理解 MP 的关键在于理清三样东西：目录映射、下载器、媒体服务器。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "基础配置", "hint": "设定 → 系统/服务/存储 是 MP 三大基础配置区"}
+      ],
+      "tags": ["MP"]
+    },
+    {
+      "term": "目录映射",
+      "aliases": ["路径映射", "Directory Mapping", "下载目录/媒体库目录"],
+      "domain": "moviepilot",
+      "one_line": "告诉 MP「容器内路径 = 实际存储路径」的对应关系，配错整条链路失灵",
+      "detail": "MP 运行在 Docker 里，它看到的路径（容器路径）和真实存储路径往往不同。目录映射就是一张「容器路径 ↔ 本地路径」对照表，MP 用它把下载器报来的路径翻译成真实路径，再决定整理去哪。配错的典型症状：下载完成不整理、提示找不到文件、媒体库识别不到。原则：下载器和 MP 必须用相同方式挂载同一个下载目录。",
+      "examples": ["/downloads（容器内） ↔ /mnt/user/downloads（Unraid 实际路径）"],
+      "related_mp_settings": [
+        {"label": "目录映射", "hint": "设定 → 存储 → 目录映射，逐条添加映射关系"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "硬链接 Hard Link",
+      "aliases": ["硬链接", "HardLink", "link 整理模式"],
+      "domain": "moviepilot",
+      "one_line": "同一份数据的多个目录入口，零额外空间、秒完成，是整理模式首选",
+      "detail": "硬链接给同一份文件数据开多个「门牌」，两个目录都能访问、只占一份空间，整理瞬间完成且不占下载空间。生效前提：源和目标必须在同一个文件系统/同一块盘（或同一个 Unraid 共享的同一盘上）。MP 整理模式选「硬链接」后，链接失败会按配置回退为复制。",
+      "examples": ["/mnt/user/downloads/movie.mkv ⇄ /mnt/user/library/电影/movie.mkv"],
+      "related_mp_settings": [
+        {"label": "整理模式", "hint": "目录配置的「整理方式」可选 link/copy/move/softlink"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "跨盘硬链接",
+      "aliases": ["跨盘", "跨文件系统", "EXDEV", "Invalid cross-device link"],
+      "domain": "moviepilot",
+      "one_line": "硬链接不能跨盘/跨文件系统，跨了就只能复制，占双倍空间",
+      "detail": "文件系统层面的硬性限制：硬链接无法跨盘（跨文件系统）创建，Unraid 多盘、ZFS 不同池、NFS 挂载点之间都不行。症状是整理日志报 Invalid cross-device link 或静默回退成复制（空间瞬间翻倍）。解法：把下载目录和媒体库目录放到同一个共享（Unraid 会自动落在同一盘），或干脆分开两个目录配置分别处理。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "共享配置", "hint": "Unraid 侧确认 downloads 和 library 共享的分配方式一致"}
+      ],
+      "tags": ["MP", "坑"]
+    },
+    {
+      "term": "整理模式",
+      "aliases": ["整理方式", "link/copy/move", "转移方式"],
+      "domain": "moviepilot",
+      "one_line": "MP 把下载文件搬进媒体库的方式：硬链接/复制/移动/软链接",
+      "detail": "四种整理模式各有取舍：link（硬链接）零空间秒完成但要求同盘；copy 占双倍空间但跨盘可用、下载目录可立即删；move 不占双份但下载目录清空、做种会断（PT 用户慎用）；softlink（软链接）只是个路径指针，容器路径没映射对就是死链。PT 党标准姿势：下载目录和媒体库同盘 + link 模式。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "目录配置", "hint": "每个「下载目录→媒体库目录」条目单独设置整理方式"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "二级分类",
+      "aliases": ["二级分类", "子分类", "分类目录"],
+      "domain": "moviepilot",
+      "one_line": "媒体库下再按分辨率/来源/类型细分目录（如 4K/1080P、华语/外语）",
+      "detail": "二级分类是媒体库目录下的再分层，常见维度：分辨率（4K/1080P）、来源（WEB-DL/BluRay）、地区语言（华语/外语/动画）。MP 根据识别出的媒体信息 + 分类策略自动归类。配置入口在分类策略里给每个媒体类型定义 categories。注意：改分类只影响之后入库的文件，存量文件需要手动重新整理。",
+      "examples": ["/mnt/library/电影/1080P/Inception (2010)/Inception (2010).mkv"],
+      "related_mp_settings": [
+        {"label": "分类策略", "hint": "设定 → 分类策略 中编辑各媒体类型的二级分类规则"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "分类策略 MediaClassificationPolicy",
+      "aliases": ["分类策略", "MediaClassificationPolicy"],
+      "domain": "moviepilot",
+      "one_line": "MP v3 的分类规则引擎：categories 定义目录、rules 定义归属、fallbacks 兜底",
+      "detail": "MP v3 把分类逻辑收敛为 MediaClassificationPolicy：categories（有哪些二级分类）、rules（什么媒体信息归入哪个分类）、fallbacks（不命中任何规则时的兜底分类）。结构是 active + history 双份配置，history 的 revision 必须早于 active（pydantic 校验），手工改 JSON 时最容易在这里出错。改完策略只有新整理的文件生效。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "分类策略", "hint": "设定 → 分类策略，建议用界面编辑而非手改 JSON"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "识别词",
+      "aliases": ["自定义识别词", "CustomIdentifyWords", "识别修正"],
+      "domain": "moviepilot",
+      "one_line": "用正则或替换规则修正识别错的文件名（剧名、季集、年份）",
+      "detail": "当文件名起得太艺术（如把剧名简写成缩写、季集写成 Part 2），MP 识别会错或失败，识别词就是人工修正手段：支持替换、正则捕获、集数偏移等操作类型。识别词按优先级顺序执行，可在识别词页面拖动排序。改完用「识别测试」功能先验证再保存。",
+      "examples": ["把 'ABC.S2024' 修正为剧名 ABC、2024 年作品"],
+      "related_mp_settings": [
+        {"label": "识别词", "hint": "设定 → 识别词，支持正则、替换、集数偏移等多种类型"}
+      ],
+      "tags": ["MP", "工具"]
+    },
+    {
+      "term": "过滤规则组",
+      "aliases": ["规则组", "FilterRuleGroup", "过滤规则"],
+      "domain": "moviepilot",
+      "one_line": "订阅/搜索时筛选种子的条件组合：体积、来源、促销、做种数等",
+      "detail": "过滤规则组（FilterRuleGroup）决定「哪些种子允许被自动下载」：可按分辨率、来源、编码、体积区间、促销类型（Free）、做种人数等组合条件。规则串用 ID 组合：&（与）、>（或）、!（非）。订阅和搜索可分别套用不同规则组。规则引用了被删除的规则 ID 会导致整组失效——删规则前先确认引用关系。",
+      "examples": ["『音乐无损』组 include (?i)FLAC|APE|WAVPACK|DSF|DSD|24bit|Hi-Res|无损"],
+      "related_mp_settings": [
+        {"label": "过滤规则组", "hint": "设定 → 过滤规则组；订阅与搜索分开指定使用的规则组"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "洗版",
+      "aliases": ["洗版", "升级收藏", "Reupgrade"],
+      "domain": "moviepilot",
+      "one_line": "用更高质量的版本替换已收藏的资源（如 HDTV → WEB-DL → REMUX）",
+      "detail": "洗版指已有收藏后，等更好的版本（更高分辨率、更好来源、修复版）出现时自动替换：MP 的订阅洗版功能按你定义的质量优先级自动下载新版、替换旧版。洗版会触发删除旧文件，注意 H&R 站点的做种考核和保种资源别被自动删掉。收藏原则一句话：先收占位，后续逐步洗到目标规格。",
+      "examples": ["HDTV 抢先收藏 → 洗版到 WEB-DL → 最终洗到 REMUX"],
+      "related_mp_settings": [
+        {"label": "订阅洗版", "hint": "订阅设置中开启洗版并定义版本优先级"}
+      ],
+      "tags": ["MP", "技巧"]
+    },
+    {
+      "term": "订阅 Subscribe",
+      "aliases": ["订阅", "Subscribe", "追剧订阅"],
+      "domain": "moviepilot",
+      "one_line": "登记想看的影视/音乐，MP 自动在站点里蹲资源并下载",
+      "detail": "订阅是 MP 的核心工作流：从豆瓣/TMDB 添加想看的作品，MP 周期性在各站点搜索，命中你的过滤规则组（体积、分辨率、促销）就自动下载入库。订阅支持洗版（自动升级到更好版本）、指定优先下载 Free 种子。订阅失败排查三板斧：站点可用性 → 过滤规则是否太严 → 订阅站的搜索词匹配。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "订阅", "hint": "设定 → 订阅 可配置搜索周期与默认规则组"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "刮削 Scraping",
+      "aliases": ["刮削", "Scraping", "元数据抓取", "海报墙"],
+      "domain": "moviepilot",
+      "one_line": "按识别结果抓取海报、简介、演员表等元数据写入媒体库",
+      "detail": "刮削是媒体库「好看」的秘密：MP 整理文件后，媒体服务器（或 MP 自身的刮削插件）按 TMDB 识别结果抓取海报、背景图、简介、演员、评分，写成 NFO 和图片放进媒体目录。刮削失败常见原因：识别错了（改名都不对）、目录权限问题、TMDB 网络不通——最后一个配代理解决。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "刮削", "hint": "目录配置里每条可单独开关 scraping；插件市场有增强刮削插件"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "TMDB",
+      "aliases": ["TheMovieDB", "themoviedb", "TMDB API"],
+      "domain": "moviepilot",
+      "one_line": "MP 默认的影视元数据库，识别、分类、刮削都靠它",
+      "detail": "TMDB（The Movie Database）是 MP 影视识别的元数据源：文件名 → 识别出 TMDB 条目 → 拿到类型/年份/语言/题材 → 决定二级分类和刮削内容。TMDB 在国内直连不稳，MP 需要配代理或 API 地址中转，否则「识别失败/刮削不出图」大概率是它。电视剧的季集结构、动画的特别篇编号也都以 TMDB 为准。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "系统设置", "hint": "设定 → 系统 里配置 TMDB 的代理或 API 地址"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "NFO",
+      "aliases": ["nfo", ".nfo", "Kodi NFO"],
+      "domain": "moviepilot",
+      "one_line": "媒体元数据的 XML 文件，刮削结果的本地持久化",
+      "detail": "NFO 是 XML 格式的元数据文件（movie.nfo / tvshow.nfo），保存 TMDB ID、标题、简介、演员、海报地址。价值在于：媒体服务器可以「优先读取本地 NFO」而不再联网抓取，识别错可以手改 NFO 纠正，多服务器（Emby+Jellyfin）共享同一份元数据。MP 刮削开关打开后会在媒体目录生成 NFO。",
+      "examples": ["/media/links/电影/沙丘 (2021)/movie.nfo"],
+      "related_mp_settings": [
+        {"label": "媒体服务器", "hint": "Emby/Jellyfin 设置「NFO 元数据」插件可读取本地文件"}
+      ],
+      "tags": ["MP", "工具"]
+    },
+    {
+      "term": "媒体服务器 Media Server",
+      "aliases": ["Emby", "Jellyfin", "Plex", "媒体库服务器"],
+      "domain": "moviepilot",
+      "one_line": "负责海报墙播放体验的服务端，MP 整理完通知它刷新入库",
+      "detail": "Emby/Jellyfin/Plex 三大媒体服务器把文件变成「有海报有简介可播放」的库，MP 整理完成后通过 webhook/API 通知它们刷新对应目录。三者对硬链接的媒体库都能直读；选型一句话：Emby 生态成熟（部分收费）、Jellyfin 开源免费、Plex 生态最完善（账号体系）。MP 的「媒体服务器」设定里配置连接，播完记录、续播提醒也靠这条链路。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "媒体服务器", "hint": "设定 → 媒体服务器 配置 Emby/Jellyfin/Plex 的地址与 ApiKey"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "strm 文件",
+      "aliases": ["strm", ".strm", "网盘挂载"],
+      "domain": "moviepilot",
+      "one_line": "只含一个 URL 路径的文本文件，媒体服务器按它实时读取真实媒体",
+      "detail": "strm 是个极小的文本文件，内容是媒体的真实地址（本地路径或网盘直链）。玩法：媒体不用下载到本地，115/阿里云盘挂载后生成 strm 入库，播放时媒体服务器按 strm 里的地址实时取流。省空间、库大如海，代价是播放依赖网络与直链可用性。P115StrmHelper 等插件就是围绕这条链路的增强工具。",
+      "examples": ["/media/links/电影/沙丘 (2021)/Dune.2021.2160p.strm"],
+      "related_mp_settings": [
+        {"label": "strm 插件", "hint": "使用 strm 方案时 MP 的整理目标指向 strm 生成目录"}
+      ],
+      "tags": ["MP", "技巧"]
+    },
+    {
+      "term": "存储 Storage",
+      "aliases": ["storage", "本地存储", "网盘存储", "rclone", "NFS", "SMB"],
+      "domain": "moviepilot",
+      "one_line": "MP v3 里目录配置的存储类型：local 本地 / rclone / 网盘等",
+      "detail": "MP v3 的目录配置带 storage 字段：local（本地路径）、rclone（挂载的网盘）、以及其他存储后端。选型的分水岭是硬链接可行性：本地同一文件系统 → link 秒完成零占用；跨存储（本地→网盘/NFS）→ 只能 copy/move，占空间或断做种。把「下载放本地、库放网盘」的组合想清楚再配目录。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "存储", "hint": "设定 → 存储里先添加存储后端，目录配置才能引用"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "消息通知 Notification",
+      "aliases": ["通知", "Telegram 通知", "Webhook", "微信通知", "Slack"],
+      "domain": "moviepilot",
+      "one_line": "MP 的事件推送渠道：下载完成、订阅更新、入库提醒发到 TG/微信等",
+      "detail": "MP 的通知体系支持 Telegram、企业微信、Slack、Webhook 等渠道，事件包括：订阅完成、下载开始/完成、整理入库、站点异常。TG 渠道在国内必须配代理（api.telegram.org 直连不通）。通知可以按事件类型开关，聊天工具里还能反向发指令给 MP（远程搜索/订阅）。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "通知", "hint": "设定 → 通知 添加渠道；TG 必须填可用代理"}
+      ],
+      "tags": ["MP", "核心概念"]
+    },
+    {
+      "term": "下载器 Downloader",
+      "aliases": ["qBittorrent", "Transmission", "qb", "tr", "下载器对接"],
+      "domain": "moviepilot",
+      "one_line": "MP 通过 API 控制 qBittorrent/Transmission 完成实际下载与做种",
+      "detail": "MP 自己不下载，而是驱动下载器：添加任务、查进度、读路径、分类打标。对接要点：地址端口正确、凭据两侧同步（改密码两边都改）、MP 与下载器对同一目录的挂载方式一致（容器路径映射对齐，否则下载完成不整理）。qB 的分类/标签还会被 MP 用来联动目录配置的「下载分类」过滤。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "下载器", "hint": "设定 → 下载器 添加 qB/TR，保存前先点「测试连接」"}
+      ],
+      "tags": ["MP", "核心概念"]
+    }
+  ]
+}

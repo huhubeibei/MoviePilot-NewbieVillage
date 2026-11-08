@@ -1,0 +1,13 @@
+{
+  "NewbieVillage": {
+    "version": "1.0.1",
+    "name": "影音新手村",
+    "title": "影音新手村",
+    "description": "影视/音乐新手词典、命名解析与联动预告，新手村通关手册。",
+    "author": "jinyu",
+    "site": "https://github.com/huhubeibei/MoviePilot-NewbieVillage",
+    "branch": "main",
+    "icon": "NewbieVillage/icon.png",
+    "v3": true
+  }
+}

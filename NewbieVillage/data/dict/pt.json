@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "terms": [
+    {
+      "term": "PT",
+      "aliases": ["Private Tracker", "私用种子", "PT站"],
+      "domain": "pt",
+      "one_line": "基于私有 Tracker 的社区型下载分享体系，讲究分享与规则",
+      "detail": "PT（Private Tracker）是与公开 BT 相对的私有体系：站点用私有 Tracker 记录每个用户的上传下载量，靠邀请制和社区规则维持生态。核心逻辑是「你上传得越多、分享率越高，权限和等级越高；只下不上会被封号」。MP 的站点模块、刷流插件都是围绕 PT 站工作的。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "站点维护", "hint": "设定 → 站点 里配置各 PT 站的 Cookie/ApiKey 后 MP 才能读取你的数据"}
+      ],
+      "tags": ["PT"]
+    },
+    {
+      "term": "做种 Seeding",
+      "aliases": ["做种", "Seeding", "上传", "保活"],
+      "domain": "pt",
+      "one_line": "下载完成后继续上传给他人，是 PT 生态的核心义务",
+      "detail": "做种 = 下载完成后保持任务运行让别人从你这下载。PT 的生存法则是「只下不做会死」：分享率（上传/下载）低于站点红线会被限制甚至封号。qBittorrent/Transmission 里的任务做种时间、做种比例可以设置，但 PT 站一般要求无限做种或达到考核条件才能删。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "下载器", "hint": "设定 → 下载器 配置 qBittorrent/Transmission 对接"}
+      ],
+      "tags": ["PT", "行为"]
+    },
+    {
+      "term": "分享率 Ratio",
+      "aliases": ["分享率", "上传下载比", "Ratio"],
+      "domain": "pt",
+      "one_line": "上传量 ÷ 下载量，衡量你对社区贡献的硬指标",
+      "detail": "分享率 = 总上传 / 总下载。站点通常有全局最低分享率要求（如 0.5），低于阈值会收到警告，持续不达标就封号。新手常用「魔力值兑换上传」或参加 Free 活动来养分享率。注意站点计算的是全站累计值，单一种子的 ratio 只是它自己的贡献。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "站点概览", "hint": "MP 首页站点卡片会展示各站的上传/下载/分享率"}
+      ],
+      "tags": ["PT", "指标"]
+    },
+    {
+      "term": "魔力值 Bonus",
+      "aliases": ["魔力", "Bonus", "魔力值", "做种积分"],
+      "domain": "pt",
+      "one_line": "按做种数量/时间累积的站点积分，可兑换上传量、邀请等",
+      "detail": "魔力值（Bonus）是站点按你做种的种子数量和时长持续发放的积分，在站点商店兑换上传量、邀请、VIP 时长等。多挂冷门大包、长期不断种是攒魔力的主要方式，「挂机赚魔力」也是刷流党的重要收入。各站计算公式不同，通常做种人数越少的种子单位时间魔力越高。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "指标"]
+    },
+    {
+      "term": "H&R (Hit and Run)",
+      "aliases": ["HR", "Hit and Run", "考核", "H&R"],
+      "domain": "pt",
+      "one_line": "下载后未达做种要求就删种会记违规，累计可封号",
+      "detail": "H&R（Hit and Run）指下载后没有按站点要求做种（如做满 48 小时或达到指定分享率）就停止/删除任务，站点会记一次 H&R，累计多次封号。避坑要点：删种前看站点的 H&R 规则；MP 的「洗版」「自动删种」功能对有 H&R 考核的站点要格外小心，建议配置排除条件或延长做种时间。有些站免费种子也考核 H&R，别以为 Free 就能随便删。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "自动删种", "hint": "刷流/自动删种插件需按站点 H&R 规则配置保种时长"}
+      ],
+      "tags": ["PT", "风险"]
+    },
+    {
+      "term": "保种",
+      "aliases": ["保种", "长期做种", "官方保种"],
+      "domain": "pt",
+      "one_line": "站点标记为需要长期维持做种的资源，删除前务必确认",
+      "detail": "保种是站点为防止资源断种发起的机制：官方保种/申请保种的种子会被记录，要求下载者长期做种。蓝光原盘、老电影等冷门资源常在保种名单里。删除任务前先确认是否属于保种资源（站点资源页有标记），误删保种资源是新手常见事故，部分站点处罚很重。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "风险"]
+    },
+    {
+      "term": "Freeleech",
+      "aliases": ["免费", "Free", "2xFree", "自由"],
+      "domain": "pt",
+      "one_line": "下载量不计入统计的促销活动，是养分享率的最佳时机",
+      "detail": "Freeleech（Free/免费）期间下载不计量，上传照常计算，是新手攒分享率、囤资源的黄金窗口。促销还有 2xFree（下载免费且上传翻倍）、2xUp（上传翻倍）等组合。各站促销由官方或用户捐赠触发，可用 MP 的订阅/刷流插件盯促销自动下载。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "订阅", "hint": "MP 订阅设置里可勾选「仅下载 Free 种子」"}
+      ],
+      "tags": ["PT", "促销"]
+    },
+    {
+      "term": "辅种",
+      "aliases": ["辅种", "交叉辅种", "IYUU", "Reseed"],
+      "domain": "pt",
+      "one_line": "把已下载的资源在多个站点间互相补种，一源多站赚上传",
+      "detail": "同一部资源常在多个 PT 站发布（同 infohash 的官方组资源），辅种就是用 IYUU 等工具比对哈希，把 A 站已下载的任务「补」到 B 站继续做种——不下载新数据、纯赚 B 站上传。前提是多个站使用同一发布组的相同种子文件。MP 生态的 IYUUAutoSeed 插件就是干这个的，是效率党的标配。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "辅种插件", "hint": "安装 IYUUAutoSeed 插件并配置各站 API Token"}
+      ],
+      "tags": ["PT", "技巧"]
+    },
+    {
+      "term": "刷流",
+      "aliases": ["刷流", "BrushFlow", "刷上传"],
+      "domain": "pt",
+      "one_line": "自动批量下载促销种子做种赚取上传量，配上限防止爆盘",
+      "detail": "刷流是通过脚本/插件自动挑选站点促销（Free/2xFree）种子批量下载做种来刷上传量。风险点：下太多爆硬盘、H&R 站没考核完就删种、下载速度抢占正常使用。刷流插件（如 BrushFlow）的任务参数（站点、体积上限、做种时长、删除条件）就是为控制这些风险设计的，新手建议小规模试跑。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "刷流插件", "hint": "BrushFlow 等插件可配置站点白名单、磁盘水位和删除策略"}
+      ],
+      "tags": ["PT", "技巧"]
+    },
+    {
+      "term": "Seeders / Leechers",
+      "aliases": ["做种人数", "下载人数", "热门度"],
+      "domain": "pt",
+      "one_line": "当前做种/下载该种子的人数，决定下载速度与存活期",
+      "detail": "Seeders（做种数）是当前正在上传这个种子的人数，Leechers（下载者）是正在下载的人数。做种人数越多下载越快、资源越不容易断种；冷门资源做种人数个位数时随时可能绝种。PT 站种子列表的 ↑/↓ 两列就是这两个值，选资源时优先做种数多的，抢首发才需要下做种数少的。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "指标"]
+    },
+    {
+      "term": "官方组 (官组)",
+      "aliases": ["官组", "官方发布组", "Scene"],
+      "domain": "pt",
+      "one_line": "站点认证的发布组，资源规范、命名统一，是辅种的基石",
+      "detail": "官方组（官组）是站点认可、按规范发布的资源组：命名统一、同一资源跨站 infohash 一致。同一部电影的官组资源在 A 站和 B 站是同一个种子哈希，这就是 IYUU 辅种能「一站下载、多站做种」的前提。非官组（转载、重打包）资源各站哈希不同，无法辅种。",
+      "examples": ["WiKi、FraMeSToR、SMURF 等都是知名影视官组"],
+      "related_mp_settings": [
+        {"label": "辅种插件", "hint": "官组资源是 IYUUAutoSeed 辅种的主要对象"}
+      ],
+      "tags": ["PT", "技巧"]
+    },
+    {
+      "term": "匿名发布",
+      "aliases": ["匿名", "Anonymous", "不显示上传者"],
+      "domain": "pt",
+      "one_line": "发布时不显示上传者身份的选项，避免被针对性加好友",
+      "detail": "匿名发布是上传种子时的可选设置：种子页面不显示「上传者」是你的用户名。用处分两类：低调党避免引人注目；发布敏感资源的用户保护隐私。对做种收益、魔力值没有任何影响，纯隐私选项。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "行为"]
+    },
+    {
+      "term": "邀请 (Invite)",
+      "aliases": ["邀请", "Invite", "邀请码", "开蹲"],
+      "domain": "pt",
+      "one_line": "进入 PT 站的通行证，只能由站内成员有限制地发出",
+      "detail": "PT 站不开放注册，新用户只能凭站内成员的邀请注册。邀请是稀缺资源：有邀请名额限制、经常只在特定活动（开蹲）放出，滥用邀请会连累邀请人（连坐制）。收到邀请后按要求填写注册信息，进门后先读规则再下载。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "风险"]
+    },
+    {
+      "term": "用户等级 (Class)",
+      "aliases": ["等级", "Class", "升级", "User Class"],
+      "domain": "pt",
+      "one_line": "按分享率/做种/注册时长划分的用户级别，决定权限与福利",
+      "detail": "用户等级（Class）由分享率、做种数、注册时长等指标决定，从新手（User/Peasant）到精英（Elite/Crazy/Insane）、VIP、管理层逐级向上。等级越高权限越多（更多邀请名额、更高并发、专属促销、免考核等），长期低于要求的等级（如 Peasant 候选）会被封号。等级体系各站差异很大，以站点 FAQ 为准。",
+      "examples": [],
+      "related_mp_settings": [],
+      "tags": ["PT", "指标"]
+    },
+    {
+      "term": "Tracker",
+      "aliases": ["tracker 服务器", "announce", "私用 tracker"],
+      "domain": "pt",
+      "one_line": "记录「谁在做种/下载哪个种子」的协调服务器，PT 的核心设施",
+      "detail": "Tracker 是 BT 协议里的协调服务器：客户端下载/做种时向它 announce，它返回「同一种子当前有哪些 peer」。PT 站的 tracker 是私有的，只有验证过 passkey 的用户才能连——这就是「Private Tracker」的含义。MP 下载依赖下载器正确连接站点 tracker，连不上时检查 passkey、域名连通性和代理。",
+      "examples": ["https://tracker.example.org/announce.php?passkey=xxxxxxxx"],
+      "related_mp_settings": [
+        {"label": "下载器", "hint": "任务卡在「连接 tracker」时优先检查 passkey 与网络"}
+      ],
+      "tags": ["PT", "核心概念"]
+    },
+    {
+      "term": "速度限制",
+      "aliases": ["限速", "上传限速", "download limit", "upload limit"],
+      "domain": "pt",
+      "one_line": "在下载器里为任务设置上下行速度上限，保住家庭网络体验",
+      "detail": "速度限制是 qBittorrent/Transmission 里的基础设置：全局限速、单任务限速、按时段限速（.alt_speed / 深夜全速）。刷流党必配——不限速的刷流会把家庭宽带吃满，影响其他设备；而 PT 的上传又是美德，合理平衡是「上传尽量给满，下载按需限制」。MP 的刷流插件也有限速参数直接对接下载器。",
+      "examples": [],
+      "related_mp_settings": [
+        {"label": "刷流插件", "hint": "任务参数里的 maxupspeed/maxdlspeed 就是限速配置"}
+      ],
+      "tags": ["PT", "技巧"]
+    }
+  ]
+}

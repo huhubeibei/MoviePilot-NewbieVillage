@@ -1,0 +1,11 @@
+node_modules/
+__pycache__/
+*.pyc
+*.tmp
+dist/.vite/
+*.tar.gz
+
+# 内部资料不公开：含内网拓扑的设计文档与部署脚本
+docs/
+_deploy/
+_tools/parse_cases.json.bak
