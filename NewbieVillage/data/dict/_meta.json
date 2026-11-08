@@ -1,6 +1,6 @@
 {
-  "version": 2,
+  "version": 3,
   "updated_at": "2026-11-08",
-  "note": "内置精品词典 v2；四领域 video/music/pt/moviepilot。M3 补齐至 94 条。",
+  "note": "内置精品词典 v3；四领域 94 条 + group 分组字段；远端协议新增 ladders/size_matrix。",
   "counts": {"video": 34, "music": 25, "pt": 16, "moviepilot": 19}
 }

@@ -3,263 +3,538 @@
   "terms": [
     {
       "term": "FLAC",
-      "aliases": ["flac", "无损音频", "Free Lossless Audio Codec"],
+      "aliases": [
+        "flac",
+        "无损音频",
+        "Free Lossless Audio Codec"
+      ],
       "domain": "music",
       "one_line": "最通用的开源无损音频格式，音乐收藏的事实标准",
       "detail": "FLAC（Free Lossless Audio Codec）是无损压缩：还原的音频与 CD 母带完全一致，体积约为 WAV 的一半。它是 PT 音乐站和本地收藏的主流格式，几乎全部播放器和手机都支持。MP 的音乐入库和 Emby/Jellyfin/Plex 对 FLAC 支持都很完善，直接收即可。",
-      "examples": ["Jay Chou - 最伟大的作品 (2022) [FLAC 24bit-44.1kHz] 分轨"],
-      "related_mp_settings": [
-        {"label": "媒体库目录", "hint": "音乐媒体库与影视分开建目录，便于服务器按音乐类型识别"}
+      "examples": [
+        "Jay Chou - 最伟大的作品 (2022) [FLAC 24bit-44.1kHz] 分轨"
       ],
-      "tags": ["格式", "无损"]
+      "related_mp_settings": [
+        {
+          "label": "媒体库目录",
+          "hint": "音乐媒体库与影视分开建目录，便于服务器按音乐类型识别"
+        }
+      ],
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "APE",
-      "aliases": ["ape", "Monkey's Audio"],
+      "aliases": [
+        "ape",
+        "Monkey's Audio"
+      ],
       "domain": "music",
       "one_line": "老牌无损格式，压缩率略高但兼容性远不如 FLAC，正逐渐被淘汰",
       "detail": "APE（Monkey's Audio）是上世纪的无损格式，压缩率比 FLAC 略高，但解码消耗大、移动设备支持差。早年国内无损论坛常用，现在新发布基本都用 FLAC。收到 APE 的资源可以无转换直接听，想规范化收藏时建议转成 FLAC（无损转无损零损失）。",
-      "examples": ["Faye Wong - 浮躁 (1996) [APE 整轨+CUE]"],
+      "examples": [
+        "Faye Wong - 浮躁 (1996) [APE 整轨+CUE]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "无损"]
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "ALAC",
-      "aliases": ["m4a", "Apple Lossless", "苹果无损"],
+      "aliases": [
+        "m4a",
+        "Apple Lossless",
+        "苹果无损"
+      ],
       "domain": "music",
       "one_line": "苹果的无损格式，Apple Music 下载收藏的常见产物",
       "detail": "ALAC（Apple Lossless Audio Codec）是苹果的无损格式，音质与 FLAC 完全等价，只是封装不同（多为 .m4a）。Apple Music 无损曲库下载或 iOS 生态用户常用。Emby/Jellyfin/Plex 均支持。FLAC 与 ALAC 互转都是无损的，无需担心损失。",
-      "examples": ["Taylor Swift - 1989 (Taylor's Version) (2023) [ALAC 24bit-48kHz]"],
+      "examples": [
+        "Taylor Swift - 1989 (Taylor's Version) (2023) [ALAC 24bit-48kHz]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "无损"]
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "DSF / DSD",
-      "aliases": ["dsf", "dff", "DSD64", "DSD128", "SACD"],
+      "aliases": [
+        "dsf",
+        "dff",
+        "DSD64",
+        "DSD128",
+        "SACD"
+      ],
       "domain": "music",
       "one_line": "SACD 的 1-bit 超采样音频格式，Hi-End 发烧圈收藏格式",
       "detail": "DSD（Direct Stream Digital）是 SACD 碟片使用的 1-bit 超采样编码，常见规格 DSD64（2.8MHz）/DSD128（5.6MHz），封装为 .dsf 或 .dff。它比特流特性特殊，大部分播放软件和手机不支持或需要转 PCM。除非有专业解码器，普通用户收 FLAC/24bit 即可，DSD 是烧友领域。",
-      "examples": ["Adele - 30 (2021) [SACD ISO → DSF DSD64 2.8MHz]"],
+      "examples": [
+        "Adele - 30 (2021) [SACD ISO → DSF DSD64 2.8MHz]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "Hi-Res"]
+      "tags": [
+        "格式",
+        "Hi-Res"
+      ],
+      "group": "格式"
     },
     {
       "term": "WAV",
-      "aliases": ["wav", "PCM", "无压缩"],
+      "aliases": [
+        "wav",
+        "PCM",
+        "无压缩"
+      ],
       "domain": "music",
       "one_line": "无压缩的 PCM 音频，音质无损但体积最大、标签支持差",
       "detail": "WAV 是原始 PCM 波形文件，无压缩所以体积最大（CD 音质约 10MB/分钟）。音质与 FLAC 完全一致（都是无损），但 WAV 对标签（封面、歌名、歌手）支持很差，长期收藏管理不便。作为发布格式越来越少，多见于录音室直出文件。",
-      "examples": ["Various Artists - Test CD (1998) [WAV 整轨]"],
+      "examples": [
+        "Various Artists - Test CD (1998) [WAV 整轨]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "无损"]
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "MP3",
-      "aliases": ["mp3", "320k", "V0", "有损"],
+      "aliases": [
+        "mp3",
+        "320k",
+        "V0",
+        "有损"
+      ],
       "domain": "music",
       "one_line": "最经典的有损压缩格式，320kbps 是其音质上限",
       "detail": "MP3 是普及度最高的有损格式，320kbps（CBR）或 V0（VBR 最高档）在普通设备上与无损的盲听差异很小。日常通勤听歌完全够用，但 PT 音乐站多数板块只收无损，MP3 通常只在特定板块或演出录音（Bootleg）区出现。别拿 128k 的 MP3 当收藏，那是流量时代的老古董。",
-      "examples": ["Jay Chou - 范特西 (2001) [MP3 320K]"],
+      "examples": [
+        "Jay Chou - 范特西 (2001) [MP3 320K]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "有损"]
+      "tags": [
+        "格式",
+        "有损"
+      ],
+      "group": "格式"
     },
     {
       "term": "16bit / 24bit",
-      "aliases": ["位深", "bit depth", "24bit-96kHz", "Hi-Res 位深"],
+      "aliases": [
+        "位深",
+        "bit depth",
+        "24bit-96kHz",
+        "Hi-Res 位深"
+      ],
       "domain": "music",
       "one_line": "采样位深决定动态范围：16bit 是 CD 标准，24bit 是 Hi-Res 标准",
       "detail": "位深（bit depth）决定音量刻度的精细度：16bit 动态范围 96dB（CD 标准），24bit 达 144dB（录音室/Hi-Res 标准）。文件名里 `[FLAC 24bit-96kHz]` 表示 24bit 位深、96kHz 采样率，属于 Hi-Res 规格。注意位深越高体积越大，且只有解码器和耳机/音箱跟得上才有意义。",
-      "examples": ["Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz] MQA UHQCD"],
+      "examples": [
+        "Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz] MQA UHQCD"
+      ],
       "related_mp_settings": [],
-      "tags": ["规格", "Hi-Res"]
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ],
+      "group": "规格"
     },
     {
       "term": "Hi-Res",
-      "aliases": ["高解析", "Hi-Res Audio", "母带", "24bit-192kHz"],
+      "aliases": [
+        "高解析",
+        "Hi-Res Audio",
+        "母带",
+        "24bit-192kHz"
+      ],
       "domain": "music",
       "one_line": "超越 CD 规格（16bit/44.1kHz）的高解析音频统称",
       "detail": "Hi-Res（High Resolution Audio）泛指采样率或位深超过 CD（16bit/44.1kHz）的音频，常见 24bit/96kHz、24bit/192kHz。来源包括母带直出、SACD 转制、流媒体平台（Apple Digital Masters、Qobuz 等）。文件名中 Hi-Res、24bit-96kHz、MQA、DXD 等字样都是 Hi-Res 标记。",
-      "examples": ["Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"],
-      "related_mp_settings": [
-        {"label": "二级分类", "hint": "可在分类策略中按「Hi-Res/无损/有损」给音乐分二级目录"}
+      "examples": [
+        "Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"
       ],
-      "tags": ["规格", "Hi-Res"]
+      "related_mp_settings": [
+        {
+          "label": "二级分类",
+          "hint": "可在分类策略中按「Hi-Res/无损/有损」给音乐分二级目录"
+        }
+      ],
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ],
+      "group": "规格"
     },
     {
       "term": "分轨",
-      "aliases": ["Tracks", "分曲", "Per-Track", "TRACK"],
+      "aliases": [
+        "Tracks",
+        "分曲",
+        "Per-Track",
+        "TRACK"
+      ],
       "domain": "music",
       "one_line": "整张专辑按歌曲拆成单个文件（一歌一文件），收藏首选形态",
       "detail": "分轨指专辑里每首歌是独立的音频文件（01.xxx.flac、02.xxx.flac……），选曲、标签管理、媒体库识别都最方便。文件名里写「分轨」「[TRACKS]」「+LOG+CUE」的通常是分轨版。与整轨相对，做本地音乐库优先收分轨。",
-      "examples": ["Eason Chan - C'mon in~ (2018) [FLAC 分轨] [24bit-48kHz]"],
-      "related_mp_settings": [
-        {"label": "媒体服务器", "hint": "Emby/Plex 音乐库对分轨识别最友好，整轨需要 CUE 配合"}
+      "examples": [
+        "Eason Chan - C'mon in~ (2018) [FLAC 分轨] [24bit-48kHz]"
       ],
-      "tags": ["发行形态"]
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Plex 音乐库对分轨识别最友好，整轨需要 CUE 配合"
+        }
+      ],
+      "tags": [
+        "发行形态"
+      ],
+      "group": "发行形态"
     },
     {
       "term": "整轨",
-      "aliases": ["Image", "整轨镜像", "Single File", "IMG"],
+      "aliases": [
+        "Image",
+        "整轨镜像",
+        "Single File",
+        "IMG"
+      ],
       "domain": "music",
       "one_line": "整张专辑压成一个大文件，靠 CUE 文件定位每首歌的起止",
       "detail": "整轨（Image）把整张 CD 压成一个音频文件（一个 .flac/.ape/.wav），配合 CUE 文件记录每首歌的时间偏移。播放器读 CUE 才能按曲切分。优点是 rip 传输最保真（EAC 抓轨的原始形态），缺点是移动设备支持差、标签只能整轨一份、媒体库识别容易出问题。收到整轨可用 foobar2000/CUETools 无损转分轨。",
-      "examples": ["Beyond - 海阔天空 (1993) [APE 整轨+CUE]"],
+      "examples": [
+        "Beyond - 海阔天空 (1993) [APE 整轨+CUE]"
+      ],
       "related_mp_settings": [],
-      "tags": ["发行形态"]
+      "tags": [
+        "发行形态"
+      ],
+      "group": "发行形态"
     },
     {
       "term": "CUE",
-      "aliases": ["cue", "cue文件", "EAC Log"],
+      "aliases": [
+        "cue",
+        "cue文件",
+        "EAC Log"
+      ],
       "domain": "music",
       "one_line": "记录整轨音频中每首歌时间点的索引文件，配合整轨使用",
       "detail": "CUE 是纯文本索引文件，记录整轨镜像中每首歌的起始时间、曲名、ISRC 等。没有 CUE 的整轨只能整张连播，等于废了一半。下载整轨时确认带 CUE；文件名里 LOG/LOG+EAC 表示附带了 Exact Audio Copy 抓轨日志，可以核对抓轨质量（Confidence、AccurateRip 结果），是音乐站考核的重要项。",
-      "examples": ["Faye Wong - 唱游 (1998) [FLAC 整轨] [CUE+LOG+EAC V1.3]"],
+      "examples": [
+        "Faye Wong - 唱游 (1998) [FLAC 整轨] [CUE+LOG+EAC V1.3]"
+      ],
       "related_mp_settings": [],
-      "tags": ["发行形态", "抓轨"]
+      "tags": [
+        "发行形态",
+        "抓轨"
+      ],
+      "group": "发行形态"
     },
     {
       "term": "Album / EP / Single",
-      "aliases": ["专辑", "EP", "单曲", "Deluxe", "豪华版", "Live", "合辑"],
+      "aliases": [
+        "专辑",
+        "EP",
+        "单曲",
+        "Deluxe",
+        "豪华版",
+        "Live",
+        "合辑"
+      ],
       "domain": "music",
       "one_line": "发行类型：Album 正式专辑、EP 迷你专辑（3-6 首）、Single 单曲",
       "detail": "Album 是正式专辑（一般 8 首以上），EP 是迷你专辑（3~6 首），Single 是单曲（1~3 首）。文件名/目录名还常见 Deluxe Edition（豪华版，多 bonus track）、Live（现场录音）、Compilation（合辑）、Remaster（重制版）、Deluxe、Bonus Disc 等标记，它们描述同一音乐的不同发行版本，洗版时按此区分。",
-      "examples": ["Linkin Park - Hybrid Theory (20th Anniversary Deluxe Edition) (2020) [FLAC 分轨]"],
-      "related_mp_settings": [
-        {"label": "目录结构", "hint": "音乐库建议按「歌手/专辑」两级建目录，EP/Single 也归入对应歌手目录"}
+      "examples": [
+        "Linkin Park - Hybrid Theory (20th Anniversary Deluxe Edition) (2020) [FLAC 分轨]"
       ],
-      "tags": ["发行类型"]
+      "related_mp_settings": [
+        {
+          "label": "目录结构",
+          "hint": "音乐库建议按「歌手/专辑」两级建目录，EP/Single 也归入对应歌手目录"
+        }
+      ],
+      "tags": [
+        "发行类型"
+      ],
+      "group": "发行形态"
     },
     {
       "term": "AAC / M4A",
-      "aliases": ["aac", "m4a", "256kbps AAC"],
+      "aliases": [
+        "aac",
+        "m4a",
+        "256kbps AAC"
+      ],
       "domain": "music",
       "one_line": "苹果系有损格式，iTunes/Apple Music 下载的常见产物",
       "detail": "AAC（封装多为 .m4a）是有损格式，iTunes Store 时代的 256kbps AAC VBR 音质在听感上非常接近无损，是「有损天花板」之一。Apple Music 歌曲文件即 AAC。日常听歌足够，收藏党仍建议无损。",
-      "examples": ["Jay Chou - 叶惠美 (2003) [AAC 256kbps iTunes]"],
+      "examples": [
+        "Jay Chou - 叶惠美 (2003) [AAC 256kbps iTunes]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "有损"]
+      "tags": [
+        "格式",
+        "有损"
+      ],
+      "group": "格式"
     },
     {
       "term": "Opus",
-      "aliases": ["opus", "ogg"],
+      "aliases": [
+        "opus",
+        "ogg"
+      ],
       "domain": "music",
       "one_line": "开源高效的有损编码，同码率音质最佳，兼容性一般",
       "detail": "Opus 是 Xiph 开源的有损编码，同码率下音质最优（160k 约等于 AAC 256k），流媒体直播和在线音乐常用。本地收藏支持尚可但不如 MP3/FLAC 普及，老车机、旧播放器可能不支持。",
-      "examples": ["Various Artists - Sample Pack (2020) [OPUS 160k]"],
+      "examples": [
+        "Various Artists - Sample Pack (2020) [OPUS 160k]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "有损"]
+      "tags": [
+        "格式",
+        "有损"
+      ],
+      "group": "格式"
     },
     {
       "term": "采样率 (44.1kHz~192kHz)",
-      "aliases": ["44.1kHz", "48kHz", "96kHz", "192kHz", "sample rate"],
+      "aliases": [
+        "44.1kHz",
+        "48kHz",
+        "96kHz",
+        "192kHz",
+        "sample rate"
+      ],
       "domain": "music",
       "one_line": "每秒采样次数：CD 是 44.1kHz，96/192kHz 属于 Hi-Res",
       "detail": "采样率决定高频还原上限（奈奎斯特定理）：44.1kHz 是 CD 标准，正好覆盖人耳 20kHz 上限；88.2/96/176.4/192kHz 是 Hi-Res 规格。文件名里 `24bit-96kHz` 读作「24 位深、96 千赫兹采样率」。注意超过 48kHz 的收益存在争议，转码时随意升降采样率反而有害。",
-      "examples": ["Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"],
+      "examples": [
+        "Coldplay - Everyday Life (2019) [FLAC 24bit-96kHz Hi-Res]"
+      ],
       "related_mp_settings": [],
-      "tags": ["规格", "Hi-Res"]
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ],
+      "group": "规格"
     },
     {
       "term": "无损与有损",
-      "aliases": ["Lossless", "Lossy", "无损压缩", "有损压缩"],
+      "aliases": [
+        "Lossless",
+        "Lossy",
+        "无损压缩",
+        "有损压缩"
+      ],
       "domain": "music",
       "one_line": "无损可完整还原母带（FLAC/APE/ALAC），有损永久丢弃细节（MP3/AAC/Opus）",
       "detail": "无损编码是可逆压缩：解压出的音频与源文件逐位一致；有损编码按心理声学模型丢弃「听不太出来」的成分，压缩率高但不可逆。关键常识：有损转无损不会变回真无损（假无损），无损转有损是单向损失。PT 音乐站考核「真无损」，频谱检测就是为了抓有损转的假无损。",
       "examples": [],
       "related_mp_settings": [],
-      "tags": ["规格", "概念"]
+      "tags": [
+        "规格",
+        "概念"
+      ],
+      "group": "规格"
     },
     {
       "term": "WV / WavPack",
-      "aliases": ["wv", "WavPack 镜像", "wvc"],
+      "aliases": [
+        "wv",
+        "WavPack 镜像",
+        "wvc"
+      ],
       "domain": "music",
       "one_line": "WavPack 无损格式，整轨镜像常用 .wv 封装",
       "detail": "WavPack 是开源无损编码，压缩率和速度与 FLAC 相近，特色是可生成纠错文件（.wvc）。部分老牌音乐站整轨镜像用 .wv 发布（配 CUE），播放兼容性不如 FLAC，收到后可无损转 FLAC。",
-      "examples": ["Various Artists - Test Disc (2000) [WV 整轨+CUE]"],
+      "examples": [
+        "Various Artists - Test Disc (2000) [WV 整轨+CUE]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "无损"]
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "AIFF",
-      "aliases": ["aif", "aiff", "Audio Interchange"],
+      "aliases": [
+        "aif",
+        "aiff",
+        "Audio Interchange"
+      ],
       "domain": "music",
       "one_line": "苹果的无压缩 PCM 格式，WAV 的 Mac 亲兄弟",
       "detail": "AIFF 是苹果系的无压缩 PCM 音频，音质与 WAV 完全一致，区别是 AIFF 对标签（ID3）支持好于 WAV。母带工程师和苹果生态用户偶尔用它做存档。本地收藏建议转 FLAC（无损转无损，零损失，体积减半）。",
-      "examples": ["Norah Jones - Not Too Late (2007) [AIFF 24bit-96kHz 母带]"],
+      "examples": [
+        "Norah Jones - Not Too Late (2007) [AIFF 24bit-96kHz 母带]"
+      ],
       "related_mp_settings": [],
-      "tags": ["格式", "无损"]
+      "tags": [
+        "格式",
+        "无损"
+      ],
+      "group": "格式"
     },
     {
       "term": "Vinyl Rip 黑胶转录",
-      "aliases": ["黑胶", "Vinyl", "LP", "24bit-96kHz Vinyl"],
+      "aliases": [
+        "黑胶",
+        "Vinyl",
+        "LP",
+        "24bit-96kHz Vinyl"
+      ],
       "domain": "music",
       "one_line": "从黑胶唱片实时转录的数字文件，温暖的模拟味",
       "detail": "Vinyl Rip 是用唱针+唱放+ADC 把黑胶唱片转成数字音频，保留黑胶特有的模拟质感（也保留炒豆声）。发烧圈对好设备的好转录评价很高，常以 24bit-96kHz FLAC 发布。与数字母带是两种风味，按喜好选择。",
-      "examples": ["Pink Floyd - The Dark Side of the Moon (1973) [FLAC 24bit-96kHz Vinyl Rip]"],
+      "examples": [
+        "Pink Floyd - The Dark Side of the Moon (1973) [FLAC 24bit-96kHz Vinyl Rip]"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源", "Hi-Res"]
+      "tags": [
+        "来源",
+        "Hi-Res"
+      ],
+      "group": "来源"
     },
     {
       "term": "MQA",
-      "aliases": ["mqa", "Master Quality Authenticated"],
+      "aliases": [
+        "mqa",
+        "Master Quality Authenticated"
+      ],
       "domain": "music",
       "one_line": "可折叠传输的 Hi-Res 编码技术，Tidal 主推（已式微）",
       "detail": "MQA（Master Quality Authenticated）把高规格音频折叠进 24bit/48kHz 流传输，解码后展开还原。Tidal 曾以此为主打，但 2023 年后 Tidal 转向 FLAC Hi-Res，MQA 生态明显萎缩。文件名标 MQA 的资源需要硬/软解码器才能完全展开，普通播放只相当于 48kHz 有损——收藏优先选普通 FLAC Hi-Res。",
-      "examples": ["Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz MQA UHQCD]"],
+      "examples": [
+        "Norah Jones - Come Away With Me (2002) [FLAC 24bit-88.2kHz MQA UHQCD]"
+      ],
       "related_mp_settings": [],
-      "tags": ["规格", "Hi-Res"]
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ],
+      "group": "规格"
     },
     {
       "term": "Bonus Track",
-      "aliases": ["加值曲目", "隐藏曲目", "Japan Bonus", "BONUS"],
+      "aliases": [
+        "加值曲目",
+        "隐藏曲目",
+        "Japan Bonus",
+        "BONUS"
+      ],
       "domain": "music",
       "one_line": "特定版本附赠的额外曲目（日本版豪华版常见）",
       "detail": "Bonus Track 是特定发行版额外附赠的曲目，日本版专辑以「ボーナストラック / Japan Bonus Tracks」闻名——同一张专辑日版常多 1~2 首。洗版/合辑党会比较各版本曲目表，日版完整度通常最高，文件名里标 Japan Bonus 的版本更全。",
-      "examples": ["Coldplay - Parachutes (2000) [FLAC 分轨] [Japan Bonus Track]"],
+      "examples": [
+        "Coldplay - Parachutes (2000) [FLAC 分轨] [Japan Bonus Track]"
+      ],
       "related_mp_settings": [],
-      "tags": ["发行类型"]
+      "tags": [
+        "发行类型"
+      ],
+      "group": "发行形态"
     },
     {
       "term": "音乐标签 (ID3/Vorbis)",
-      "aliases": ["ID3", "Tag", "标签", "metadata"],
+      "aliases": [
+        "ID3",
+        "Tag",
+        "标签",
+        "metadata"
+      ],
       "domain": "music",
       "one_line": "音频文件内嵌的曲名/歌手/专辑/封面元数据，媒体库识别的命脉",
       "detail": "音乐标签（Tag）是藏在音频文件里的元数据：MP3 用 ID3v2，FLAC/OGG 用 Vorbis Comment。标签质量决定媒体服务器能否正确按歌手/专辑归档、显示封面。下载的音乐先检查标签（推荐 MusicTag、Mp3tag），整轨转换分轨时务必保留标签。MP 的音乐入库也依赖文件名与标签的规范程度。",
-      "examples": ["Jay Chou - 最伟大的作品 (2022) [FLAC 分轨]（每轨含完整 ID3+封面）"],
-      "related_mp_settings": [
-        {"label": "媒体库目录", "hint": "媒体服务器按标签而非文件名归档，标签乱了目录就乱"}
+      "examples": [
+        "Jay Chou - 最伟大的作品 (2022) [FLAC 分轨]（每轨含完整 ID3+封面）"
       ],
-      "tags": ["规格", "工具"]
+      "related_mp_settings": [
+        {
+          "label": "媒体库目录",
+          "hint": "媒体服务器按标签而非文件名归档，标签乱了目录就乱"
+        }
+      ],
+      "tags": [
+        "规格",
+        "工具"
+      ],
+      "group": "工具与概念"
     },
     {
       "term": "Transcode 频谱检测",
-      "aliases": ["频谱", "假无损", "Transcode", "Spectrogram"],
+      "aliases": [
+        "频谱",
+        "假无损",
+        "Transcode",
+        "Spectrogram"
+      ],
       "domain": "music",
       "one_line": "用频谱图识别「有损转无损」的假无损文件",
       "detail": "真无损的高频可以延伸到 22kHz（44.1kHz 采样），而有损编码（MP3/AAC）在 16~20kHz 附近有明显截止。把 WAV/FLAC 打开看频谱图：16kHz 处齐刷刷切掉的就是有损转的假无损。PT 音乐站用它判定考核，工具推荐 Spek、Lossless Audio Checker。下载整轨时「FLAC 但频谱 16k 截止」的谨慎收。",
       "examples": [],
       "related_mp_settings": [],
-      "tags": ["规格", "工具", "PT"]
+      "tags": [
+        "规格",
+        "工具",
+        "PT"
+      ],
+      "group": "工具与概念"
     },
     {
       "term": "母带 (Master)",
-      "aliases": ["母带直出", "Digital Master", "Apple Digital Masters"],
+      "aliases": [
+        "母带直出",
+        "Digital Master",
+        "Apple Digital Masters"
+      ],
       "domain": "music",
       "one_line": "录音室最终成品直出的最高规格数字音源",
       "detail": "母带（Master）是录音混音后的最终成品，一切发行版本的源头。文件名里的「母带直出」「Apple Digital Masters」「Mastered for iTunes」表示从母带直接编码，比二次转制的版本少一代损失。Hi-Res 党的最优解就是母带直出的 24bit FLAC。",
-      "examples": ["Adele - 30 (2021) [FLAC 24bit-48kHz 母带直出]"],
+      "examples": [
+        "Adele - 30 (2021) [FLAC 24bit-48kHz 母带直出]"
+      ],
       "related_mp_settings": [],
-      "tags": ["规格", "Hi-Res"]
+      "tags": [
+        "规格",
+        "Hi-Res"
+      ],
+      "group": "规格"
     },
     {
       "term": "发行平台标记",
-      "aliases": ["Qobuz", "HDtracks", "Tidal", "iTunes", "Bandcamp", "7digital"],
+      "aliases": [
+        "Qobuz",
+        "HDtracks",
+        "Tidal",
+        "iTunes",
+        "Bandcamp",
+        "7digital"
+      ],
       "domain": "music",
       "one_line": "文件名里的 Qobuz/HDtracks/Tidal 等字样标明数字音源平台",
       "detail": "数字音乐发行平台各有规格特色：Qobuz/HDtracks 主打 Hi-Res 无损下载，Tidal 以 MQA 起家，Bandcamp 是独立音乐人直售（常见 FLAC）。文件名标平台名说明来源（如 [FLAC 24bit-96kHz Qobuz]），Qobuz/HDtracks 来源的 Hi-Res 可信度高。",
-      "examples": ["Daft Punk - Random Access Memories (2013) [FLAC 24bit-88.2kHz Qobuz]"],
+      "examples": [
+        "Daft Punk - Random Access Memories (2013) [FLAC 24bit-88.2kHz Qobuz]"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源"]
+      "tags": [
+        "来源"
+      ],
+      "group": "来源"
     }
   ]
 }

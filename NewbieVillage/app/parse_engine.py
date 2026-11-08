@@ -54,7 +54,7 @@ _KIND_DIMS = {
 class ParseRule:
     """单条解析规则。"""
 
-    __slots__ = ("id", "dim", "pattern", "flags", "label", "ref", "priority", "value_group", "compiled", "kind")
+    __slots__ = ("id", "dim", "pattern", "flags", "label", "ref", "priority", "value_group", "compiled", "kind", "warn")
 
     def __init__(self, raw: Dict[str, Any]):
         self.id = str(raw.get("id") or "")
@@ -66,6 +66,7 @@ class ParseRule:
         self.priority = int(raw.get("priority") or 0)
         self.value_group = raw.get("value_group")
         self.kind = raw.get("kind")
+        self.warn = bool(raw.get("warn"))
         flag = _FLAG_MAP.get(self.flags.lower(), 0)
         self.compiled = re.compile(self.pattern, flag)
 
@@ -123,13 +124,27 @@ class ParseEngine:
         segments = self._build_segments(text, hits)
         dims = self._summarize_dims(hits)
         unrecognized = self._collect_unrecognized(segments)
+        warnings = self._collect_warnings(hits)
         return {
             "kind": detected_kind,
             "segments": segments,
             "dims": dims,
             "unrecognized": unrecognized,
             "title_hint": self._title_hint(text, hits),
+            "warnings": warnings,
         }
+
+    @staticmethod
+    def _collect_warnings(hits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """warn 规则命中汇总（枪版等新手坑），同规则多条去重。"""
+        seen = set()
+        result = []
+        for hit in sorted(hits, key=lambda h: h["start"]):
+            if not hit.get("warn") or hit["rule_id"] in seen:
+                continue
+            seen.add(hit["rule_id"])
+            result.append({"label": hit["label"], "value": hit["value"]})
+        return result
 
     # ---------- 内部实现 ----------
 
@@ -159,6 +174,7 @@ class ParseEngine:
                         "value": rule.value_of(m),
                         "rule_id": rule.id,
                         "priority": rule.priority,
+                        "warn": rule.warn,
                     }
                 )
         # 同规则同 span 去重
@@ -257,6 +273,7 @@ class ParseEngine:
                 "label": hit["label"],
                 "ref": hit["ref"],
                 "raw": hit["value"],
+                "warn": hit.get("warn", False),
             }
             bucket = dims.setdefault(hit["dim"], [])
             if not any(e["value"] == entry["value"] and e["label"] == entry["label"] for e in bucket):

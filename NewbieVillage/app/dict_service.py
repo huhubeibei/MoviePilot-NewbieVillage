@@ -53,6 +53,7 @@ class DictService:
         version = self._builtin_version()
         source = "builtin"
         terms: List[Dict[str, Any]] = []
+        extras: Dict[str, Any] = {}
 
         remote = _read_json(self.remote_dir / "dict_remote.json")
         if isinstance(remote, dict) and isinstance(remote.get("terms"), list):
@@ -60,6 +61,11 @@ class DictService:
             if isinstance(remote_version, int) and remote_version >= version:
                 terms = [t for t in remote["terms"] if self._valid_term(t)]
                 source, version = "remote", remote_version
+                # 远端携带的天梯/体积矩阵随远端生效
+                if isinstance(remote.get("ladders"), dict):
+                    extras["ladders"] = remote["ladders"]
+                if isinstance(remote.get("size_matrix"), dict):
+                    extras["size_matrix"] = remote["size_matrix"]
 
         if not terms:
             for domain in DOMAINS:
@@ -71,7 +77,15 @@ class DictService:
                         terms.append(term)
             terms.sort(key=lambda t: (DOMAINS.index(t["domain"]), t.get("term", "")))
 
-        self._cache = {"version": version, "source": source, "terms": terms}
+        if "ladders" not in extras:
+            builtin_ladders = _read_json(self.builtin_dir / "ladders.json")
+            if isinstance(builtin_ladders, dict):
+                if isinstance(builtin_ladders.get("ladders"), dict):
+                    extras["ladders"] = builtin_ladders["ladders"]
+                if isinstance(builtin_ladders.get("size_matrix"), dict):
+                    extras["size_matrix"] = builtin_ladders["size_matrix"]
+
+        self._cache = {"version": version, "source": source, "terms": terms, **extras}
         return self._cache
 
     def invalidate(self) -> None:
@@ -106,6 +120,8 @@ class DictService:
             "source": data["source"],
             "count": len(result),
             "terms": result,
+            "ladders": data.get("ladders") or {},
+            "size_matrix": data.get("size_matrix") or {},
         }
 
     def daily_term(self) -> Dict[str, Any]:

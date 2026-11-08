@@ -44,7 +44,7 @@ class NewbieVillage(_PluginBase):
     plugin_name = "影音新手村"
     plugin_desc = "影视/音乐新手词典、命名解析与联动预告，新手村通关手册。"
     plugin_icon = "icon.png"
-    plugin_version = "1.0.1"
+    plugin_version = "1.1.0"
     plugin_author = "jinyu"
     plugin_order = 60
 

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "note": "画质/规格天梯与体积参考矩阵。ref 指向词典 term（无对应词条时 ref 为 null，前端只展示说明）。",
+  "ladders": {
+    "video_resolution": {
+      "title": "分辨率天梯（清晰度从低到高）",
+      "note": "分辨率决定画面像素量，是清晰度的第一决定因素。同一分辨率下画质还受来源与码率影响。",
+      "items": [
+        {"label": "480p / 576p", "desc": "标清。DVD 时代的分辨率，现在只在冷门老片上能遇到。", "ref": null},
+        {"label": "720p", "desc": "高清入门。老剧集和抢发资源常见，新收藏不建议。", "ref": "720p"},
+        {"label": "1080p", "desc": "全高清，资源量最大、兼容性最好的主力规格。", "ref": "1080p"},
+        {"label": "2160p（4K）", "desc": "超高清，配合 HDR 是当前画质天花板。", "ref": "2160p"}
+      ]
+    },
+    "video_source": {
+      "title": "来源天梯（同分辨率下从差到好）",
+      "note": "来源决定画质上限：同一部 1080p，枪版和 REMUX 是天壤之别。越靠右越接近片源原始质量。",
+      "items": [
+        {"label": "枪版（CAM/TS/TC）", "desc": "影院偷录，画质音质灾难，除非全网唯一否则别碰。", "ref": null},
+        {"label": "HDTV", "desc": "电视信号直录，播出最快但带台标、码率受限。", "ref": "HDTV"},
+        {"label": "WEB-DL", "desc": "流媒体平台直取，追剧主力，画质稳定无台标。", "ref": "WEB-DL"},
+        {"label": "WEBRip", "desc": "流媒体转码录制，弱于 WEB-DL，优先选 WEB-DL。", "ref": "WEBRip"},
+        {"label": "BluRay 转码", "desc": "蓝光原盘有损压缩（x264/x265），体积与画质平衡。", "ref": "BluRay"},
+        {"label": "REMUX", "desc": "蓝光无损抽取，音画质与原盘一致，收藏党主流。", "ref": "REMUX"},
+        {"label": "BDMV 原盘", "desc": "完整蓝光目录结构，菜单花絮全保留，最终收藏形态。", "ref": "BDMV"}
+      ]
+    },
+    "music_quality": {
+      "title": "音乐规格天梯（音质从低到高）",
+      "note": "有损看码率，无损看位深与采样率。跨档对比：FLAC 16bit 已超过 MP3 320k 的全部信息量。",
+      "items": [
+        {"label": "MP3 128k", "desc": "早年网络音乐标配，现在只配当预览。", "ref": "MP3"},
+        {"label": "MP3 320k", "desc": "有损天花板之一，通勤听感与无损差异很小。", "ref": "MP3"},
+        {"label": "AAC 256k", "desc": "苹果系有损天花板，Apple Music 的规格。", "ref": "AAC / M4A"},
+        {"label": "FLAC 16bit/44.1k", "desc": "CD 音质无损，本地收藏的及格线。", "ref": "16bit / 24bit"},
+        {"label": "FLAC 24bit/96k", "desc": "Hi-Res 规格，录音室级动态与高频。", "ref": "Hi-Res"},
+        {"label": "DSD (SACD)", "desc": "1-bit 超采样发烧格式，需要专业解码器。", "ref": "DSF / DSD"}
+      ]
+    }
+  },
+  "size_matrix": {
+    "note": "单部电影典型体积估算（GB），实际随片长/码率浮动。null 表示该组合罕见。",
+    "unit": "GB",
+    "columns": ["枪版", "HDTV", "WEB-DL", "BluRay 转码", "REMUX", "BDMV 原盘"],
+    "rows": {
+      "480p":  [0.3, null, null, 1, null, null],
+      "720p":  [0.5, 2, 3, 4, null, null],
+      "1080p": [1, 6, 8, 12, 30, 40],
+      "2160p": [null, null, 18, 25, 60, 70]
+    }
+  }
+}

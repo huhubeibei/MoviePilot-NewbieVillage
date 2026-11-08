@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updated_at": "2026-11-08",
   "terms": [
     {
@@ -24,7 +24,8 @@
       "tags": [
         "来源",
         "画质"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "WEBRip",
@@ -40,7 +41,8 @@
       "related_mp_settings": [],
       "tags": [
         "来源"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "HDTV",
@@ -56,7 +58,8 @@
       "related_mp_settings": [],
       "tags": [
         "来源"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "BluRay",
@@ -75,7 +78,8 @@
       "tags": [
         "来源",
         "画质"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "BDMV",
@@ -99,7 +103,8 @@
       "tags": [
         "来源",
         "收藏"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "REMUX",
@@ -117,7 +122,8 @@
       "tags": [
         "来源",
         "收藏"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "2160p",
@@ -140,7 +146,8 @@
       ],
       "tags": [
         "分辨率"
-      ]
+      ],
+      "group": "分辨率"
     },
     {
       "term": "1080p",
@@ -157,7 +164,8 @@
       "related_mp_settings": [],
       "tags": [
         "分辨率"
-      ]
+      ],
+      "group": "分辨率"
     },
     {
       "term": "H.265 / HEVC",
@@ -175,7 +183,8 @@
       "related_mp_settings": [],
       "tags": [
         "视频编码"
-      ]
+      ],
+      "group": "视频编码"
     },
     {
       "term": "H.264 / AVC",
@@ -193,7 +202,8 @@
       "related_mp_settings": [],
       "tags": [
         "视频编码"
-      ]
+      ],
+      "group": "视频编码"
     },
     {
       "term": "杜比视界 Dolby Vision",
@@ -218,7 +228,8 @@
       "tags": [
         "HDR",
         "画质"
-      ]
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "HDR10+",
@@ -236,7 +247,8 @@
       "tags": [
         "HDR",
         "画质"
-      ]
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "HDR",
@@ -254,7 +266,8 @@
       "tags": [
         "HDR",
         "画质"
-      ]
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "DDP / DD+",
@@ -272,7 +285,8 @@
       "related_mp_settings": [],
       "tags": [
         "音轨"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "杜比全景声 Atmos",
@@ -291,7 +305,8 @@
       "related_mp_settings": [],
       "tags": [
         "音轨"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "S01E01 季集标记",
@@ -315,7 +330,8 @@
       "tags": [
         "季集",
         "识别"
-      ]
+      ],
+      "group": "季集与识别"
     },
     {
       "term": "PROPER / REPACK",
@@ -334,7 +350,8 @@
       "related_mp_settings": [],
       "tags": [
         "版本"
-      ]
+      ],
+      "group": "版本"
     },
     {
       "term": "DVDRip",
@@ -351,7 +368,8 @@
       "related_mp_settings": [],
       "tags": [
         "来源"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "720p",
@@ -367,7 +385,8 @@
       "related_mp_settings": [],
       "tags": [
         "分辨率"
-      ]
+      ],
+      "group": "分辨率"
     },
     {
       "term": "10bit",
@@ -384,7 +403,8 @@
       "related_mp_settings": [],
       "tags": [
         "画质"
-      ]
+      ],
+      "group": "视频编码"
     },
     {
       "term": "SDR",
@@ -401,7 +421,8 @@
       "tags": [
         "HDR",
         "画质"
-      ]
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "TrueHD",
@@ -419,7 +440,8 @@
       "tags": [
         "音轨",
         "收藏"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "DTS-HD MA",
@@ -439,7 +461,8 @@
       "tags": [
         "音轨",
         "收藏"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "AAC 音轨",
@@ -456,7 +479,8 @@
       "related_mp_settings": [],
       "tags": [
         "音轨"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "简繁双语字幕 (CHS/CHT)",
@@ -482,7 +506,8 @@
       ],
       "tags": [
         "字幕"
-      ]
+      ],
+      "group": "字幕"
     },
     {
       "term": "IMAX Enhanced",
@@ -499,7 +524,8 @@
       "tags": [
         "版本",
         "画质"
-      ]
+      ],
+      "group": "版本"
     },
     {
       "term": "Hybrid",
@@ -516,7 +542,8 @@
       "related_mp_settings": [],
       "tags": [
         "版本"
-      ]
+      ],
+      "group": "版本"
     },
     {
       "term": "Remastered",
@@ -534,7 +561,8 @@
       "tags": [
         "版本",
         "收藏"
-      ]
+      ],
+      "group": "版本"
     },
     {
       "term": "DD / AC3",
@@ -552,7 +580,8 @@
       "related_mp_settings": [],
       "tags": [
         "音轨"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "全季包 Season Pack",
@@ -576,7 +605,8 @@
       "tags": [
         "季集",
         "PT"
-      ]
+      ],
+      "group": "季集与识别"
     },
     {
       "term": "内封字幕与外挂字幕",
@@ -603,7 +633,8 @@
       ],
       "tags": [
         "字幕"
-      ]
+      ],
+      "group": "字幕"
     },
     {
       "term": "双音轨",
@@ -626,7 +657,8 @@
       ],
       "tags": [
         "音轨"
-      ]
+      ],
+      "group": "音轨"
     },
     {
       "term": "TS / M2TS 封装",
@@ -645,7 +677,8 @@
       "tags": [
         "封装",
         "识别"
-      ]
+      ],
+      "group": "封装与识别"
     },
     {
       "term": "AV1",
@@ -661,7 +694,8 @@
       "related_mp_settings": [],
       "tags": [
         "视频编码"
-      ]
+      ],
+      "group": "视频编码"
     },
     {
       "term": "FLAC",
@@ -685,7 +719,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "APE",
@@ -703,7 +738,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "ALAC",
@@ -722,7 +758,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "DSF / DSD",
@@ -743,7 +780,8 @@
       "tags": [
         "格式",
         "Hi-Res"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "WAV",
@@ -762,7 +800,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "MP3",
@@ -782,7 +821,8 @@
       "tags": [
         "格式",
         "有损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "16bit / 24bit",
@@ -802,7 +842,8 @@
       "tags": [
         "规格",
         "Hi-Res"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "Hi-Res",
@@ -827,7 +868,8 @@
       "tags": [
         "规格",
         "Hi-Res"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "分轨",
@@ -851,7 +893,8 @@
       ],
       "tags": [
         "发行形态"
-      ]
+      ],
+      "group": "发行形态"
     },
     {
       "term": "整轨",
@@ -870,7 +913,8 @@
       "related_mp_settings": [],
       "tags": [
         "发行形态"
-      ]
+      ],
+      "group": "发行形态"
     },
     {
       "term": "CUE",
@@ -889,7 +933,8 @@
       "tags": [
         "发行形态",
         "抓轨"
-      ]
+      ],
+      "group": "发行形态"
     },
     {
       "term": "Album / EP / Single",
@@ -916,7 +961,8 @@
       ],
       "tags": [
         "发行类型"
-      ]
+      ],
+      "group": "发行形态"
     },
     {
       "term": "AAC / M4A",
@@ -935,7 +981,8 @@
       "tags": [
         "格式",
         "有损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "Opus",
@@ -953,7 +1000,8 @@
       "tags": [
         "格式",
         "有损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "采样率 (44.1kHz~192kHz)",
@@ -974,7 +1022,8 @@
       "tags": [
         "规格",
         "Hi-Res"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "无损与有损",
@@ -992,7 +1041,8 @@
       "tags": [
         "规格",
         "概念"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "WV / WavPack",
@@ -1011,7 +1061,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "AIFF",
@@ -1030,7 +1081,8 @@
       "tags": [
         "格式",
         "无损"
-      ]
+      ],
+      "group": "格式"
     },
     {
       "term": "Vinyl Rip 黑胶转录",
@@ -1050,7 +1102,8 @@
       "tags": [
         "来源",
         "Hi-Res"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "MQA",
@@ -1068,7 +1121,8 @@
       "tags": [
         "规格",
         "Hi-Res"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "Bonus Track",
@@ -1087,7 +1141,8 @@
       "related_mp_settings": [],
       "tags": [
         "发行类型"
-      ]
+      ],
+      "group": "发行形态"
     },
     {
       "term": "音乐标签 (ID3/Vorbis)",
@@ -1112,7 +1167,8 @@
       "tags": [
         "规格",
         "工具"
-      ]
+      ],
+      "group": "工具与概念"
     },
     {
       "term": "Transcode 频谱检测",
@@ -1131,7 +1187,8 @@
         "规格",
         "工具",
         "PT"
-      ]
+      ],
+      "group": "工具与概念"
     },
     {
       "term": "母带 (Master)",
@@ -1150,7 +1207,8 @@
       "tags": [
         "规格",
         "Hi-Res"
-      ]
+      ],
+      "group": "规格"
     },
     {
       "term": "发行平台标记",
@@ -1171,7 +1229,8 @@
       "related_mp_settings": [],
       "tags": [
         "来源"
-      ]
+      ],
+      "group": "来源"
     },
     {
       "term": "PT",
@@ -1948,5 +2007,156 @@
         "核心概念"
       ]
     }
-  ]
+  ],
+  "ladders": {
+    "video_resolution": {
+      "title": "分辨率天梯（清晰度从低到高）",
+      "note": "分辨率决定画面像素量，是清晰度的第一决定因素。同一分辨率下画质还受来源与码率影响。",
+      "items": [
+        {
+          "label": "480p / 576p",
+          "desc": "标清。DVD 时代的分辨率，现在只在冷门老片上能遇到。",
+          "ref": null
+        },
+        {
+          "label": "720p",
+          "desc": "高清入门。老剧集和抢发资源常见，新收藏不建议。",
+          "ref": "720p"
+        },
+        {
+          "label": "1080p",
+          "desc": "全高清，资源量最大、兼容性最好的主力规格。",
+          "ref": "1080p"
+        },
+        {
+          "label": "2160p（4K）",
+          "desc": "超高清，配合 HDR 是当前画质天花板。",
+          "ref": "2160p"
+        }
+      ]
+    },
+    "video_source": {
+      "title": "来源天梯（同分辨率下从差到好）",
+      "note": "来源决定画质上限：同一部 1080p，枪版和 REMUX 是天壤之别。越靠右越接近片源原始质量。",
+      "items": [
+        {
+          "label": "枪版（CAM/TS/TC）",
+          "desc": "影院偷录，画质音质灾难，除非全网唯一否则别碰。",
+          "ref": null
+        },
+        {
+          "label": "HDTV",
+          "desc": "电视信号直录，播出最快但带台标、码率受限。",
+          "ref": "HDTV"
+        },
+        {
+          "label": "WEB-DL",
+          "desc": "流媒体平台直取，追剧主力，画质稳定无台标。",
+          "ref": "WEB-DL"
+        },
+        {
+          "label": "WEBRip",
+          "desc": "流媒体转码录制，弱于 WEB-DL，优先选 WEB-DL。",
+          "ref": "WEBRip"
+        },
+        {
+          "label": "BluRay 转码",
+          "desc": "蓝光原盘有损压缩（x264/x265），体积与画质平衡。",
+          "ref": "BluRay"
+        },
+        {
+          "label": "REMUX",
+          "desc": "蓝光无损抽取，音画质与原盘一致，收藏党主流。",
+          "ref": "REMUX"
+        },
+        {
+          "label": "BDMV 原盘",
+          "desc": "完整蓝光目录结构，菜单花絮全保留，最终收藏形态。",
+          "ref": "BDMV"
+        }
+      ]
+    },
+    "music_quality": {
+      "title": "音乐规格天梯（音质从低到高）",
+      "note": "有损看码率，无损看位深与采样率。跨档对比：FLAC 16bit 已超过 MP3 320k 的全部信息量。",
+      "items": [
+        {
+          "label": "MP3 128k",
+          "desc": "早年网络音乐标配，现在只配当预览。",
+          "ref": "MP3"
+        },
+        {
+          "label": "MP3 320k",
+          "desc": "有损天花板之一，通勤听感与无损差异很小。",
+          "ref": "MP3"
+        },
+        {
+          "label": "AAC 256k",
+          "desc": "苹果系有损天花板，Apple Music 的规格。",
+          "ref": "AAC / M4A"
+        },
+        {
+          "label": "FLAC 16bit/44.1k",
+          "desc": "CD 音质无损，本地收藏的及格线。",
+          "ref": "16bit / 24bit"
+        },
+        {
+          "label": "FLAC 24bit/96k",
+          "desc": "Hi-Res 规格，录音室级动态与高频。",
+          "ref": "Hi-Res"
+        },
+        {
+          "label": "DSD (SACD)",
+          "desc": "1-bit 超采样发烧格式，需要专业解码器。",
+          "ref": "DSF / DSD"
+        }
+      ]
+    }
+  },
+  "size_matrix": {
+    "note": "单部电影典型体积估算（GB），实际随片长/码率浮动。null 表示该组合罕见。",
+    "unit": "GB",
+    "columns": [
+      "枪版",
+      "HDTV",
+      "WEB-DL",
+      "BluRay 转码",
+      "REMUX",
+      "BDMV 原盘"
+    ],
+    "rows": {
+      "480p": [
+        0.3,
+        null,
+        null,
+        1,
+        null,
+        null
+      ],
+      "720p": [
+        0.5,
+        2,
+        3,
+        4,
+        null,
+        null
+      ],
+      "1080p": [
+        1,
+        6,
+        8,
+        12,
+        30,
+        40
+      ],
+      "2160p": [
+        null,
+        null,
+        18,
+        25,
+        60,
+        70
+      ]
+    }
+  }
 }

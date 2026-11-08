@@ -41,6 +41,13 @@ for case in cases:
         elif want_ref not in got_refs:
             problems.append(f"dim[{dim}] ref 应为 {want_ref}（实际 {got_refs}）")
 
+    if "expect_warnings" in case:
+        got_warn_count = len(result.get("warnings") or [])
+        if got_warn_count != case["expect_warnings"]:
+            problems.append(
+                f"warnings 数量 {got_warn_count} 期望 {case['expect_warnings']}（实际 {result.get('warnings')}）"
+            )
+
     if problems:
         failed.append((case["name"], problems))
     else:

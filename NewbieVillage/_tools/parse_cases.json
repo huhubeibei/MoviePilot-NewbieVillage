@@ -79,6 +79,10 @@
      "expect_dims": {"year": ["2022"], "resolution": ["1080p"], "source": ["BluRay"], "vcodec": ["x265", "10bit"], "audio": ["FLAC", "2.0"]}},
     {"name": "纯标题不崩", "input": "Just.A.Movie.Name", "expect_kind": "video", "expect_dims": {}},
     {"name": "空输入", "input": "", "expect_kind": "video", "expect_dims": {}},
+    {"name": "枪版警告", "input": "Gladiator.2.2024.TS.MP3.H.264-CAM", "expect_kind": "video",
+     "expect_dims": {"source": ["枪版"]}, "expect_warnings": 2},
+    {"name": "ts容器不误报", "input": "Some.Movie.2023.1080p.BluRay.x264.ts", "expect_kind": "video",
+     "expect_dims": {"source": ["BluRay"], "vcodec": ["x264"]}, "expect_warnings": 0},
     {"name": "4k标记", "input": "Gladiator.2000.4K.UHD.BluRay.2160p.HEVC.Atmos.TrueHD7.1-FraMeSToR", "expect_kind": "video",
      "expect_dims": {"resolution": ["4K", "UHD", "2160p"], "source": ["BluRay"], "vcodec": ["HEVC"], "audio": ["Atmos", "TrueHD"]},
      "expect_ref": {"resolution": "2160p"}}

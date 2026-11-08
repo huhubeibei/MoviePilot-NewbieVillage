@@ -3,361 +3,698 @@
   "terms": [
     {
       "term": "WEB-DL",
-      "aliases": ["WEBDL", "网络源", "流媒体源"],
+      "aliases": [
+        "WEBDL",
+        "网络源",
+        "流媒体源"
+      ],
       "domain": "video",
       "one_line": "从 Netflix、Disney+ 等流媒体平台直接抓取的无损转封装版本",
       "detail": "WEB-DL 是从流媒体服务端下载的原始码流直接封装（无损、无二次转码），画质和音质与平台播出时一致，通常带平台自制的杜比视界/HDR 和 DD+ 音轨。与 REMUX（蓝光原盘抽取）相比码率略低，但体积小得多，是日常追剧的主流选择。文件名里出现的 Netflix、AMZN（Amazon）、HMAX（HBO Max）、DSNP（Disney+）等是来源平台标记。",
-      "examples": ["The.Bear.S02E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"],
-      "related_mp_settings": [
-        {"label": "过滤规则组", "hint": "设置 → 过滤规则组 中可按来源（WEB-DL/BluRay 等）筛选种子"}
+      "examples": [
+        "The.Bear.S02E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"
       ],
-      "tags": ["来源", "画质"]
+      "related_mp_settings": [
+        {
+          "label": "过滤规则组",
+          "hint": "设置 → 过滤规则组 中可按来源（WEB-DL/BluRay 等）筛选种子"
+        }
+      ],
+      "tags": [
+        "来源",
+        "画质"
+      ],
+      "group": "来源"
     },
     {
       "term": "WEBRip",
-      "aliases": ["网络录制源"],
+      "aliases": [
+        "网络录制源"
+      ],
       "domain": "video",
       "one_line": "对流媒体播放画面重新录制/转码的版本，质量低于 WEB-DL",
       "detail": "WEBRip 通常是在没有直连源的情况下，通过录屏或抓取播放流再转码得到，经历过有损转码，画质、音质都次于 WEB-DL。发布组有时会把两者混标，一般规律：文件名同时有 WEB-DL 就是抓取源，标 WEBRip 的码率往往明显更低。追新剧时优先选 WEB-DL。",
-      "examples": ["Arrival.2016.1080p.WEBRip.x264-RARBG"],
+      "examples": [
+        "Arrival.2016.1080p.WEBRip.x264-RARBG"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源"]
+      "tags": [
+        "来源"
+      ],
+      "group": "来源"
     },
     {
       "term": "HDTV",
-      "aliases": ["高清电视录制"],
+      "aliases": [
+        "高清电视录制"
+      ],
       "domain": "video",
       "one_line": "从电视广播信号直接录制的版本，可能带台标和广告",
       "detail": "HDTV 是用采集卡录制有线/卫星/地面波电视信号得到的版本，优点是播出后能最快拿到，缺点是画质受广播码率限制，且可能残留台标、跑马灯甚至广告。美剧首播抢发常见，正式收藏一般会被 WEB-DL 或 BluRay 替换（即「洗版」）。",
-      "examples": ["House.of.the.Dragon.S02E01.1080p.HDTV.H264-DARKFLiX"],
+      "examples": [
+        "House.of.the.Dragon.S02E01.1080p.HDTV.H264-DARKFLiX"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源"]
+      "tags": [
+        "来源"
+      ],
+      "group": "来源"
     },
     {
       "term": "BluRay",
-      "aliases": ["蓝光", "BDRip", "原盘转码"],
+      "aliases": [
+        "蓝光",
+        "BDRip",
+        "原盘转码"
+      ],
       "domain": "video",
       "one_line": "以蓝光碟为来源的版本，文件名直接标 BluRay 的多为对原盘的有损转码",
       "detail": "BluRay 表示来源是蓝光光碟。严格来说文件名里的 BluRay 涵盖了从原盘转码（x264/x265 encode）到无损抽取（REMUX）的多种形态，具体看编码标记：标 x264/x265 的是转码版（体积小、有画质损失），标 REMUX 的是无损抽取（体积巨大）。同一部电影 1080p BluRay x264 一般 8~15GB，REMUX 则 25~45GB。",
-      "examples": ["Oppenheimer.2023.1080p.BluRay.x264-FGT"],
+      "examples": [
+        "Oppenheimer.2023.1080p.BluRay.x264-FGT"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源", "画质"]
+      "tags": [
+        "来源",
+        "画质"
+      ],
+      "group": "来源"
     },
     {
       "term": "BDMV",
-      "aliases": ["蓝光原盘", "Full BD", "UHD 原盘"],
+      "aliases": [
+        "蓝光原盘",
+        "Full BD",
+        "UHD 原盘"
+      ],
       "one_line": "蓝光光碟的原始目录结构（BDMV/STREAM 目录），未做任何处理",
       "domain": "video",
       "detail": "BDMV 是蓝光碟的原始文件结构（包含 index.bdmv、PLAYLIST、STREAM 等目录），也就是常说的「原盘」，电影正片 + 菜单 + 花絮全部保留，一部 UHD 原盘 50~90GB。媒体服务器（Emby/Jellyfin/Plex）识别原盘需要指向 BDMV/index.bdmv 或相关目录结构。收藏党最终形态，但下载和存储成本都很高。",
-      "examples": ["Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"],
-      "related_mp_settings": [
-        {"label": "目录映射", "hint": "原盘建议单独设目录，避免与普通剧集混放"}
+      "examples": [
+        "Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"
       ],
-      "tags": ["来源", "收藏"]
+      "related_mp_settings": [
+        {
+          "label": "目录映射",
+          "hint": "原盘建议单独设目录，避免与普通剧集混放"
+        }
+      ],
+      "tags": [
+        "来源",
+        "收藏"
+      ],
+      "group": "来源"
     },
     {
       "term": "REMUX",
-      "aliases": ["无损抽取", "原盘直取"],
+      "aliases": [
+        "无损抽取",
+        "原盘直取"
+      ],
       "domain": "video",
       "one_line": "从蓝光原盘中无损抽出正片封装成 mkv，音画质与原盘完全一致",
       "detail": "REMUX 把原盘正片的视频、音频、字幕流原样（无损）重新封装进 mkv，去掉了菜单和花絮，体积仍然很大（1080p 约 20~40GB，4K 约 40~80GB）。与原盘的唯一区别是没有菜单，与转码版的区别是没有画质损失。硬盘党收藏 4K 的主流选择。",
-      "examples": ["Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"],
+      "examples": [
+        "Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源", "收藏"]
+      "tags": [
+        "来源",
+        "收藏"
+      ],
+      "group": "来源"
     },
     {
       "term": "2160p",
-      "aliases": ["4K", "UHD", "超高清"],
+      "aliases": [
+        "4K",
+        "UHD",
+        "超高清"
+      ],
       "domain": "video",
       "one_line": "垂直分辨率 2160 行的 4K 超高清视频，横向约 3840 像素",
       "detail": "2160p 即常说的 4K/UHD，分辨率 3840×2160，是 1080p 的四倍像素量。4K 片源通常伴随 HDR、杜比视界、高码率音轨，文件体积也成倍增长（WEB-DL 约 10~25GB，REMUX 40GB+）。播放端需要 4K 屏幕和支持 HDR 的电视才能真正受益。",
-      "examples": ["Dune.2021.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"],
-      "related_mp_settings": [
-        {"label": "二级分类", "hint": "很多人按分辨率建 4K/1080P 二级分类，见 分类策略"}
+      "examples": [
+        "Dune.2021.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"
       ],
-      "tags": ["分辨率"]
+      "related_mp_settings": [
+        {
+          "label": "二级分类",
+          "hint": "很多人按分辨率建 4K/1080P 二级分类，见 分类策略"
+        }
+      ],
+      "tags": [
+        "分辨率"
+      ],
+      "group": "分辨率"
     },
     {
       "term": "1080p",
-      "aliases": ["全高清", "FHD"],
+      "aliases": [
+        "全高清",
+        "FHD"
+      ],
       "domain": "video",
       "one_line": "1920×1080 全高清分辨率，当前资源量最大、兼容性最好的规格",
       "detail": "1080p 是目前 PT 站资源量最大、播放设备兼容性最好的分辨率规格，体积（4~15GB）与画质平衡最佳。除非你有 4K 观影环境和足够存储，1080p 的 BluRay 或 WEB-DL 是大多数人的主力收藏规格。",
-      "examples": ["Inception.2010.1080p.BluRay.x264.DTS-WiKi"],
+      "examples": [
+        "Inception.2010.1080p.BluRay.x264.DTS-WiKi"
+      ],
       "related_mp_settings": [],
-      "tags": ["分辨率"]
+      "tags": [
+        "分辨率"
+      ],
+      "group": "分辨率"
     },
     {
       "term": "H.265 / HEVC",
-      "aliases": ["HEVC", "h265", "x265"],
+      "aliases": [
+        "HEVC",
+        "h265",
+        "x265"
+      ],
       "domain": "video",
       "one_line": "新一代视频编码，同画质体积比 H.264 小约一半，4K 时代的主流编码",
       "detail": "HEVC（H.265）是 H.264 的继任者，压缩效率提升约 50%，4K 内容几乎全部使用该编码。文件名里的 x265 是开源实现（标 x265 多为民间转码组），标 HEVC 的可能来自官方源转封装。注意：老设备（2015 年前的电视盒子）可能硬解不了 HEVC 10bit，播放卡顿先想到编码兼容性。",
-      "examples": ["Shogun.2024.S01E01.2160p.WEB-DL.DDP5.1.H.265-NOSIVAD"],
+      "examples": [
+        "Shogun.2024.S01E01.2160p.WEB-DL.DDP5.1.H.265-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["视频编码"]
+      "tags": [
+        "视频编码"
+      ],
+      "group": "视频编码"
     },
     {
       "term": "H.264 / AVC",
-      "aliases": ["AVC", "h264", "x264"],
+      "aliases": [
+        "AVC",
+        "h264",
+        "x264"
+      ],
       "domain": "video",
       "one_line": "最通用的视频编码标准，所有设备都能硬解，1080p 时代的王者",
       "detail": "H.264（AVC）是普及度最高的视频编码，任何设备都能流畅硬解，兼容性无敌。x264 是其开源编码器，文件名标 x264 的基本是转码组作品。虽然 H.265 体积更小，但 1080p 资源仍有大量 H.264 编码，旧设备用户优先选它。",
-      "examples": ["The.Shawshank.Redemption.1994.1080p.BluRay.x264-WiKi"],
+      "examples": [
+        "The.Shawshank.Redemption.1994.1080p.BluRay.x264-WiKi"
+      ],
       "related_mp_settings": [],
-      "tags": ["视频编码"]
+      "tags": [
+        "视频编码"
+      ],
+      "group": "视频编码"
     },
     {
       "term": "杜比视界 Dolby Vision",
-      "aliases": ["DV", "DoVi", "DolbyVision", "杜比视界"],
+      "aliases": [
+        "DV",
+        "DoVi",
+        "DolbyVision",
+        "杜比视界"
+      ],
       "domain": "video",
       "one_line": "杜比的动态 HDR 标准，逐帧调整亮度和色彩，效果优于 HDR10",
       "detail": "杜比视界（Dolby Vision，文件名常缩写 DV/DoVi）是动态元数据 HDR，能逐帧优化亮度色彩，观感上限比静态的 HDR10 更高，但需要设备支持杜比认证。注意兼容性坑：双层的 DV（BL+EL/RPU）在部分播放器上会偏紫或偏绿；Emby/Jellyfin 直接播放 DV mkv 时，不支持的服务端会尝试转码。文件名里 DV+HDR10 组合（DV HDR10 / DV HDR）表示双格式兼容。",
-      "examples": ["The.Boy.and.the.Heron.2023.2160p.WEB-DL.DV.HDR.H.265.Atmos.DDP5.1-NetAllM"],
-      "related_mp_settings": [
-        {"label": "媒体服务器", "hint": "Emby/Jellyfin 对 DV mkv 的直出能力因版本而异，出现偏色先查此项"}
+      "examples": [
+        "The.Boy.and.the.Heron.2023.2160p.WEB-DL.DV.HDR.H.265.Atmos.DDP5.1-NetAllM"
       ],
-      "tags": ["HDR", "画质"]
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 对 DV mkv 的直出能力因版本而异，出现偏色先查此项"
+        }
+      ],
+      "tags": [
+        "HDR",
+        "画质"
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "HDR10+",
-      "aliases": ["HDR10P", "动态HDR"],
+      "aliases": [
+        "HDR10P",
+        "动态HDR"
+      ],
       "domain": "video",
       "one_line": "三星主导的动态 HDR 标准，是杜比视界的开放替代品",
       "detail": "HDR10+ 同样是动态元数据 HDR（逐帧调亮度），由三星主导、免认证费，多见于 Amazon 原创内容（AMZN 源）。与杜比视界互不兼容：设备支持哪个就看哪个，都支持时看片源的封装。文件名标 HDR10+ 或 HDR10Plus。",
-      "examples": ["The.Rings.of.Power.S02E01.2160p.AMZN.WEB-DL.HDR10+.H.265-NOSIVAD"],
+      "examples": [
+        "The.Rings.of.Power.S02E01.2160p.AMZN.WEB-DL.HDR10+.H.265-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["HDR", "画质"]
+      "tags": [
+        "HDR",
+        "画质"
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "HDR",
-      "aliases": ["HDR10", "高动态范围"],
+      "aliases": [
+        "HDR10",
+        "高动态范围"
+      ],
       "domain": "video",
       "one_line": "高动态范围成像的基础标准（HDR10），静态元数据，大幅提升亮暗层次",
       "detail": "HDR10 是最基础的 HDR 标准（静态元数据，整部片子一个亮度曲线），文件名里单独的 HDR 一般就指 HDR10。它和 SDR（标准动态范围）的区别是亮部和暗部细节大幅提升，观感差异非常明显。设备不支持 HDR 时播放 HDR 片源会显得灰暗，需要播放器做 tone mapping（色调映射）。",
-      "examples": ["Interstellar.2014.2160p.WEB-DL.HDR.HEVC.DTS-HD.MA5.1-MUse"],
+      "examples": [
+        "Interstellar.2014.2160p.WEB-DL.HDR.HEVC.DTS-HD.MA5.1-MUse"
+      ],
       "related_mp_settings": [],
-      "tags": ["HDR", "画质"]
+      "tags": [
+        "HDR",
+        "画质"
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "DDP / DD+",
-      "aliases": ["DolbyDigitalPlus", "E-AC3", "DDP5.1"],
+      "aliases": [
+        "DolbyDigitalPlus",
+        "E-AC3",
+        "DDP5.1"
+      ],
       "domain": "video",
       "one_line": "杜比数字+ 音频编码，流媒体平台的标准音轨格式",
       "detail": "DDP（Dolby Digital Plus，也叫 DD+/E-AC3）是流媒体平台（Netflix/Disney+ 等）标配的有损音频编码，WEB-DL 源里最常见，DDP5.1 表示 5.1 声道。音质介于 DD（AC3）和 TrueHD 之间：比原盘的 TrueHD/DTS-HD 差，但比同码率 AC3 好。追剧场景下 DDP5.1 完全够用。",
-      "examples": ["Fallout.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"],
+      "examples": [
+        "Fallout.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨"]
+      "tags": [
+        "音轨"
+      ],
+      "group": "音轨"
     },
     {
       "term": "杜比全景声 Atmos",
-      "aliases": ["Atmos", "全景声", "DDP5.1.Atmos", "TrueHD.Atmos"],
+      "aliases": [
+        "Atmos",
+        "全景声",
+        "DDP5.1.Atmos",
+        "TrueHD.Atmos"
+      ],
       "domain": "video",
       "one_line": "杜比的沉浸式三维声场技术，在 5.1/7.1 基础上增加顶部声道",
       "detail": "Atmos（全景声）在传统 5.1/7.1 声道之外加入天空声道对象，声场更有包围感。文件名里常见两种载体：DDP5.1.Atmos（流媒体源，有损）和 TrueHD.Atmos（原盘，无损）。家庭影院需要全套 Atmos 音箱才能完全发挥，普通设备会自动降级为普通 5.1 播放，无兼容性问题。",
-      "examples": ["Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"],
+      "examples": [
+        "Dune.Part.Two.2024.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-CMRG"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨"]
+      "tags": [
+        "音轨"
+      ],
+      "group": "音轨"
     },
     {
       "term": "S01E01 季集标记",
-      "aliases": ["SxxExx", "季集", "E00 特典"],
+      "aliases": [
+        "SxxExx",
+        "季集",
+        "E00 特典"
+      ],
       "domain": "video",
       "one_line": "剧名后用 SxxExx 标注第几季第几集，E00 一般是特典/花絮集",
       "detail": "S02E05 = 第 2 季第 5 集，这是剧集命名的标准格式，也是媒体库识别剧集的核心依据。E00 是个特殊存在：通常表示特典、花絮、幕后或未播集，Emby/Jellyfin/Plex 会把它归入特典（Extras）。季集号错了会导致识别到错误剧集或识别失败，这是新手最常踩的坑之一，可用 MP 的「识别词」修正。",
-      "examples": ["Shogun.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"],
-      "related_mp_settings": [
-        {"label": "识别词", "hint": "设置 → 识别词 可用正则修正识别错的剧名/季集"}
+      "examples": [
+        "Shogun.2024.S01E05.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD"
       ],
-      "tags": ["季集", "识别"]
+      "related_mp_settings": [
+        {
+          "label": "识别词",
+          "hint": "设置 → 识别词 可用正则修正识别错的剧名/季集"
+        }
+      ],
+      "tags": [
+        "季集",
+        "识别"
+      ],
+      "group": "季集与识别"
     },
     {
       "term": "PROPER / REPACK",
-      "aliases": ["修正版", "REPACK", "EXTENDED", "UNRATED"],
+      "aliases": [
+        "修正版",
+        "REPACK",
+        "EXTENDED",
+        "UNRATED"
+      ],
       "domain": "video",
       "one_line": "表示该版本是对之前发布版本的修正，一般优先选择",
       "detail": "PROPER/REPACK 表示发布组发现先前的版本有问题（音画不同步、缺帧、字幕错误等）后重新发布，遇到时优先选它。同文件名区域还会出现 EXTENDED（加长版）、UNRATED（未分级版）、REMASTERED（重制版）、IMAX（IMAX 摄影机拍摄片段），这些是影片版本差异，收藏时按喜好选择即可。",
-      "examples": ["Avatar.The.Way.of.Water.2022.PROPER.1080p.WEB-DL.DDP5.1.Atmos.H.264-SMURF"],
+      "examples": [
+        "Avatar.The.Way.of.Water.2022.PROPER.1080p.WEB-DL.DDP5.1.Atmos.H.264-SMURF"
+      ],
       "related_mp_settings": [],
-      "tags": ["版本"]
+      "tags": [
+        "版本"
+      ],
+      "group": "版本"
     },
     {
       "term": "DVDRip",
-      "aliases": ["DVD来源", "DVD转码"],
+      "aliases": [
+        "DVD来源",
+        "DVD转码"
+      ],
       "domain": "video",
       "one_line": "以 DVD 碟为来源转码的版本，480p/576p 标清时代的主流",
       "detail": "DVDRip 把 DVD（480p NTSC / 576p PAL）转码为更小的文件，是早年老资源站的绝对主力。现在主要用于老电影、冷门片源——蓝光从未发行过的片子只能收到 DVD 版。画质按今天的标准属于标清，收藏老片时常遇到。",
-      "examples": ["Cinema.Paradiso.1988.DVDRip.x264-iLG"],
+      "examples": [
+        "Cinema.Paradiso.1988.DVDRip.x264-iLG"
+      ],
       "related_mp_settings": [],
-      "tags": ["来源"]
+      "tags": [
+        "来源"
+      ],
+      "group": "来源"
     },
     {
       "term": "720p",
-      "aliases": ["HD"],
+      "aliases": [
+        "HD"
+      ],
       "domain": "video",
       "one_line": "1280×720 高清分辨率，介于标清与全高清之间",
       "detail": "720p 是早期高清标准，如今新资源已经很少见，多见于老剧集、快速抢发的 HDTV 录制和小体积收藏。带宽/存储极度受限的场景仍有价值，追新和收藏建议直接 1080p 起步。",
-      "examples": ["Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"],
+      "examples": [
+        "Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"
+      ],
       "related_mp_settings": [],
-      "tags": ["分辨率"]
+      "tags": [
+        "分辨率"
+      ],
+      "group": "分辨率"
     },
     {
       "term": "10bit",
-      "aliases": ["色深", "10-bit"],
+      "aliases": [
+        "色深",
+        "10-bit"
+      ],
       "domain": "video",
       "one_line": "10 位色深编码，色彩过渡更平滑，能有效消除色带",
       "detail": "10bit 指每个颜色通道用 10 位表示（8bit 的两倍灰阶），暗部和天空等渐变场景不易出现色带（banding）。x265 编码的动画/动漫资源几乎标配 10bit，即使片源是 8bit 也能受益。需要播放器支持 HEVC 10bit 硬解，老设备可能卡顿。",
-      "examples": ["Suzume.no.Tojimari.2022.1080p.BluRay.x265.10bit.FLAC.2.0-ZR-"],
+      "examples": [
+        "Suzume.no.Tojimari.2022.1080p.BluRay.x265.10bit.FLAC.2.0-ZR-"
+      ],
       "related_mp_settings": [],
-      "tags": ["画质"]
+      "tags": [
+        "画质"
+      ],
+      "group": "视频编码"
     },
     {
       "term": "SDR",
-      "aliases": ["标准动态范围"],
+      "aliases": [
+        "标准动态范围"
+      ],
       "domain": "video",
       "one_line": "标准动态范围，与 HDR 相对的传统画质规格",
       "detail": "SDR（Standard Dynamic Range）是没有 HDR 的传统视频规格。同一部片常同时有 SDR 和 HDR 版本：不支持 HDR 的老电视放 HDR 片源会发灰，需要播放器做色调映射；SDR 版在这些设备上反而观感正常。文件名标 SDR 表示刻意发布的非 HDR 版本。",
-      "examples": ["Dune.2021.2160p.WEB-DL.SDR.HEVC.DDP5.1-CMRG"],
+      "examples": [
+        "Dune.2021.2160p.WEB-DL.SDR.HEVC.DDP5.1-CMRG"
+      ],
       "related_mp_settings": [],
-      "tags": ["HDR", "画质"]
+      "tags": [
+        "HDR",
+        "画质"
+      ],
+      "group": "HDR/制式"
     },
     {
       "term": "TrueHD",
-      "aliases": ["Dolby TrueHD", "无损音轨"],
+      "aliases": [
+        "Dolby TrueHD",
+        "无损音轨"
+      ],
       "domain": "video",
       "one_line": "杜比的无损音频编码，蓝光原盘的旗舰音轨",
       "detail": "TrueHD 是杜比的无损音频编码，只出现在蓝光/原盘（REMUX、BDMV）中，音质与录音室母带一致，常见 TrueHD 7.1 或与 Atmos 全景声绑定（TrueHD.Atmos）。体积很大（一部电影 5~10GB 音轨），WEB-DL 流媒体源不会有它。家庭影院玩家收藏 4K 原盘的核心理由之一。",
-      "examples": ["Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"],
+      "examples": [
+        "Dune.Part.Two.2024.UHD.BluRay.2160p.BDMV.DoVi.HEVC.TrueHD.7.1.Atmos-D-Z0N3"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨", "收藏"]
+      "tags": [
+        "音轨",
+        "收藏"
+      ],
+      "group": "音轨"
     },
     {
       "term": "DTS-HD MA",
-      "aliases": ["DTSHD", "DTS-HD", "DTS", "MA"],
+      "aliases": [
+        "DTSHD",
+        "DTS-HD",
+        "DTS",
+        "MA"
+      ],
       "domain": "video",
       "one_line": "DTS 的无损音频编码，与 TrueHD 齐名的原盘音轨",
       "detail": "DTS-HD Master Audio 是 DTS 阵营的无损编码，常见于蓝光原盘和 REMUX，与杜比 TrueHD 定位相当。文件名中 DTS-HD.MA.5.1 表示 5.1 声道无损；只标 DTS（无 HD/MA）的是老式有损 DTS-Core。两家音轨的取舍更多看片源提供哪种，音质层面都是无损旗舰。",
-      "examples": ["Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"],
+      "examples": [
+        "Blade.Runner.2049.2017.2160p.BluRay.REMUX.HDR10.Hevc.DTS-HD.MA.5.1-FGT"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨", "收藏"]
+      "tags": [
+        "音轨",
+        "收藏"
+      ],
+      "group": "音轨"
     },
     {
       "term": "AAC 音轨",
-      "aliases": ["AAC2.0", "AAC5.1"],
+      "aliases": [
+        "AAC2.0",
+        "AAC5.1"
+      ],
       "domain": "video",
       "one_line": "高效有损音频编码，多见于 HDTV 录制与动画资源",
       "detail": "AAC 在视频文件里是有损音轨（与音乐里的 AAC 同源），码率低、体积小，HDTV 抢发版和老动画资源常见 AAC 2.0。音质弱于 DDP/TrueHD，追首发时能接受，收藏建议换 DDP 以上音轨的版本。",
-      "examples": ["Shogun.S01E00.Behind.the.Scenes.1080p.WEB-DL.AAC2.0.H.264-NOSIVAD"],
+      "examples": [
+        "Shogun.S01E00.Behind.the.Scenes.1080p.WEB-DL.AAC2.0.H.264-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨"]
+      "tags": [
+        "音轨"
+      ],
+      "group": "音轨"
     },
     {
       "term": "简繁双语字幕 (CHS/CHT)",
-      "aliases": ["CHS", "CHT", "简中", "繁中", "双语", "中英双字"],
+      "aliases": [
+        "CHS",
+        "CHT",
+        "简中",
+        "繁中",
+        "双语",
+        "中英双字"
+      ],
       "domain": "video",
       "one_line": "内封/外挂的简体、繁体中文字幕标记，中英双字最常见",
       "detail": "CHS = 简体中文，CHT = 繁体中文，文件名里的「简繁外挂」「中英双字」「CHT+ENG」描述字幕配置。注意区分：内封字幕（封装在 mkv 里，播放器可选开关）和内嵌字幕（烧死在画面上，去不掉）。国内发布组的 mkv 一般内封简繁双语，选片时优先。",
-      "examples": ["Oppenheimer.2023.2160p.WEB-DL.DDP5.1.Atmos.H.265.简繁英字幕-NOSIVAD"],
-      "related_mp_settings": [
-        {"label": "媒体服务器", "hint": "Emby/Jellyfin 可设置默认字幕轨与语言偏好"}
+      "examples": [
+        "Oppenheimer.2023.2160p.WEB-DL.DDP5.1.Atmos.H.265.简繁英字幕-NOSIVAD"
       ],
-      "tags": ["字幕"]
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 可设置默认字幕轨与语言偏好"
+        }
+      ],
+      "tags": [
+        "字幕"
+      ],
+      "group": "字幕"
     },
     {
       "term": "IMAX Enhanced",
-      "aliases": ["IMAX"],
+      "aliases": [
+        "IMAX"
+      ],
       "domain": "video",
       "one_line": "IMAX 画幅比认证版本，画幅更高、带专属音效规格",
       "detail": "IMAX Enhanced 表示经过 IMAX 认证的版本：画幅从 2.39:1 展开到 1.90:1（上下多了画面，IMAX 摄影机拍摄的内容更完整），并可能带 DTS:X 音效。部分场景（如诺兰电影）IMAX 画幅内容占比很高，值得优先选择。迪士尼+ 流媒体的 IMAX Enhanced 源会标 IMAX 或 IMAX.E。",
-      "examples": ["Oppenheimer.2023.2160p.IMAX.ENHANCED.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"],
+      "examples": [
+        "Oppenheimer.2023.2160p.IMAX.ENHANCED.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["版本", "画质"]
+      "tags": [
+        "版本",
+        "画质"
+      ],
+      "group": "版本"
     },
     {
       "term": "Hybrid",
-      "aliases": ["混合来源", "混血版"],
+      "aliases": [
+        "混合来源",
+        "混血版"
+      ],
       "domain": "video",
       "one_line": "混合不同来源素材封装的版本（如杜比视界层 + 其他源的正片）",
       "detail": "Hybrid 表示发布组把不同来源的视频层拼接重封装：典型如「A 源的杜比视界增强层 + B 源的 HDR10 基础层」，或者补帧版（MEL/FEL 处理）。质量取决于发布组的处理水平，好的 Hybrid 能兼得两源优点，翻车时会出现色调异常。同片有原生版本时一般优先原生。",
-      "examples": ["Dune.2021.2160p.Hybrid.REMUX.HDR10+.HEVC.DTS-HD.MA.5.1-FraMeSToR"],
+      "examples": [
+        "Dune.2021.2160p.Hybrid.REMUX.HDR10+.HEVC.DTS-HD.MA.5.1-FraMeSToR"
+      ],
       "related_mp_settings": [],
-      "tags": ["版本"]
+      "tags": [
+        "版本"
+      ],
+      "group": "版本"
     },
     {
       "term": "Remastered",
-      "aliases": ["重制版", "修复版"],
+      "aliases": [
+        "重制版",
+        "修复版"
+      ],
       "domain": "video",
       "one_line": "从原始胶片重新扫描修复的版本，老片画质救星",
       "detail": "Remastered（重制/修复版）表示老片用原始胶片重新做数字中间片：色彩、噪点、细节全面翻新。老电影的蓝光常有多代版本，修复版（4K Remastered）是收藏首选；注意与「重映版」「导演剪辑版」是不同概念。",
-      "examples": ["The.Godfather.1972.2160p.UHD.BluRay.REMUX.HDR.HEVC.TrueHD.7.1.Atmos-FGT"],
+      "examples": [
+        "The.Godfather.1972.2160p.UHD.BluRay.REMUX.HDR.HEVC.TrueHD.7.1.Atmos-FGT"
+      ],
       "related_mp_settings": [],
-      "tags": ["版本", "收藏"]
+      "tags": [
+        "版本",
+        "收藏"
+      ],
+      "group": "版本"
     },
     {
       "term": "DD / AC3",
-      "aliases": ["DolbyDigital", "AC-3", "DD5.1"],
+      "aliases": [
+        "DolbyDigital",
+        "AC-3",
+        "DD5.1"
+      ],
       "domain": "video",
       "one_line": "杜比数字第一代有损音频编码，DDP 的前辈",
       "detail": "DD（Dolby Digital，即 AC-3）是 1990 年代的有损环绕声编码，DVD 时代的标配，DD5.1 表示 5.1 声道。如今多见于老资源、DVD 来源和部分 HDTV。码率和效率都不及 DDP（Dolby Digital Plus），同一片源有 DDP 版时优先 DDP。",
-      "examples": ["Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"],
+      "examples": [
+        "Friends.S01E01.720p.HDTV.AC3.5.1.x264-ETHER"
+      ],
       "related_mp_settings": [],
-      "tags": ["音轨"]
+      "tags": [
+        "音轨"
+      ],
+      "group": "音轨"
     },
     {
       "term": "全季包 Season Pack",
-      "aliases": ["整季", "S01.Complete", "全季"],
+      "aliases": [
+        "整季",
+        "S01.Complete",
+        "全季"
+      ],
       "domain": "video",
       "one_line": "一整季打包发布的种子，追完党一次下完",
       "detail": "Season Pack 把整季所有集打成一个种子（文件名常见 Season.1.Complete、S01S02），适合开播后整季收藏。注意坑：整季包对 H&R 站意味着整季做种压力；MP 的订阅洗版对整季包的集数匹配依赖识别词；流量党要留意体积（一季 4K 可达数百 GB）。",
-      "examples": ["The.Bear.S01.S02.Complete.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"],
-      "related_mp_settings": [
-        {"label": "订阅", "hint": "订阅可指定只下单集，避免整季包占用超额空间"}
+      "examples": [
+        "The.Bear.S01.S02.Complete.2160p.WEB-DL.DDP5.1.Atmos.H.265-NOSIVAD"
       ],
-      "tags": ["季集", "PT"]
+      "related_mp_settings": [
+        {
+          "label": "订阅",
+          "hint": "订阅可指定只下单集，避免整季包占用超额空间"
+        }
+      ],
+      "tags": [
+        "季集",
+        "PT"
+      ],
+      "group": "季集与识别"
     },
     {
       "term": "内封字幕与外挂字幕",
-      "aliases": ["内封", "外挂", "内嵌", "SUP", "PGS", "SRT", "ASS"],
+      "aliases": [
+        "内封",
+        "外挂",
+        "内嵌",
+        "SUP",
+        "PGS",
+        "SRT",
+        "ASS"
+      ],
       "domain": "video",
       "one_line": "内封 = 封装进容器可开关；内嵌 = 烧进画面去不掉；外挂 = 独立字幕文件",
       "detail": "三种形态要分清：内封字幕（mkv 里的一条字幕轨，可开可关，最理想）；内嵌/硬字幕（压进画面，永远去不掉，慎选）；外挂字幕（独立的 .srt/.ass/.sup 文件，配合正片使用）。格式上 SRT 纯文本最通用，ASS 支持特效样式，SUP/PGS 是图形字幕（蓝光原盘标配，需要播放器 OCR 才能改样式）。",
-      "examples": ["Movie.2024.2160p.BluRay.HEVC.TrueHD.7.1.Atmos.CHS@网盘组"],
-      "related_mp_settings": [
-        {"label": "刮削", "hint": "MP 刮削可自动匹配外挂字幕文件"}
+      "examples": [
+        "Movie.2024.2160p.BluRay.HEVC.TrueHD.7.1.Atmos.CHS@网盘组"
       ],
-      "tags": ["字幕"]
+      "related_mp_settings": [
+        {
+          "label": "刮削",
+          "hint": "MP 刮削可自动匹配外挂字幕文件"
+        }
+      ],
+      "tags": [
+        "字幕"
+      ],
+      "group": "字幕"
     },
     {
       "term": "双音轨",
-      "aliases": ["国语粤语", "多音轨", "Dual Audio"],
+      "aliases": [
+        "国语粤语",
+        "多音轨",
+        "Dual Audio"
+      ],
       "domain": "video",
       "one_line": "一个文件封装两条以上音轨（如国语+粤语、中英双语）",
       "detail": "双音轨文件同时封装多种配音（常见国语/粤语/英语），播放器里切换。国内发布组的经典操作是「国语+粤语双音轨」或「中英双音轨」。体积相应增大，媒体服务器需要设置首选音轨语言，否则默认播的可能不是你想要的那条。",
-      "examples": ["Kung.Fu.Panda.2008.1080p.BluRay.x264.国粤英三音轨-WiKi"],
-      "related_mp_settings": [
-        {"label": "媒体服务器", "hint": "Emby/Jellyfin 设置首选音频语言可自动选轨"}
+      "examples": [
+        "Kung.Fu.Panda.2008.1080p.BluRay.x264.国粤英三音轨-WiKi"
       ],
-      "tags": ["音轨"]
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 设置首选音频语言可自动选轨"
+        }
+      ],
+      "tags": [
+        "音轨"
+      ],
+      "group": "音轨"
     },
     {
       "term": "TS / M2TS 封装",
-      "aliases": ["ts", "m2ts", "BDMV STREAM"],
+      "aliases": [
+        "ts",
+        "m2ts",
+        "BDMV STREAM"
+      ],
       "domain": "video",
       "one_line": "蓝光/广播原生的传输流封装格式，原盘正片的真实载体",
       "detail": "TS（Transport Stream）是为广播设计的封装，M2TS 是蓝光盘内 STREAM 目录的实际文件。注意与「TELESYNC（枪版）」的 TS 缩写区分——同一个词两个含义：封装格式 vs 影院枪录版。文件名里 .ts 后缀是封装，TeleSync/TS 出现在来源位置是枪版标记（画质灾难，坚决别下）。",
-      "examples": ["00330.m2ts（BDMV/STREAM 目录内）"],
+      "examples": [
+        "00330.m2ts（BDMV/STREAM 目录内）"
+      ],
       "related_mp_settings": [],
-      "tags": ["封装", "识别"]
+      "tags": [
+        "封装",
+        "识别"
+      ],
+      "group": "封装与识别"
     },
     {
       "term": "AV1",
-      "aliases": ["AOM AV1"],
+      "aliases": [
+        "AOM AV1"
+      ],
       "domain": "video",
       "one_line": "新一代开放视频编码，同画质体积再省 30%，播放设备要求高",
       "detail": "AV1 是 H.265 之后的新一代编码，压缩效率再提升约 30%，且免专利费，流媒体平台（YouTube/Netflix）已大量采用。文件名标 AV1 的资源体积明显更小，但 2020 年前的设备基本没有硬解，播放卡顿率高于 H.265。设备新可以收，老设备回避。",
-      "examples": ["Shogun.2024.S01E01.2160p.WEB-DL.AV1.10bit.HDR.OPUS.5.1-NOSIVAD"],
+      "examples": [
+        "Shogun.2024.S01E01.2160p.WEB-DL.AV1.10bit.HDR.OPUS.5.1-NOSIVAD"
+      ],
       "related_mp_settings": [],
-      "tags": ["视频编码"]
+      "tags": [
+        "视频编码"
+      ],
+      "group": "视频编码"
     }
   ]
 }

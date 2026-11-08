@@ -129,6 +129,42 @@
       "priority": 25
     },
     {
+      "id": "src_cam",
+      "dim": "source",
+      "pattern": "\\bCAM(Rip)?\\b",
+      "flags": "i",
+      "label": "枪版（影院偷录）",
+      "priority": 26,
+      "warn": true
+    },
+    {
+      "id": "src_telesync",
+      "dim": "source",
+      "pattern": "\\bTeleSync\\b|\\bTS\\b(?=\\.)",
+      "flags": "i",
+      "label": "枪版（影院翻录）",
+      "priority": 26,
+      "warn": true
+    },
+    {
+      "id": "src_telecine",
+      "dim": "source",
+      "pattern": "\\bTeleCine\\b|\\bTC\\b(?!\\d)",
+      "flags": "i",
+      "label": "枪版（数字翻录）",
+      "priority": 26,
+      "warn": true
+    },
+    {
+      "id": "src_screener",
+      "dim": "source",
+      "pattern": "\\b(SCREENER|DVDSCR|DVDSCREENER)\\b",
+      "flags": "i",
+      "label": "枪版（预览碟翻录）",
+      "priority": 26,
+      "warn": true
+    },
+    {
       "id": "src_dvd",
       "dim": "source",
       "pattern": "\\bDVD(Rip|R|5|9)?\\b",

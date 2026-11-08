@@ -20,10 +20,13 @@ def main() -> None:
     for domain in DOMAINS:
         data = json.loads((DICT_DIR / f"{domain}.json").read_text(encoding="utf-8"))
         terms.extend(data.get("terms") or [])
+    ladders_file = json.loads((DICT_DIR / "ladders.json").read_text(encoding="utf-8"))
     payload = {
         "version": int(meta.get("version") or 1),
         "updated_at": meta.get("updated_at") or date.today().isoformat(),
         "terms": terms,
+        "ladders": ladders_file.get("ladders") or {},
+        "size_matrix": ladders_file.get("size_matrix") or {},
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

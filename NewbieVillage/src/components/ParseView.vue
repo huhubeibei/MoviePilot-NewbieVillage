@@ -51,6 +51,8 @@ const error = ref('')
 const parsed = ref(null)
 const preview = ref(null)
 const dictTerms = ref([])
+const dictLadders = ref({})
+const dictSizeMatrix = ref({})
 
 const selectedTerm = ref(null)
 
@@ -89,6 +91,8 @@ async function loadDict() {
     if (!client) return
     const data = unwrapResponse(await client.get(`${pluginBase.value}/dict`))
     dictTerms.value = data?.terms || []
+    dictLadders.value = data?.ladders || {}
+    dictSizeMatrix.value = data?.size_matrix || {}
   } catch {
     dictTerms.value = []
   }
@@ -124,6 +128,56 @@ function tryExample(text) {
   input.value = text
   runParse()
 }
+
+// 画质档次徽章：按最高分辨率 × 来源映射（与天梯口径一致）
+const tier = computed(() => {
+  if (!parsed.value || parsed.value.kind !== 'video') return null
+  if ((parsed.value.warnings || []).length) {
+    return { icon: 'mdi-alert-octagon', color: 'error', text: '应急枪版' }
+  }
+  const dims = parsed.value.dims || {}
+  const res = dims.resolution?.[0]?.value || ''
+  const src = (dims.source || []).map(s => s.value).join('|')
+  const is2160 = /2160|4K|UHD/i.test(res)
+  const is1080 = /1080/.test(res)
+  const highSrc = /REMUX|BDMV/i.test(src)
+  const midSrc = /WEB-DL|BluRay|Blu-Ray/i.test(src)
+  if (is2160 && highSrc) return { icon: 'mdi-crown-outline', color: 'amber-darken-2', text: '顶配收藏级' }
+  if ((is2160 && midSrc) || (is1080 && (midSrc || highSrc))) {
+    return { icon: 'mdi-star-outline', color: 'primary', text: '优选主流' }
+  }
+  if (res || src) return { icon: 'mdi-thumb-up-outline', color: 'success', text: '够用先行' }
+  return null
+})
+
+// 体积估算：分辨率 × 来源 查矩阵
+const sizeEstimate = computed(() => {
+  if (!preview.value || preview.value.media_type === '音乐' || !parsed.value) return null
+  const matrix = dictSizeMatrix.value
+  if (!matrix?.rows || !matrix?.columns) return null
+  const dims = parsed.value.dims || {}
+  const res = dims.resolution?.[0]?.value || ''
+  const rowKey = /2160|4K|UHD/i.test(res)
+    ? '2160p'
+    : /1080/.test(res)
+      ? '1080p'
+      : /720/.test(res)
+        ? '720p'
+        : /[45]76|480/.test(res)
+          ? '480p'
+          : null
+  const srcVals = (dims.source || []).map(s => `${s.value} ${s.label}`).join(' ')
+  let col = null
+  if (/枪版|CAM|TeleSync/i.test(srcVals)) col = '枪版'
+  else if (/REMUX/i.test(srcVals)) col = 'REMUX'
+  else if (/BDMV|原盘/i.test(srcVals)) col = 'BDMV 原盘'
+  else if (/HDTV/i.test(srcVals)) col = 'HDTV'
+  else if (/BluRay|Blu-Ray|蓝光/i.test(srcVals)) col = 'BluRay 转码'
+  else if (/WEB-DL|WEBRip|流媒体/i.test(srcVals)) col = 'WEB-DL'
+  if (!rowKey || !col) return null
+  const val = matrix.rows?.[rowKey]?.[matrix.columns.indexOf(col)]
+  return val != null ? { gb: val, combo: `${rowKey} × ${col}` } : null
+})
 
 onMounted(loadDict)
 </script>
@@ -178,12 +232,28 @@ onMounted(loadDict)
             <VChip size="small" :color="parsed.kind === 'music' ? 'green' : 'indigo'" variant="tonal">
               {{ parsed.kind === 'music' ? '音乐命名' : '影视命名' }}
             </VChip>
+            <VChip v-if="tier" size="small" :color="tier.color" variant="flat">
+              <VIcon start size="x-small" :icon="tier.icon" />
+              {{ tier.text }}
+            </VChip>
             <VChip v-if="parsed.title_hint" size="small" variant="outlined">
               标题：{{ parsed.title_hint }}
             </VChip>
           </div>
         </VCardItem>
         <VCardText>
+          <VAlert
+            v-for="(w, i) in parsed.warnings || []"
+            :key="i"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-2"
+          >
+            <b>检测到{{ w.label }}（{{ w.value }}）：</b>
+            这是影院偷录/翻录版本，画质和音质都很差，除非全网没有更好的选择，否则不建议下载收藏。
+            在「词典 → 天梯」里看看正常来源的画质阶梯。
+          </VAlert>
           <!-- 分段高亮 -->
           <div class="parse-segments mb-4" style="line-height: 2.4">
             <template v-for="(seg, i) in parsed.segments" :key="i">
@@ -269,6 +339,15 @@ onMounted(loadDict)
             <VCode class="d-block pa-2 mb-3 text-caption" style="white-space: pre-wrap; word-break: break-all">
               {{ preview.path_guess }}
             </VCode>
+            <VAlert
+              v-if="sizeEstimate"
+              type="info"
+              variant="tonal"
+              density="compact"
+              class="mb-2"
+            >
+              预计体积：<b>约 {{ sizeEstimate.gb }} GB</b>（{{ sizeEstimate.combo }} · 估算值，随片长与码率浮动）
+            </VAlert>
           </template>
 
           <VAlert
