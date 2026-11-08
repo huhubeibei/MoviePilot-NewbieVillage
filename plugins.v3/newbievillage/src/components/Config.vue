@@ -24,11 +24,33 @@ const form = reactive({
 const saving = ref(false)
 const message = ref('')
 const messageType = ref('success')
+const testing = ref(false)
+const testMessage = ref('')
 
 onMounted(() => {
   Object.assign(form, props.initialConfig || {})
   emit('layout', { maxWidth: '52rem' })
 })
+
+async function testLlm() {
+  testing.value = true
+  testMessage.value = ''
+  try {
+    const client = apiClient.value
+    if (!client) throw new Error('宿主 API 客户端不可用，请刷新页面重试')
+    const resp = await client.post(`${pluginBase.value}/llm/test`, {})
+    if (resp && resp.success === false) {
+      testMessage.value = resp.message || 'LLM 连通失败'
+    } else {
+      const d = resp?.data || {}
+      testMessage.value = `连通正常：${d.provider || '?'} / ${d.model || '?'} · ${d.duration_ms ?? '?'}ms`
+    }
+  } catch (err) {
+    testMessage.value = `测试失败：${err.message || err}`
+  } finally {
+    testing.value = false
+  }
+}
 
 async function save() {
   saving.value = true
@@ -102,11 +124,24 @@ async function save() {
     <VSwitch
       v-model="form.llm_fallback"
       color="primary"
-      label="解析失败时使用 LLM 兜底（M2 上线，需在系统设置中配置 AI）"
-      hint="当前版本解析器尚未上线，此开关暂不生效"
+      label="启用解析 AI 兜底"
+      hint="解析器遇到未识别片段时，可用本机 MP 的 AI 设置补全（每台 MP 各自配置、各自消耗额度，插件不含任何凭据）"
       persistent-hint
-      class="mb-4"
+      class="mb-2"
     />
+    <div class="d-flex align-center mb-4">
+      <VBtn
+        variant="outlined"
+        size="small"
+        color="deep-purple"
+        :loading="testing"
+        @click="testLlm"
+      >
+        <VIcon start icon="mdi-robot-outline" />
+        测试 LLM 连通性
+      </VBtn>
+      <span v-if="testMessage" class="text-caption text-medium-emphasis ml-3">{{ testMessage }}</span>
+    </div>
 
     <div class="d-flex align-center">
       <VBtn color="primary" :loading="saving" @click="save">保存配置</VBtn>

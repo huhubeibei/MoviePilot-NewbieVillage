@@ -53,6 +53,10 @@ const preview = ref(null)
 const dictTerms = ref([])
 const dictLadders = ref({})
 const dictSizeMatrix = ref({})
+const llmStatus = ref({ available: false, provider: '', model: '' })
+const llmLoading = ref(false)
+const aiResult = ref(null)
+const aiNotice = ref('')
 
 const selectedTerm = ref(null)
 
@@ -95,6 +99,43 @@ async function loadDict() {
     dictSizeMatrix.value = data?.size_matrix || {}
   } catch {
     dictTerms.value = []
+  }
+}
+
+async function loadLlmStatus() {
+  try {
+    const client = apiClient.value
+    if (!client) return
+    llmStatus.value = unwrapResponse(await client.get(`${pluginBase.value}/llm/status`)) || { available: false }
+  } catch {
+    llmStatus.value = { available: false }
+  }
+}
+
+async function runLlm() {
+  if (!input.value.trim() || llmLoading.value) return
+  llmLoading.value = true
+  error.value = ''
+  aiResult.value = null
+  aiNotice.value = ''
+  try {
+    const client = apiClient.value
+    if (!client) throw new Error('宿主 API 客户端不可用，请刷新页面重试')
+    const resp = await client.post(`${pluginBase.value}/parse/llm`, { text: input.value, kind: kind.value })
+    // 手动解包：兜底失败时 success=true 但 llm 为空 + message 说明（保留纯正则结果）
+    if (resp && Object.prototype.hasOwnProperty.call(resp, 'success')) {
+      if (resp.success === false) throw new Error(resp.message || 'AI 兜底失败')
+      parsed.value = resp.data?.parse || null
+      aiResult.value = resp.data?.llm || null
+      aiNotice.value = resp.message || ''
+    } else {
+      parsed.value = resp?.data?.parse || null
+      aiResult.value = resp?.data?.llm || null
+    }
+  } catch (err) {
+    error.value = err.message || String(err)
+  } finally {
+    llmLoading.value = false
   }
 }
 
@@ -179,7 +220,10 @@ const sizeEstimate = computed(() => {
   return val != null ? { gb: val, combo: `${rowKey} × ${col}` } : null
 })
 
-onMounted(loadDict)
+onMounted(() => {
+  loadDict()
+  loadLlmStatus()
+})
 </script>
 
 <template>
@@ -207,6 +251,18 @@ onMounted(loadDict)
         <VBtn color="primary" class="ml-4" :loading="loading" min-width="7rem" @click="runParse">
           <VIcon start icon="mdi-magnify-scan" />
           解析
+        </VBtn>
+        <VBtn
+          v-if="llmStatus.available"
+          color="deep-purple"
+          variant="tonal"
+          class="ml-2"
+          :loading="llmLoading"
+          min-width="9rem"
+          @click="runLlm"
+        >
+          <VIcon start icon="mdi-robot-outline" />
+          AI 兜底解析
         </VBtn>
       </VRow>
       <div class="text-caption text-medium-emphasis mt-2">
@@ -301,7 +357,7 @@ onMounted(loadDict)
           <template v-if="(parsed.unrecognized || []).length">
             <div class="text-caption text-medium-emphasis mt-3 mb-1">
               <VIcon size="x-small" icon="mdi-help-circle-outline" class="mr-1" />
-              未识别片段（未来由 AI 兜底解析）：
+              未识别片段{{ llmStatus.available ? '（可点上方「AI 兜底解析」补全）' : '' }}：
             </div>
             <VChip
               v-for="token in parsed.unrecognized"
@@ -314,6 +370,38 @@ onMounted(loadDict)
               {{ token }}
             </VChip>
           </template>
+
+          <!-- AI 兜底结果 -->
+          <VCard v-if="aiResult" variant="tonal" color="deep-purple" class="mt-4">
+            <VCardItem class="pb-1">
+              <template #prepend>
+                <VIcon icon="mdi-robot-outline" />
+              </template>
+              <VCardTitle class="text-subtitle-1 font-weight-bold pa-0">AI 推断（仅供参考）</VCardTitle>
+              <template #append>
+                <span class="text-caption text-medium-emphasis">
+                  {{ aiResult.provider }} / {{ aiResult.model }} · {{ aiResult.duration_ms }}ms
+                </span>
+              </template>
+            </VCardItem>
+            <VCardText>
+              <VChip
+                v-for="(t, i) in aiResult.tags || []"
+                :key="i"
+                size="small"
+                variant="outlined"
+                class="mr-1 mb-1"
+              >
+                {{ t.label }}：{{ t.value }}
+              </VChip>
+              <div v-if="aiResult.explanation" class="text-body-2 mt-2" style="line-height: 1.7">
+                {{ aiResult.explanation }}
+              </div>
+            </VCardText>
+          </VCard>
+          <VAlert v-else-if="aiNotice" type="info" variant="tonal" density="compact" class="mt-4">
+            {{ aiNotice }}
+          </VAlert>
         </VCardText>
       </VCard>
 

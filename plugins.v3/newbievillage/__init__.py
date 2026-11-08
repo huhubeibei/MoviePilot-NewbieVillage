@@ -19,6 +19,7 @@ from app.sdk.events import Event, eventmanager
 from app.sdk.logging import logger
 from app.schemas.types import EventType
 
+from .app import llm_fallback
 from .app.case_service import CaseService
 from .app.dict_service import DictService
 from .app.parse_engine import ParseEngine
@@ -44,7 +45,7 @@ class NewbieVillage(_PluginBase):
     plugin_name = "影音新手村"
     plugin_desc = "影视/音乐新手词典、命名解析与联动预告，新手村通关手册。"
     plugin_icon = "icon.png"
-    plugin_version = "1.1.0"
+    plugin_version = "1.2.0"
     plugin_author = "jinyu"
     plugin_order = 60
 
@@ -178,6 +179,12 @@ class NewbieVillage(_PluginBase):
              "auth": "bear", "summary": "解析文件名"},
             {"path": "/parse/preview", "endpoint": self.api_parse_preview, "methods": ["POST"],
              "auth": "bear", "summary": "解析文件名并联动预告整理去向"},
+            {"path": "/parse/llm", "endpoint": self.api_parse_llm, "methods": ["POST"],
+             "auth": "bear", "summary": "LLM 兜底解析未识别片段"},
+            {"path": "/llm/status", "endpoint": self.api_llm_status, "methods": ["GET"],
+             "auth": "bear", "summary": "获取本机 LLM 配置状态"},
+            {"path": "/llm/test", "endpoint": self.api_llm_test, "methods": ["POST"],
+             "auth": "bear", "summary": "测试 LLM 连通性"},
             {"path": "/cases", "endpoint": self.api_cases, "methods": ["GET"],
              "auth": "bear", "summary": "获取案例列表"},
             {"path": "/cases/{case_id}", "endpoint": self.api_case_detail, "methods": ["GET"],
@@ -250,6 +257,43 @@ class NewbieVillage(_PluginBase):
         except Exception as err:
             logger.error(f"影音新手村联动预告失败：{err}")
             return schemas.Response(success=False, message=f"联动预告失败：{err}")
+
+    def api_llm_status(self) -> schemas.Response:
+        """本机 LLM 配置状态（前端据此决定是否显示 AI 兜底入口）。"""
+        try:
+            return schemas.Response(success=True, data=llm_fallback.llm_status())
+        except Exception as err:
+            logger.error(f"影音新手村获取 LLM 状态失败：{err}")
+            return schemas.Response(success=False, message=f"获取 LLM 状态失败：{err}")
+
+    async def api_llm_test(self) -> schemas.Response:
+        """LLM 连通性测试（复用 MP 设置页同款最小调用）。"""
+        try:
+            result = await llm_fallback.test_connection()
+            return schemas.Response(success=True, data=result, message="LLM 连通正常")
+        except Exception as err:
+            logger.warning(f"影音新手村 LLM 连通性测试失败：{err}")
+            return schemas.Response(success=False, message=f"LLM 连通失败：{err}")
+
+    async def api_parse_llm(self, payload: Optional[dict] = None) -> schemas.Response:
+        """LLM 兜底：纯正则解析后把未识别片段交给本机 LLM 推断。"""
+        try:
+            text = str((payload or {}).get("text") or "")
+            kind = str((payload or {}).get("kind") or "auto")
+            parsed = self.parse_engine.parse(text, kind=kind)
+            llm_result = None
+            message = ""
+            if not (parsed.get("unrecognized") or []):
+                message = "纯正则已完整解析，无需 AI 兜底"
+            else:
+                try:
+                    llm_result = await llm_fallback.fallback_parse(text, parsed)
+                except Exception as llm_err:
+                    message = f"AI 兜底失败，已保留纯正则结果：{llm_err}"
+            return schemas.Response(success=True, data={"parse": parsed, "llm": llm_result}, message=message)
+        except Exception as err:
+            logger.error(f"影音新手村 LLM 兜底解析失败：{err}")
+            return schemas.Response(success=False, message=f"LLM 兜底解析失败：{err}")
 
     def api_cases(self) -> schemas.Response:
         try:

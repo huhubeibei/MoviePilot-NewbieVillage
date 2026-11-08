@@ -1,11 +1,16 @@
 import { importShared } from './__federation_fn_import-JrT3xvdd.js';
 import { r as resolveApi, u as unwrapResponse } from './utils-CZzYmT1-.js';
 
-const {resolveComponent:_resolveComponent,createVNode:_createVNode,createTextVNode:_createTextVNode,createElementVNode:_createElementVNode,withCtx:_withCtx,toDisplayString:_toDisplayString,openBlock:_openBlock,createBlock:_createBlock,createCommentVNode:_createCommentVNode} = await importShared('vue');
+const {resolveComponent:_resolveComponent,createVNode:_createVNode,createTextVNode:_createTextVNode,createElementVNode:_createElementVNode,withCtx:_withCtx,toDisplayString:_toDisplayString,openBlock:_openBlock,createElementBlock:_createElementBlock,createCommentVNode:_createCommentVNode,createBlock:_createBlock} = await importShared('vue');
 
 
 const _hoisted_1 = { class: "text-h6 font-weight-bold mb-4" };
-const _hoisted_2 = { class: "d-flex align-center" };
+const _hoisted_2 = { class: "d-flex align-center mb-4" };
+const _hoisted_3 = {
+  key: 0,
+  class: "text-caption text-medium-emphasis ml-3"
+};
+const _hoisted_4 = { class: "d-flex align-center" };
 
 const {computed,onMounted,reactive,ref} = await importShared('vue');
 
@@ -38,11 +43,33 @@ const form = reactive({
 const saving = ref(false);
 const message = ref('');
 const messageType = ref('success');
+const testing = ref(false);
+const testMessage = ref('');
 
 onMounted(() => {
   Object.assign(form, props.initialConfig || {});
   emit('layout', { maxWidth: '52rem' });
 });
+
+async function testLlm() {
+  testing.value = true;
+  testMessage.value = '';
+  try {
+    const client = apiClient.value;
+    if (!client) throw new Error('宿主 API 客户端不可用，请刷新页面重试')
+    const resp = await client.post(`${pluginBase.value}/llm/test`, {});
+    if (resp && resp.success === false) {
+      testMessage.value = resp.message || 'LLM 连通失败';
+    } else {
+      const d = resp?.data || {};
+      testMessage.value = `连通正常：${d.provider || '?'} / ${d.model || '?'} · ${d.duration_ms ?? '?'}ms`;
+    }
+  } catch (err) {
+    testMessage.value = `测试失败：${err.message || err}`;
+  } finally {
+    testing.value = false;
+  }
+}
 
 async function save() {
   saving.value = true;
@@ -131,18 +158,39 @@ return (_ctx, _cache) => {
         modelValue: form.llm_fallback,
         "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => ((form.llm_fallback) = $event)),
         color: "primary",
-        label: "解析失败时使用 LLM 兜底（M2 上线，需在系统设置中配置 AI）",
-        hint: "当前版本解析器尚未上线，此开关暂不生效",
+        label: "启用解析 AI 兜底",
+        hint: "解析器遇到未识别片段时，可用本机 MP 的 AI 设置补全（每台 MP 各自配置、各自消耗额度，插件不含任何凭据）",
         "persistent-hint": "",
-        class: "mb-4"
+        class: "mb-2"
       }, null, 8, ["modelValue"]),
       _createElementVNode("div", _hoisted_2, [
+        _createVNode(_component_VBtn, {
+          variant: "outlined",
+          size: "small",
+          color: "deep-purple",
+          loading: testing.value,
+          onClick: testLlm
+        }, {
+          default: _withCtx(() => [
+            _createVNode(_component_VIcon, {
+              start: "",
+              icon: "mdi-robot-outline"
+            }),
+            _cache[7] || (_cache[7] = _createTextVNode(" 测试 LLM 连通性 ", -1))
+          ]),
+          _: 1
+        }, 8, ["loading"]),
+        (testMessage.value)
+          ? (_openBlock(), _createElementBlock("span", _hoisted_3, _toDisplayString(testMessage.value), 1))
+          : _createCommentVNode("", true)
+      ]),
+      _createElementVNode("div", _hoisted_4, [
         _createVNode(_component_VBtn, {
           color: "primary",
           loading: saving.value,
           onClick: save
         }, {
-          default: _withCtx(() => [...(_cache[7] || (_cache[7] = [
+          default: _withCtx(() => [...(_cache[8] || (_cache[8] = [
             _createTextVNode("保存配置", -1)
           ]))]),
           _: 1
@@ -153,7 +201,7 @@ return (_ctx, _cache) => {
           disabled: saving.value,
           onClick: _cache[5] || (_cache[5] = $event => (_ctx.$emit('close')))
         }, {
-          default: _withCtx(() => [...(_cache[8] || (_cache[8] = [
+          default: _withCtx(() => [...(_cache[9] || (_cache[9] = [
             _createTextVNode("关闭", -1)
           ]))]),
           _: 1
