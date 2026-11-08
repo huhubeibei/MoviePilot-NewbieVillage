@@ -1,0 +1,18 @@
+== 打开 MP 登录页 ==
+== 登录 ==
+inputs: [{"type":"text","placeholder":"用户名","name":"username"},{"type":"password","placeholder":"密码","name":"password"},{"type":"checkbox","placeholder":"","name":"remember"}]
+登录后 URL: http://172.16.1.113:3000/#/dashboard
+首页停留完成，已安装请求钩子
+== 进入插件页（hash 路由） ==
+插件页 URL: http://172.16.1.113:3000/#/plugin-app/NewbieVillage/main
+\n== 页面内钩子捕获（fetch/XHR） ==
+[xhr] api/v1/plugin/remotes?token=moviepilot
+[xhr] api/v1/
+  ★ STACK:     at XMLHttpRequest.open (<anonymous>:11:76) |     at http://172.16.1.113:3000/assets/main-DOKUfmln.js:4:427593 |     at new Promise (<anonymous>) |     at xhr (http://172.16.1.113:3000/assets/main-DOKUfmln.js:4:426737) |     at TA.kA (http://172.16.1.113:3000/assets/main-DOKUfmln.js:4:439223) |     at async TA.request (http://172.16.1.113:3000/assets/main-DOKUfmln.js:4:440672)
+[xhr] api/v1/plugin/NewbieVillage/dict
+[xhr] api/v1/plugin/runtime
+[xhr] api/v1/github/auth/status
+\n== CDP 网络日志（404/401/5xx + 非静态） ==
+HTTP 404 /api/v1/
+  initiator: {"type":"script","stack":{"callFrames":[{"functionName":"","scriptId":"16","url":"http://172.16.1.113:3000/assets/main-DOKUfmln.js","lineNumber":3,"columnNumber":429024},{"functionName":"xhr","scriptId":"16","url":"http://172.16.1.113:3000/assets/main-DOKUfmln.js","lineNumber":3,"columnNumber":426736},{"functionName":"kA","scriptId":"16","url":"http://172.16.1.113:3000/assets/main-DOKUfmln.js","lineNumber":3,"columnNumber":439222}]}}
+\nDONE

@@ -14,18 +14,15 @@ function unwrapResponse(response) {
 /**
  * 解析宿主注入的 api prop，兼容多种形态：
  * 1. axios 实例（有 get/post 方法）→ 直接用；
- * 2. getter 函数（宿主部分 surface 传 api:()=>value）→ 调用取值；
- * 3. ref/computed（带 .value）→ 解包；
+ * 2. ref/computed（带 .value）→ 解包；
+ * 3. 函数形态一律【不调用】——宿主不同 surface 传过绑定后的请求函数，
+ *    盲目调用会触发未知副作用（曾打出裸 GET /api/v1/ 的 404 toast）；
  * 4. 都不可用时回退到宿主全局 window.MoviePilotAPI（宿主保证暴露 pluginApi 实例）。
  */
 function unwrapApiCandidate(candidate, depth = 0) {
   if (!candidate || depth > 3) return null
   if (typeof candidate === 'function') {
-    try {
-      return unwrapApiCandidate(candidate(), depth + 1)
-    } catch {
-      return null
-    }
+    return null
   }
   if (
     typeof candidate === 'object' &&

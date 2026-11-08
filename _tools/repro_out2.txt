@@ -1,0 +1,22 @@
+== 打开 MP 登录页 ==
+== 登录 ==
+inputs: [{"type":"text","placeholder":"用户名","name":"username"},{"type":"password","placeholder":"密码","name":"password"},{"type":"checkbox","placeholder":"","name":"remember"}]
+登录后 URL: http://172.16.1.113:3000/#/dashboard
+== 进入插件页（hash 路由） ==
+插件页 URL: http://172.16.1.113:3000/#/plugin/NewbieVillage/main
+\n== 页面内钩子捕获（fetch/XHR） ==
+[xhr] api/v1/plugin/dashboard/meta
+[xhr] api/v1/media/source
+[xhr] api/v1/system/module-catalog
+[xhr] api/v1/storage/catalog
+[xhr] api/v1/plugin/sidebar_nav
+[xhr] api/v1/plugin/dashboard/nexusinvitee/nexusinvitee_dashboard
+[xhr] api/v1/plugin/dashboard/P115StrmHelper/strm
+[xhr] api/v1/plugin/dashboard/P115StrmHelper/status
+[xhr] api/v1/plugin/dashboard/P115StrmHelper/sync_del
+[xhr] api/v1/plugin/dashboard/P115StrmHelper/manual_transfer
+[xhr] api/v1/plugin/dashboard/P115StrmHelper/full_sync_actions
+[xhr] api/v1/plugin/dashboard/NewbieVillage/daily
+[xhr] api/v1/github/auth/status
+\n== CDP 网络日志（404/401/5xx + 非静态） ==
+\nDONE
