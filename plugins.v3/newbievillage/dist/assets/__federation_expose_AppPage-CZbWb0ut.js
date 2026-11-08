@@ -242,10 +242,7 @@ return (_ctx, _cache) => {
 const {toDisplayString:_toDisplayString$4,createTextVNode:_createTextVNode$4,resolveComponent:_resolveComponent$4,withCtx:_withCtx$4,createVNode:_createVNode$4,openBlock:_openBlock$4,createBlock:_createBlock$4,createCommentVNode:_createCommentVNode$2,renderList:_renderList$4,Fragment:_Fragment$4,createElementBlock:_createElementBlock$4,unref:_unref$2,createElementVNode:_createElementVNode$3} = await importShared('vue');
 
 
-const _hoisted_1$3 = {
-  key: 0,
-  class: "text-subtitle-2 font-weight-bold mb-2 d-flex align-center"
-};
+const _hoisted_1$3 = ["onClick"];
 const _hoisted_2$2 = { class: "mt-1 d-flex ga-1 flex-wrap" };
 const _hoisted_3$2 = { class: "d-flex align-center flex-wrap ga-2" };
 const _hoisted_4$2 = { class: "text-h6 font-weight-bold" };
@@ -268,6 +265,8 @@ const _hoisted_9$1 = {
 };
 
 const {computed: computed$3,onMounted: onMounted$2,ref: ref$3} = await importShared('vue');
+
+const EXPANDED_KEY = 'nv_dict_expanded_groups';
 
 
 const _sfc_main$4 = {
@@ -295,6 +294,17 @@ const domains = [
   { key: 'pt', title: 'PT 行为' },
   { key: 'moviepilot', title: 'MP 概念' },
 ];
+
+// 分组折叠状态：默认全部收起（用户选择），localStorage 记忆展开过的组
+function loadExpandedGroups() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(EXPANDED_KEY) || '[]'))
+  } catch {
+    return new Set()
+  }
+}
+
+const expandedGroups = ref$3(loadExpandedGroups());
 
 const GROUP_ORDER = ['分辨率', '来源', '视频编码', '音轨', 'HDR/制式', '版本', '字幕', '季集与识别', '封装与识别', '格式', '规格', '发行形态', '来源', '工具与概念'];
 const GROUP_ICONS = {
@@ -349,6 +359,29 @@ const grouped = computed$3(() => {
 });
 
 const hasGrouping = computed$3(() => filtered.value.some(t => t.group));
+
+const searching = computed$3(() => q.value.trim().length > 0);
+
+function isGroupExpanded(name) {
+  // 搜索时强制全部展开，避免命中结果被折叠
+  if (searching.value) return true
+  return expandedGroups.value.has(name)
+}
+
+function toggleGroup(name) {
+  const next = new Set(expandedGroups.value);
+  if (next.has(name)) {
+    next.delete(name);
+  } else {
+    next.add(name);
+  }
+  expandedGroups.value = next;
+  try {
+    localStorage.setItem(EXPANDED_KEY, JSON.stringify([...next]));
+  } catch {
+    /* localStorage 不可用时折叠状态仅本次会话生效 */
+  }
+}
 
 const termByRef = computed$3(() => {
   const map = {};
@@ -564,7 +597,17 @@ return (_ctx, _cache) => {
                 class: "mb-4"
               }, [
                 (group.name !== '其他' && hasGrouping.value)
-                  ? (_openBlock$4(), _createElementBlock$4("div", _hoisted_1$3, [
+                  ? (_openBlock$4(), _createElementBlock$4("div", {
+                      key: 0,
+                      class: "text-subtitle-2 font-weight-bold mb-2 d-flex align-center cursor-pointer",
+                      style: {"user-select":"none"},
+                      onClick: $event => (toggleGroup(group.name))
+                    }, [
+                      _createVNode$4(_component_VIcon, {
+                        size: "small",
+                        icon: isGroupExpanded(group.name) ? 'mdi-chevron-down' : 'mdi-chevron-right',
+                        class: "mr-1"
+                      }, null, 8, ["icon"]),
                       _createVNode$4(_component_VIcon, {
                         size: "small",
                         icon: group.icon,
@@ -572,72 +615,84 @@ return (_ctx, _cache) => {
                         class: "mr-1"
                       }, null, 8, ["icon"]),
                       _createTextVNode$4(" " + _toDisplayString$4(group.name) + " ", 1),
+                      _createVNode$4(_component_VChip, {
+                        size: "x-small",
+                        variant: "tonal",
+                        class: "ml-2"
+                      }, {
+                        default: _withCtx$4(() => [
+                          _createTextVNode$4(_toDisplayString$4(group.terms.length), 1)
+                        ]),
+                        _: 2
+                      }, 1024),
                       _createVNode$4(_component_VDivider, {
                         class: "ml-3",
                         style: {"flex":"1"}
                       })
-                    ]))
+                    ], 8, _hoisted_1$3))
                   : _createCommentVNode$2("", true),
-                _createVNode$4(_component_VRow, null, {
-                  default: _withCtx$4(() => [
-                    (_openBlock$4(true), _createElementBlock$4(_Fragment$4, null, _renderList$4(group.terms, (term) => {
-                      return (_openBlock$4(), _createBlock$4(_component_VCol, {
-                        key: term.term + term.domain,
-                        cols: "12",
-                        sm: "6",
-                        md: "4"
-                      }, {
-                        default: _withCtx$4(() => [
-                          _createVNode$4(_component_VCard, {
-                            variant: "outlined",
-                            hover: "",
-                            class: "h-100 d-flex flex-column",
-                            onClick: $event => (openTerm(term))
+                (group.name === '其他' || !hasGrouping.value || isGroupExpanded(group.name))
+                  ? (_openBlock$4(), _createBlock$4(_component_VRow, { key: 1 }, {
+                      default: _withCtx$4(() => [
+                        (_openBlock$4(true), _createElementBlock$4(_Fragment$4, null, _renderList$4(group.terms, (term) => {
+                          return (_openBlock$4(), _createBlock$4(_component_VCol, {
+                            key: term.term + term.domain,
+                            cols: "12",
+                            sm: "6",
+                            md: "4"
                           }, {
                             default: _withCtx$4(() => [
-                              _createVNode$4(_component_VCardItem, null, {
+                              _createVNode$4(_component_VCard, {
+                                variant: "outlined",
+                                hover: "",
+                                class: "h-100 d-flex flex-column",
+                                onClick: $event => (openTerm(term))
+                              }, {
                                 default: _withCtx$4(() => [
-                                  _createVNode$4(_component_VCardTitle, { class: "text-body-1 font-weight-bold" }, {
+                                  _createVNode$4(_component_VCardItem, null, {
                                     default: _withCtx$4(() => [
-                                      _createTextVNode$4(_toDisplayString$4(term.term), 1)
+                                      _createVNode$4(_component_VCardTitle, { class: "text-body-1 font-weight-bold" }, {
+                                        default: _withCtx$4(() => [
+                                          _createTextVNode$4(_toDisplayString$4(term.term), 1)
+                                        ]),
+                                        _: 2
+                                      }, 1024),
+                                      _createElementVNode$3("div", _hoisted_2$2, [
+                                        _createVNode$4(_component_VChip, {
+                                          text: _unref$2(domainTitle)(term.domain),
+                                          size: "x-small",
+                                          color: "primary",
+                                          variant: "tonal"
+                                        }, null, 8, ["text"]),
+                                        (term.group)
+                                          ? (_openBlock$4(), _createBlock$4(_component_VChip, {
+                                              key: 0,
+                                              text: term.group,
+                                              size: "x-small",
+                                              variant: "outlined"
+                                            }, null, 8, ["text"]))
+                                          : _createCommentVNode$2("", true)
+                                      ])
                                     ]),
                                     _: 2
                                   }, 1024),
-                                  _createElementVNode$3("div", _hoisted_2$2, [
-                                    _createVNode$4(_component_VChip, {
-                                      text: _unref$2(domainTitle)(term.domain),
-                                      size: "x-small",
-                                      color: "primary",
-                                      variant: "tonal"
-                                    }, null, 8, ["text"]),
-                                    (term.group)
-                                      ? (_openBlock$4(), _createBlock$4(_component_VChip, {
-                                          key: 0,
-                                          text: term.group,
-                                          size: "x-small",
-                                          variant: "outlined"
-                                        }, null, 8, ["text"]))
-                                      : _createCommentVNode$2("", true)
-                                  ])
+                                  _createVNode$4(_component_VCardText, { class: "text-body-2 text-medium-emphasis pb-3" }, {
+                                    default: _withCtx$4(() => [
+                                      _createTextVNode$4(_toDisplayString$4(term.one_line), 1)
+                                    ]),
+                                    _: 2
+                                  }, 1024)
                                 ]),
                                 _: 2
-                              }, 1024),
-                              _createVNode$4(_component_VCardText, { class: "text-body-2 text-medium-emphasis pb-3" }, {
-                                default: _withCtx$4(() => [
-                                  _createTextVNode$4(_toDisplayString$4(term.one_line), 1)
-                                ]),
-                                _: 2
-                              }, 1024)
+                              }, 1032, ["onClick"])
                             ]),
                             _: 2
-                          }, 1032, ["onClick"])
-                        ]),
-                        _: 2
-                      }, 1024))
-                    }), 128))
-                  ]),
-                  _: 2
-                }, 1024)
+                          }, 1024))
+                        }), 128))
+                      ]),
+                      _: 2
+                    }, 1024))
+                  : _createCommentVNode$2("", true)
               ]))
             }), 128))
           ], 64))

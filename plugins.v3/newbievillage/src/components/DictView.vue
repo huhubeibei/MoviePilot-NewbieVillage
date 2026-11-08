@@ -24,6 +24,19 @@ const domains = [
   { key: 'moviepilot', title: 'MP 概念' },
 ]
 
+// 分组折叠状态：默认全部收起（用户选择），localStorage 记忆展开过的组
+const EXPANDED_KEY = 'nv_dict_expanded_groups'
+
+function loadExpandedGroups() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(EXPANDED_KEY) || '[]'))
+  } catch {
+    return new Set()
+  }
+}
+
+const expandedGroups = ref(loadExpandedGroups())
+
 const GROUP_ORDER = ['分辨率', '来源', '视频编码', '音轨', 'HDR/制式', '版本', '字幕', '季集与识别', '封装与识别', '格式', '规格', '发行形态', '来源', '工具与概念']
 const GROUP_ICONS = {
   分辨率: 'mdi-wallpaper',
@@ -77,6 +90,29 @@ const grouped = computed(() => {
 })
 
 const hasGrouping = computed(() => filtered.value.some(t => t.group))
+
+const searching = computed(() => q.value.trim().length > 0)
+
+function isGroupExpanded(name) {
+  // 搜索时强制全部展开，避免命中结果被折叠
+  if (searching.value) return true
+  return expandedGroups.value.has(name)
+}
+
+function toggleGroup(name) {
+  const next = new Set(expandedGroups.value)
+  if (next.has(name)) {
+    next.delete(name)
+  } else {
+    next.add(name)
+  }
+  expandedGroups.value = next
+  try {
+    localStorage.setItem(EXPANDED_KEY, JSON.stringify([...next]))
+  } catch {
+    /* localStorage 不可用时折叠状态仅本次会话生效 */
+  }
+}
 
 const termByRef = computed(() => {
   const map = {}
@@ -187,13 +223,17 @@ onMounted(load)
       <div v-for="group in grouped" :key="group.name" class="mb-4">
         <div
           v-if="group.name !== '其他' && hasGrouping"
-          class="text-subtitle-2 font-weight-bold mb-2 d-flex align-center"
+          class="text-subtitle-2 font-weight-bold mb-2 d-flex align-center cursor-pointer"
+          style="user-select: none"
+          @click="toggleGroup(group.name)"
         >
+          <VIcon size="small" :icon="isGroupExpanded(group.name) ? 'mdi-chevron-down' : 'mdi-chevron-right'" class="mr-1" />
           <VIcon size="small" :icon="group.icon" color="primary" class="mr-1" />
           {{ group.name }}
+          <VChip size="x-small" variant="tonal" class="ml-2">{{ group.terms.length }}</VChip>
           <VDivider class="ml-3" style="flex: 1" />
         </div>
-        <VRow>
+        <VRow v-if="group.name === '其他' || !hasGrouping || isGroupExpanded(group.name)">
           <VCol v-for="term in group.terms" :key="term.term + term.domain" cols="12" sm="6" md="4">
             <VCard variant="outlined" hover class="h-100 d-flex flex-column" @click="openTerm(term)">
               <VCardItem>
