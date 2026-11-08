@@ -1,42 +1,168 @@
 <script setup>
-// v2.0 交付：配置体检引擎（解释型 + 检测型）。
-// 当前展示规划中的检查项，让新手提前知道哪些配置值得自查。
-const plannedChecks = [
-  { icon: 'mdi-file-link-outline', title: '目录映射缺失', desc: '下载器报告的路径没有对应的目录映射，导致无法整理' },
-  { icon: 'mdi-file-cog-outline', title: '分类无规则', desc: '媒体库目录配置了二级分类，但分类策略里没有对应规则' },
-  { icon: 'mdi-download-outline', title: '下载分类未对应', desc: '下载器中的分类在 MP 目录配置中找不到匹配条目' },
-  { icon: 'mdi-link-variant-off', title: '硬链接跨盘', desc: '下载目录与媒体库目录不在同一文件系统，硬链接会退化为复制' },
-  { icon: 'mdi-history', title: '分类策略 revision 校验', desc: 'history/active 版本顺序异常（手改 JSON 常见错误）' },
-  { icon: 'mdi-debug-step-over', title: 'fallbacks 指向检查', desc: '分类兜底分类在 categories 中不存在' },
-  { icon: 'mdi-link-box-variant-outline', title: '规则串引用失效', desc: '过滤规则串引用了已删除的规则 ID' },
-  { icon: 'mdi-text-box-search-outline', title: '识别词冲突', desc: '多条识别词对同一输入产生冲突或互相覆盖' },
-  { icon: 'mdi-server-network-off', title: 'NFS stale', desc: '存储挂载句柄失效的痕迹检测' },
-  { icon: 'mdi-shield-check-outline', title: '媒体服务器连接', desc: 'Emby/Jellyfin/Plex 对接可用性与媒体库路径可达性' },
-]
+import { computed, onMounted, ref } from 'vue'
+import { resolveApi, unwrapResponse } from '../utils'
+
+const props = defineProps({
+  api: { type: Object, default: () => ({}) },
+  pluginId: { type: String, default: 'NewbieVillage' },
+})
+
+const pluginBase = computed(() => `plugin/${props.pluginId}`)
+const apiClient = computed(() => resolveApi(props.api))
+
+const loading = ref(false)
+const error = ref('')
+const report = ref(null)
+const expanded = ref(new Set())
+
+const STATUS_META = {
+  ok: { icon: 'mdi-check-circle', color: 'success', text: '通过' },
+  info: { icon: 'mdi-information', color: 'info', text: '提示' },
+  warn: { icon: 'mdi-alert', color: 'warning', text: '警告' },
+  error: { icon: 'mdi-close-circle', color: 'error', text: '错误' },
+}
+
+const summary = computed(() => report.value?.summary || {})
+const results = computed(() => report.value?.results || [])
+
+const overall = computed(() => {
+  const s = summary.value
+  if ((s.error || 0) > 0) return { icon: 'mdi-close-circle', color: 'error', text: `发现 ${s.error} 项错误` }
+  if ((s.warn || 0) > 0) return { icon: 'mdi-alert', color: 'warning', text: `发现 ${s.warn} 项警告` }
+  return { icon: 'mdi-check-decagram', color: 'success', text: '全部检查通过' }
+})
+
+function toggleExpand(id) {
+  const next = new Set(expanded.value)
+  next.has(id) ? next.delete(id) : next.add(id)
+  expanded.value = next
+}
+
+async function run() {
+  if (loading.value) return
+  loading.value = true
+  error.value = ''
+  try {
+    const client = apiClient.value
+    if (!client) throw new Error('宿主 API 客户端不可用，请刷新页面重试')
+    report.value = unwrapResponse(await client.get(`${pluginBase.value}/health/checks`))
+    expanded.value = new Set(
+      (report.value?.results || [])
+        .filter(r => r.status === 'error' || r.status === 'warn')
+        .map(r => r.id)
+    )
+  } catch (err) {
+    error.value = err.message || String(err)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(run)
 </script>
 
 <template>
-  <VCard variant="flat" class="pa-6">
-    <div class="d-flex align-center mb-4">
-      <VIcon icon="mdi-stethoscope" color="primary" class="mr-3" size="28" />
-      <div class="text-h6 font-weight-bold">配置体检</div>
-      <VChip size="small" color="warning" variant="tonal" class="ml-3">v2.0 交付</VChip>
-    </div>
-    <VAlert type="warning" variant="tonal" density="compact" class="mb-4">
-      体检引擎将在 v2.0 上线：自动检测下面这些常见配置问题，并给出解释和修复建议。
+  <div>
+    <VCard variant="flat" class="pa-4 mb-4">
+      <div class="d-flex align-center flex-wrap ga-3">
+        <VIcon icon="mdi-stethoscope" color="primary" size="26" />
+        <div class="text-subtitle-1 font-weight-bold">配置体检</div>
+        <VBtn
+          color="primary"
+          size="small"
+          :loading="loading"
+          prepend-icon="mdi-refresh"
+          class="ml-auto"
+          @click="run"
+        >
+          重新体检
+        </VBtn>
+      </div>
+      <div class="text-caption text-medium-emphasis mt-1">
+        只读检测你的真实配置：目录映射、分类策略、过滤规则、识别词正则、硬链接可行性、媒体服务器与存储健康。
+        不修改任何配置。
+      </div>
+    </VCard>
+
+    <VAlert v-if="error" type="error" variant="tonal" class="mb-4" density="compact">
+      {{ error }}
+      <VBtn size="small" variant="text" color="white" class="ml-2" @click="run">重试</VBtn>
     </VAlert>
-    <VRow>
-      <VCol v-for="c in plannedChecks" :key="c.title" cols="12" sm="6">
-        <VCard variant="tonal" class="h-100">
-          <VCardItem class="pb-1">
-            <template #prepend>
-              <VIcon :icon="c.icon" color="primary" />
-            </template>
-            <VCardTitle class="text-body-1 font-weight-medium">{{ c.title }}</VCardTitle>
-          </VCardItem>
-          <VCardText class="text-body-2 text-medium-emphasis">{{ c.desc }}</VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-  </VCard>
+
+    <template v-if="report">
+      <!-- 总览 -->
+      <VCard variant="tonal" :color="overall.color" class="mb-4">
+        <VCardItem class="py-3">
+          <template #prepend>
+            <VIcon :icon="overall.icon" size="30" />
+          </template>
+          <VCardTitle class="text-h6 font-weight-bold pa-0">{{ overall.text }}</VCardTitle>
+          <template #append>
+            <VChipGroup>
+              <VChip size="small" color="success" variant="tonal">通过 {{ summary.ok || 0 }}</VChip>
+              <VChip size="small" color="info" variant="tonal">提示 {{ summary.info || 0 }}</VChip>
+              <VChip size="small" color="warning" variant="tonal">警告 {{ summary.warn || 0 }}</VChip>
+              <VChip size="small" color="error" variant="tonal">错误 {{ summary.error || 0 }}</VChip>
+            </VChipGroup>
+          </template>
+        </VCardItem>
+      </VCard>
+
+      <!-- 检查明细 -->
+      <VCard
+        v-for="r in results"
+        :key="r.id"
+        variant="outlined"
+        class="mb-2"
+        :class="{ 'cursor-pointer': (r.details || []).length }"
+        @click="(r.details || []).length && toggleExpand(r.id)"
+      >
+        <VCardItem class="py-2">
+          <template #prepend>
+            <VIcon :icon="STATUS_META[r.status]?.icon || 'mdi-help-circle'" :color="STATUS_META[r.status]?.color || 'grey'" />
+          </template>
+          <VCardTitle class="text-body-1 font-weight-medium pa-0">{{ r.title }}</VCardTitle>
+          <template #append>
+            <VChip size="x-small" :color="STATUS_META[r.status]?.color || 'grey'" variant="tonal">
+              {{ STATUS_META[r.status]?.text || r.status }}
+            </VChip>
+            <VIcon
+              v-if="(r.details || []).length"
+              size="small"
+              :icon="expanded.has(r.id) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+              class="ml-2"
+            />
+          </template>
+        </VCardItem>
+        <VCardText class="py-1 text-body-2 text-medium-emphasis">{{ r.message }}</VCardText>
+        <VCardText v-if="expanded.has(r.id) && (r.details || []).length" class="pt-0">
+          <VAlert
+            v-for="(d, i) in r.details"
+            :key="i"
+            :type="r.status === 'error' ? 'error' : r.status === 'warn' ? 'warning' : 'info'"
+            variant="tonal"
+            density="compact"
+            class="mb-1 text-body-2"
+          >
+            {{ d }}
+          </VAlert>
+          <div v-if="r.advice" class="text-caption text-medium-emphasis mt-1">
+            <VIcon size="x-small" icon="mdi-lightbulb-outline" class="mr-1" />
+            {{ r.advice }}
+          </div>
+        </VCardText>
+      </VCard>
+
+      <div class="text-caption text-disabled mt-2">
+        体检为只读模拟与探测：文件系统级判断基于容器内实际挂载（st_dev 对比），媒体服务器仅探测网络可达性，NFS 通过日志痕迹检测（避免 stat 挂死）。
+      </div>
+    </template>
+
+    <VEmptyState
+      v-else-if="!loading && !error"
+      icon="mdi-stethoscope"
+      headline="正在准备体检…"
+      text="读取真实配置做只读检测"
+    />
+  </div>
 </template>

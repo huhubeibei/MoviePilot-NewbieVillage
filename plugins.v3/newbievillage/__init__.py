@@ -22,6 +22,7 @@ from app.schemas.types import EventType
 from .app import llm_fallback
 from .app.case_service import CaseService
 from .app.dict_service import DictService
+from .app.health_service import run_all_checks
 from .app.parse_engine import ParseEngine
 from .app.preview_service import PreviewService
 from .app.remote_dict import fetch_remote_dict, save_remote_dict, validate_remote_dict
@@ -45,7 +46,7 @@ class NewbieVillage(_PluginBase):
     plugin_name = "影音新手村"
     plugin_desc = "影视/音乐新手词典、命名解析与联动预告，新手村通关手册。"
     plugin_icon = "icon.png"
-    plugin_version = "1.3.0"
+    plugin_version = "1.4.0"
     plugin_author = "jinyu"
     plugin_order = 60
 
@@ -185,6 +186,8 @@ class NewbieVillage(_PluginBase):
              "auth": "bear", "summary": "获取本机 LLM 配置状态"},
             {"path": "/llm/test", "endpoint": self.api_llm_test, "methods": ["POST"],
              "auth": "bear", "summary": "测试 LLM 连通性"},
+            {"path": "/health/checks", "endpoint": self.api_health_checks, "methods": ["GET"],
+             "auth": "bear", "summary": "运行配置体检"},
             {"path": "/cases", "endpoint": self.api_cases, "methods": ["GET"],
              "auth": "bear", "summary": "获取案例列表"},
             {"path": "/cases/{case_id}", "endpoint": self.api_case_detail, "methods": ["GET"],
@@ -294,6 +297,14 @@ class NewbieVillage(_PluginBase):
         except Exception as err:
             logger.error(f"影音新手村 LLM 兜底解析失败：{err}")
             return schemas.Response(success=False, message=f"LLM 兜底解析失败：{err}")
+
+    def api_health_checks(self) -> schemas.Response:
+        """配置体检：读真实配置逐项检测（只读，网络探测带超时）。"""
+        try:
+            return schemas.Response(success=True, data=run_all_checks())
+        except Exception as err:
+            logger.error(f"影音新手村配置体检失败：{err}")
+            return schemas.Response(success=False, message=f"配置体检失败：{err}")
 
     def api_cases(self) -> schemas.Response:
         try:
