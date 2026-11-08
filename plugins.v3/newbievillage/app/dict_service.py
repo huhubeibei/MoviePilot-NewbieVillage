@@ -61,11 +61,13 @@ class DictService:
             if isinstance(remote_version, int) and remote_version >= version:
                 terms = [t for t in remote["terms"] if self._valid_term(t)]
                 source, version = "remote", remote_version
-                # 远端携带的天梯/体积矩阵随远端生效
+                # 远端携带的天梯/体积矩阵/选购指南随远端生效
                 if isinstance(remote.get("ladders"), dict):
                     extras["ladders"] = remote["ladders"]
                 if isinstance(remote.get("size_matrix"), dict):
                     extras["size_matrix"] = remote["size_matrix"]
+                if isinstance(remote.get("buyers_guide"), dict):
+                    extras["buyers_guide"] = remote["buyers_guide"]
 
         if not terms:
             for domain in DOMAINS:
@@ -84,6 +86,8 @@ class DictService:
                     extras["ladders"] = builtin_ladders["ladders"]
                 if isinstance(builtin_ladders.get("size_matrix"), dict):
                     extras["size_matrix"] = builtin_ladders["size_matrix"]
+                if isinstance(builtin_ladders.get("buyers_guide"), dict):
+                    extras["buyers_guide"] = builtin_ladders["buyers_guide"]
 
         self._cache = {"version": version, "source": source, "terms": terms, **extras}
         return self._cache
@@ -122,6 +126,7 @@ class DictService:
             "terms": result,
             "ladders": data.get("ladders") or {},
             "size_matrix": data.get("size_matrix") or {},
+            "buyers_guide": data.get("buyers_guide") or {},
         }
 
     def daily_term(self) -> Dict[str, Any]:

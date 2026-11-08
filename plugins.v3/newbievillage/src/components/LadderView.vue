@@ -5,6 +5,7 @@ import { computed } from 'vue'
 const props = defineProps({
   ladders: { type: Object, default: () => ({}) },
   sizeMatrix: { type: Object, default: () => ({}) },
+  buyersGuide: { type: Object, default: () => ({}) },
 })
 
 const emit = defineEmits(['open-term'])
@@ -42,6 +43,48 @@ const matrixRows = computed(() => {
       天梯只讲「维度内」的高低——分辨率和来源是两回事：2160p 的 WEB-DL 未必比 1080p 的 REMUX 好。
       点击天梯项可查看对应词条。
     </VAlert>
+
+    <!-- 选购指南：按人群对号入座 -->
+    <VCard v-if="buyersGuide?.personas?.length" variant="flat" color="amber-lighten-4" class="mb-4">
+      <VCardItem class="pb-1">
+        <template #prepend>
+          <VIcon icon="mdi-compass-outline" color="amber-darken-2" />
+        </template>
+        <VCardTitle class="text-subtitle-1 font-weight-bold pa-0">
+          {{ buyersGuide.title || '怎么选？按人群对号入座' }}
+        </VCardTitle>
+      </VCardItem>
+      <VCardText class="text-caption text-medium-emphasis pb-2">
+        {{ buyersGuide.intro }}
+      </VCardText>
+      <VCardText class="pt-0">
+        <VRow>
+          <VCol v-for="p in buyersGuide.personas" :key="p.name" cols="12" sm="6" md="3">
+            <VCard variant="outlined" class="h-100">
+              <VCardItem class="pb-1">
+                <template #prepend>
+                  <VIcon :icon="p.icon || 'mdi-account-circle'" color="amber-darken-2" />
+                </template>
+                <VCardTitle class="text-body-2 font-weight-bold pa-0">{{ p.name }}</VCardTitle>
+              </VCardItem>
+              <VCardText class="text-caption text-medium-emphasis pb-1">{{ p.desc }}</VCardText>
+              <VCardText class="pt-0">
+                <div v-for="item in p.items || []" :key="item.label" class="mb-1">
+                  <span
+                    class="text-body-2"
+                    :class="{ 'cursor-pointer text-decoration-underline text-primary': item.ref }"
+                    @click="item.ref && $emit('open-term', item.ref)"
+                  >
+                    <VIcon size="x-small" icon="mdi-check-circle-outline" class="mr-1" />
+                    {{ item.label }}
+                  </span>
+                </div>
+              </VCardText>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
 
     <VRow v-for="key in ladderOrder" :key="key">
       <VCol cols="12">

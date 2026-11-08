@@ -27,6 +27,7 @@ def main() -> None:
         "terms": terms,
         "ladders": ladders_file.get("ladders") or {},
         "size_matrix": ladders_file.get("size_matrix") or {},
+        "buyers_guide": ladders_file.get("buyers_guide") or {},
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

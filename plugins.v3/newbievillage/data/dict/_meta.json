@@ -1,6 +1,11 @@
 {
-  "version": 3,
+  "version": 4,
   "updated_at": "2026-11-08",
-  "note": "内置精品词典 v3；四领域 94 条 + group 分组字段；远端协议新增 ladders/size_matrix。",
-  "counts": {"video": 34, "music": 25, "pt": 16, "moviepilot": 19}
+  "note": "内置精品词典 v4；四领域 106 条 + group 分组；远端协议含 ladders/size_matrix/buyers_guide。",
+  "counts": {
+    "video": 46,
+    "music": 25,
+    "pt": 16,
+    "moviepilot": 19
+  }
 }

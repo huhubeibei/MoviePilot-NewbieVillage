@@ -39,6 +39,20 @@ const DIM_TITLES = {
   group: '发布组',
 }
 
+// 文件名结构图解：与解析高亮配色一致（Q2 教学卡）
+const structureGuide = [
+  { label: 'Black.Panther.Wakanda.Forever', title: '片名（英文原名）', color: 'grey' },
+  { label: '2022', title: '年份（首映年）', color: 'brown' },
+  { label: '2160p', title: '分辨率', color: 'green' },
+  { label: 'BluRay', title: '片源', color: 'blue' },
+  { label: 'REMUX', title: '片源形态', color: 'blue' },
+  { label: 'HEVC', title: '视频编码', color: 'teal' },
+  { label: 'TrueHD.7.1.Atmos', title: '音频编码+声道', color: 'orange' },
+  { label: 'FGT', title: '压制组', color: 'pink' },
+  { label: '.mkv', title: '封装格式', color: 'grey' },
+]
+const showGuide = ref(true)
+
 const input = ref('')
 const kind = ref('auto')
 const kindOptions = [
@@ -228,6 +242,41 @@ onMounted(() => {
 
 <template>
   <div>
+    <!-- 文件名结构图解 -->
+    <VCard variant="outlined" class="mb-4">
+      <VCardItem class="py-2" style="cursor: pointer" @click="showGuide = !showGuide">
+        <template #prepend>
+          <VIcon :icon="showGuide ? 'mdi-chevron-down' : 'mdi-chevron-right'" />
+          <VIcon icon="mdi-file-document-outline" color="primary" />
+        </template>
+        <VCardTitle class="text-subtitle-2 font-weight-bold pa-0">
+          文件名结构图解 —— 一段文件名从左到右每段是什么？
+        </VCardTitle>
+      </VCardItem>
+      <VCardText v-if="showGuide" class="pt-0">
+        <div class="d-flex flex-wrap ga-1 mb-2" style="line-height: 2.6">
+          <VChip
+            v-for="seg in structureGuide"
+            :key="seg.title"
+            :color="seg.color"
+            size="small"
+            variant="tonal"
+          >
+            {{ seg.label }}
+          </VChip>
+        </div>
+        <div class="d-flex flex-wrap ga-2 text-caption text-medium-emphasis">
+          <span v-for="seg in structureGuide" :key="seg.title">
+            <VIcon size="x-small" icon="mdi-circle" :color="seg.color" class="mr-1" />
+            {{ seg.title }}
+          </span>
+        </div>
+        <div class="text-caption text-disabled mt-2">
+          各段用「.」分隔 · 片名用英文原名（译名各地不同） · 年份取首映年（剧集取开播年） · 把同样的名字粘贴到下面立即实测解析
+        </div>
+      </VCardText>
+    </VCard>
+
     <VCard variant="flat" class="pa-4 mb-4">
       <VRow align="center" no-gutters>
         <VSelect

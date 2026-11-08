@@ -209,6 +209,7 @@ onMounted(load)
       v-if="view === 'ladder' && !loading"
       :ladders="data.ladders"
       :size-matrix="data.size_matrix"
+      :buyers-guide="data.buyers_guide"
       @open-term="openByRef"
     />
 

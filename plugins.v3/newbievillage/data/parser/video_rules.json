@@ -2,7 +2,16 @@
   "version": 1,
   "kind": "video",
   "note": "影视命名解析规则。dims 顺序即展示顺序；priority 数值越大越优先；ref 必须与词典 term 完全一致才有跳转。",
-  "dimensions": ["episode", "resolution", "source", "vcodec", "audio", "edition", "year", "group"],
+  "dimensions": [
+    "episode",
+    "resolution",
+    "source",
+    "vcodec",
+    "audio",
+    "edition",
+    "year",
+    "group"
+  ],
   "rules": [
     {
       "id": "ep_sxxexx",
@@ -147,6 +156,15 @@
       "warn": true
     },
     {
+      "id": "src_tvrip",
+      "dim": "source",
+      "pattern": "\\bTVRip\\b",
+      "flags": "i",
+      "label": "TVRip（电视翻录）",
+      "ref": "TVRip",
+      "priority": 20
+    },
+    {
       "id": "src_telecine",
       "dim": "source",
       "pattern": "\\bTeleCine\\b|\\bTC\\b(?!\\d)",
@@ -207,6 +225,15 @@
       "priority": 15
     },
     {
+      "id": "vc_legacy",
+      "dim": "vcodec",
+      "pattern": "\\bVC-?1\\b|\\bMPEG-?2\\b",
+      "flags": "i",
+      "label": "XviD / VC-1 / MPEG-2",
+      "ref": "XviD / VC-1 / MPEG-2",
+      "priority": 16
+    },
+    {
       "id": "vc_10bit",
       "dim": "vcodec",
       "pattern": "\\b10 ?bit\\b",
@@ -237,6 +264,15 @@
       "pattern": "\\bTrueHD(?![A-Za-z])",
       "flags": "i",
       "label": "TrueHD（无损）",
+      "priority": 20
+    },
+    {
+      "id": "au_lpcm",
+      "dim": "audio",
+      "pattern": "\\bL?PCM\\d?\\b",
+      "flags": "i",
+      "label": "LPCM（无损）",
+      "ref": "LPCM 无损音轨",
       "priority": 20
     },
     {

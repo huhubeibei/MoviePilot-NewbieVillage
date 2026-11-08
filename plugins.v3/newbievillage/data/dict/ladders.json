@@ -1,6 +1,59 @@
 {
-  "version": 1,
-  "note": "画质/规格天梯与体积参考矩阵。ref 指向词典 term（无对应词条时 ref 为 null，前端只展示说明）。",
+  "version": 2,
+  "note": "画质/规格天梯、选购指南与体积参考矩阵。ref 指向词典 term（无对应词条时 ref 为 null，前端只展示说明）。",
+  "buyers_guide": {
+    "title": "怎么选？按人群对号入座",
+    "intro": "黄金法则：量体裁衣——按播放设备、网速、硬盘空间和真实需求选资源，不盲目追 4K。点击推荐项可查看对应词条。",
+    "personas": [
+      {
+        "name": "影音发烧友",
+        "icon": "mdi-diamond-stone",
+        "desc": "大屏 + 家庭影院，画质音质全都要",
+        "items": [
+          {"label": "2160p（4K）", "ref": "2160p"},
+          {"label": "REMUX / BDMV 原盘", "ref": "REMUX"},
+          {"label": "H.265 / HEVC", "ref": "H.265 / HEVC"},
+          {"label": "TrueHD / DTS-HD MA / Atmos", "ref": "TrueHD"},
+          {"label": "MKV 封装", "ref": "MKV / MP4 封装"}
+        ]
+      },
+      {
+        "name": "高清爱好者",
+        "icon": "mdi-high-definition-box",
+        "desc": "画质优先，兼顾硬盘空间",
+        "items": [
+          {"label": "1080p 或 2160p", "ref": "1080p"},
+          {"label": "REMUX / 优质压制", "ref": "REMUX"},
+          {"label": "H.265 / HEVC", "ref": "H.265 / HEVC"},
+          {"label": "DDP / DTS 音轨", "ref": "DDP / DD+"},
+          {"label": "MKV 封装", "ref": "MKV / MP4 封装"}
+        ]
+      },
+      {
+        "name": "普通用户",
+        "icon": "mdi-television-classic",
+        "desc": "看得清楚就行，空间速度友好",
+        "items": [
+          {"label": "1080p / 720p", "ref": "1080p"},
+          {"label": "WEB-DL / 优质压制", "ref": "WEB-DL"},
+          {"label": "H.264（兼容性最好）", "ref": "H.264 / AVC"},
+          {"label": "AAC / AC3 音轨", "ref": "AAC 音轨"},
+          {"label": "MKV / MP4 封装", "ref": "MKV / MP4 封装"}
+        ]
+      },
+      {
+        "name": "流媒体用户",
+        "icon": "mdi-cloud-upload-outline",
+        "desc": "在线观看为主，认准大平台源",
+        "items": [
+          {"label": "认准 WEB-DL 大平台源", "ref": "WEB-DL"},
+          {"label": "警惕国内平台假 4K", "ref": "假 4K"},
+          {"label": "平台杜比视界/HDR10+", "ref": "杜比视界 Dolby Vision"},
+          {"label": "优先国外平台片源", "ref": "片名与译名"}
+        ]
+      }
+    ]
+  },
   "ladders": {
     "video_resolution": {
       "title": "分辨率天梯（清晰度从低到高）",
@@ -16,7 +69,8 @@
       "title": "来源天梯（同分辨率下从差到好）",
       "note": "来源决定画质上限：同一部 1080p，枪版和 REMUX 是天壤之别。越靠右越接近片源原始质量。",
       "items": [
-        {"label": "枪版（CAM/TS/TC）", "desc": "影院偷录，画质音质灾难，除非全网唯一否则别碰。", "ref": null},
+        {"label": "枪版（CAM/TS/TC）", "desc": "影院偷录三种形态：CAM 摄像机录、TS 鼓机翻录（带独立音频）、TC 数字翻录——画质音质灾难，除非全网唯一否则别碰。", "ref": null},
+        {"label": "TVRip", "desc": "电视转播二次翻录，常带台标水印，仅绝版内容偶见。", "ref": "TVRip"},
         {"label": "HDTV", "desc": "电视信号直录，播出最快但带台标、码率受限。", "ref": "HDTV"},
         {"label": "WEB-DL", "desc": "流媒体平台直取，追剧主力，画质稳定无台标。", "ref": "WEB-DL"},
         {"label": "WEBRip", "desc": "流媒体转码录制，弱于 WEB-DL，优先选 WEB-DL。", "ref": "WEBRip"},

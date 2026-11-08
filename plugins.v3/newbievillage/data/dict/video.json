@@ -695,6 +695,285 @@
         "视频编码"
       ],
       "group": "视频编码"
+    },
+    {
+      "term": "MKV / MP4 封装",
+      "aliases": [
+        "mkv",
+        "mp4",
+        "容器",
+        "封装格式",
+        "matroska"
+      ],
+      "group": "封装与识别",
+      "domain": "video",
+      "one_line": "视频的「外包装」：MKV 功能最全可多轨多字幕，MP4 兼容性最好",
+      "detail": "封装（容器）是把视频流、音轨、字幕打包进一个文件的格式，与画质无关——同一条视频可以封装成 MKV 或 MP4。MKV（Matroska）是收藏首选：支持无限条音轨字幕、章节、附件，PT 资源标配；MP4 兼容性最好（手机/电视/网页全支持），但不支持部分字幕格式（如 PGS 图形字幕）；AVI/WMV 是老古董，见到基本是老资源。文件名结尾的 .mkv/.mp4 就是容器标记。",
+      "examples": [
+        "Black.Panther.Wakanda.Forever.2022.2160p.BluRay.REMUX.HEVC.TrueHD.7.1.Atmos-FGT.mkv",
+        "Movie.2024.1080p.WEB-DL.AAC.H.264.mp4"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "媒体服务器",
+          "hint": "Emby/Jellyfin 对 MKV 支持最完善；MP4 可直通播放减少转码"
+        }
+      ],
+      "tags": [
+        "封装"
+      ]
+    },
+    {
+      "term": "AVI 老封装",
+      "aliases": [
+        "avi",
+        "DivX AVI"
+      ],
+      "group": "封装与识别",
+      "domain": "video",
+      "one_line": "1990 年代的老封装格式，不支持现代字幕和音轨，收藏避雷",
+      "detail": "AVI（Audio Video Interleave）是微软 1992 年的封装格式，不支持 MKV 那样的多字幕轨/章节/现代编码特性，老 DVDRip 资源常见。看到 AVI 基本可以判断是十几年前的老资源，画质按今天标准普遍较差，除非找绝版内容否则建议换新版。",
+      "examples": [
+        "Old.Movie.1998.DVDRip.XviD.avi"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "封装"
+      ]
+    },
+    {
+      "term": "XviD / VC-1 / MPEG-2",
+      "aliases": [
+        "xvid",
+        "vc1",
+        "vc-1",
+        "mpeg2",
+        "mpeg-2",
+        "divx",
+        "老编码"
+      ],
+      "group": "视频编码",
+      "domain": "video",
+      "one_line": "H.264 之前的三代老编码，分别对应 DVD 时代、蓝光早期和数字电视",
+      "detail": "XviD/DivX 是 MPEG-4 Part 2 时代的编码（DVD 撞车 ISO 命名的 DivX），老 DVDRip 标配；VC-1 是微软开发的编码，早期蓝光盘常与 H.264 平分天下；MPEG-2 是 DVD 和数字电视（DVB）的正式编码，现在还在地面广播中使用。三者压缩效率都不及 H.264/H.265，同画质体积大得多——现代收藏资源里见到它们通常意味着片源较老。",
+      "examples": [
+        "Classic.Show.2003.DVDRip.XviD-iMMERSiON",
+        "Early.BluRay.2008.VC-1.TrueHD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "视频编码"
+      ]
+    },
+    {
+      "term": "LPCM 无损音轨",
+      "aliases": [
+        "lpcm",
+        "pcm",
+        "Linear PCM"
+      ],
+      "group": "音轨",
+      "domain": "video",
+      "one_line": "不压缩的原始数字音频，蓝光和演唱会碟的高端音轨",
+      "detail": "LPCM（Linear PCM）是未经压缩的 PCM 数字音频，与 WAV 同源，属于无损——音质上限与 TrueHD/DTS-HD MA 相当但没有杜比/DTS 的品牌授权限制，多见于演唱会蓝光、音乐现场碟和部分电影原盘。体积巨大（7.1 LPCM 一部电影可达 10GB+），部分老播放器解码吃力。",
+      "examples": [
+        "Concert.2023.2160p.BluRay.HEVC.LPCM.5.1-MySiLU"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "音轨",
+        "无损"
+      ]
+    },
+    {
+      "term": "HDR Vivid",
+      "aliases": [
+        "hrd vivid",
+        "菁彩HDR",
+        "China HDR",
+        "CUVA HDR"
+      ],
+      "group": "HDR/制式",
+      "domain": "video",
+      "one_line": "中国自主的动态 HDR 标准（菁彩 HDR），国产流媒体和电视台在推",
+      "detail": "HDR Vivid（菁彩 HDR）由中国超高清视频产业联盟（CUVA）制定，定位对标 HDR10+/杜比视界的动态元数据 HDR，国产平台（腾讯/华为视频）和国产电视剧电影逐渐采用。文件名标 HDR.Vivid 或 Vivid。国际资源几乎不用它，播放支持也集中在国产电视/播放器上——海外设备可能只能按 HDR10 兼容播放。",
+      "examples": [
+        "GuoChan.Ju.2024.2160p.WEB-DL.HDR.Vivid.H.265.60fps-WebHD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "HDR",
+        "画质"
+      ]
+    },
+    {
+      "term": "TVRip",
+      "aliases": [
+        "tvrip",
+        "电视转播录制",
+        "VHSRip"
+      ],
+      "domain": "video",
+      "group": "来源",
+      "one_line": "从电视转播信号翻录的版本，比 HDTV 更原始粗糙",
+      "detail": "TVRip（有时伴随 VHSRip 录像带翻录）是从电视播出信号二次翻录的版本：信号再损一次、常带台标水印、可能有 tracking 噪波。画质排在片源天梯的倒数第二（仅高于枪版）。冷门老节目、绝版演唱会偶尔只有 TVRip 来源，正常追新和收藏不会选它。",
+      "examples": [
+        "Rare.Concert.1995.TVRip.XviD-OLD"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "来源"
+      ]
+    },
+    {
+      "term": "年份",
+      "aliases": [
+        "首映年份",
+        "开播年份",
+        "电影年份"
+      ],
+      "group": "命名基础",
+      "domain": "video",
+      "one_line": "文件名里的年份取影片首映年（剧集取开播年），用于区分同名作品",
+      "detail": "命名年份有讲究：电影取最早公映年份（不是重映/流媒体上线年），剧集取第一季开播年。它的核心作用是消歧——同名电影（如《狮子王》1994/2019）靠年份区分，媒体库识别也靠「片名+年份」精准匹配 TMDB。年份写错是识别失败/识别错的常见原因，修正要连文件名和目录名一起改。",
+      "examples": [
+        "The.Lion.King.1994.1080p.BluRay.x264-WiKi（动画原版）",
+        "The.Lion.King.2019.2160p.WEB-DL.DDP5.1.Atmos.HDR.H.265-NOSIVAD（真狮版）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "识别词",
+          "hint": "年份识别错可用识别词修正，或手动改名"
+        }
+      ],
+      "tags": [
+        "命名结构"
+      ]
+    },
+    {
+      "term": "画面比例与异形分辨率",
+      "aliases": [
+        "画幅",
+        "2.39:1",
+        "2.35:1",
+        "1.85:1",
+        "16:9",
+        "4:3",
+        "异形分辨率"
+      ],
+      "group": "分辨率",
+      "domain": "video",
+      "one_line": "画面宽高比：16:9 是标准，电影常见 2.39:1 变形宽幅，上下有黑边是正常的",
+      "detail": "分辨率之外还有画面比例：电视/显示器面板是 16:9，而电影院电影多为 1.85:1 或 2.39:1（所谓「宽银幕」）。在 16:9 屏幕上看 2.39:1 电影上下有黑边是**正常现象**，不是资源有问题；4:3 是老电视/老电影的方形画幅。「异形分辨率」指 3840×1600 这类非标准高度的 4K（为了 2.39:1 画幅裁掉黑边），体积更小、信息量与带黑边的版本相同。",
+      "examples": [
+        "Dune.2021.2160p.BluRay.REMUX.3840x1600.HEVC（异形 4K 无黑边版）"
+      ],
+      "related_mp_settings": [],
+      "tags": [
+        "分辨率",
+        "画质"
+      ]
+    },
+    {
+      "term": "假 4K",
+      "aliases": [
+        "AI超分",
+        "锐化",
+        "假UHD",
+        "超分4K",
+        "Fake 4K"
+      ],
+      "group": "命名基础",
+      "domain": "video",
+      "one_line": "从低分辨率拉伸/锐化出来的伪 4K，信息量没变，体积翻倍",
+      "detail": "假 4K 指用 AI 超分、锐化或简单放大从 1080p 甚至 720p 源「做」出来的 2160p：像素多了但真实细节没有增加，锐化过头的画面还有白边和噪点。鉴别方法：看体积（真 4K 电影 REMUX 普遍 40GB+，假 4K 常常 1080p 的体积却标 2160p）、用 MediaInfo 看码率（假 4K 码率明显偏低）、对比官方 UHD 蓝光是否发行过。PT 大站的 UHD 区基本杜绝假 4K，公开网站要格外小心。",
+      "examples": [
+        "Some.Movie.2023.2160p.WEB-DL（体积仅 4GB？大概率假 4K）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "洗版",
+          "hint": "洗版前核对官方 4K 片源是否存在，避免收到假 4K"
+        }
+      ],
+      "tags": [
+        "画质",
+        "坑"
+      ]
+    },
+    {
+      "term": "片名与译名",
+      "aliases": [
+        "英文片名",
+        "译名",
+        "原标题",
+        "TMDB 片名"
+      ],
+      "group": "命名基础",
+      "domain": "video",
+      "one_line": "文件名首选英文原名：译名各地不同，原名是跨库识别的通用钥匙",
+      "detail": "同一部电影在不同地区译名天差地别（《寻梦环游记》=Coco=可可夜总会），媒体库和 PT 站都以英文/原标题为标准名。命名规范：片名用 TMDB 收录的英文原名，单词间用「.」分隔。中文译名可以放进目录名或文件名尾部做补充，但主识别名必须是原名，否则刮削匹配率大幅下降。检索确认片名用 TMDB/IMDb/豆瓣三站交叉最稳妥。",
+      "examples": [
+        "Coco.2017.2160p.WEB-DL...（用 Coco 而不是 寻梦环游记）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "刮削",
+          "hint": "MP 刮削以原名匹配 TMDB，译名混乱是识别失败的常见原因"
+        }
+      ],
+      "tags": [
+        "命名结构"
+      ]
+    },
+    {
+      "term": "压制组",
+      "aliases": [
+        "encode group",
+        "制作组",
+        "发布组",
+        "内封组"
+      ],
+      "group": "命名基础",
+      "domain": "video",
+      "one_line": "文件名末尾的「签名」：负责取材、压制、字幕、质检的团队",
+      "detail": "压制组的工作流：获取片源 → 解密/抽取 → 视频压制（选编码码率）→ 音轨处理 → 字幕制作/内封 → 封装 → 质检发布。同一个片源在不同压制组手里成品差距很大（码率策略、滤镜、字幕质量、质检标准）。判断一个组靠不靠谱：看它的发布说明（NFO）里写了什么（源、码率、处理方式），看社区口碑，看它的资源是否稳定规范。文件名末尾 -FGT、-NOSIVAD 这类就是组名。",
+      "examples": [
+        "Black.Panther.Wakanda.Forever.2022.2160p.BluRay.REMUX.HEVC.TrueHD.7.1.Atmos-FGT（-FGT 即压制组）"
+      ],
+      "related_mp_settings": [
+        {
+          "label": "过滤规则组",
+          "hint": "可在过滤规则里优先指定信赖的压制组"
+        }
+      ],
+      "tags": [
+        "命名结构"
+      ]
+    },
+    {
+      "term": "MediaInfo 验片工具",
+      "aliases": [
+        "mediainfo",
+        "验片",
+        "码率分析",
+        "Bitrate"
+      ],
+      "group": "命名基础",
+      "domain": "video",
+      "one_line": "免费神器：一眼看穿视频的真实编码、码率和片源，识别假 4K 必备",
+      "detail": "MediaInfo 是免费的媒体信息查看工具（另有图形化增强版 MediaInfo.NET）：把文件拖进去，立刻看到真实编码器、码率曲线、位深、HDR 格式、音轨规格——文件名可以骗人，MediaInfo 不会。新手三个用途：验 4K 真伪（真 4K UHD 码率通常 30Mbps+）、验音轨规格（文件名标 Atmos 但 MediaInfo 里没有？存疑）、对比不同压制版本。PT 站举报假资源时也以 MediaInfo 截图为证。",
+      "examples": [],
+      "related_mp_settings": [
+        {
+          "label": "洗版",
+          "hint": "洗版收货后用 MediaInfo 抽查，发现假资源及时换源"
+        }
+      ],
+      "tags": [
+        "工具",
+        "画质"
+      ]
     }
   ]
 }
