@@ -269,12 +269,17 @@ class NewbieVillage(_PluginBase):
             return schemas.Response(success=False, message=f"获取案例详情失败：{err}")
 
     def api_update_config(self, payload: Optional[dict] = None) -> schemas.Response:
-        """保存配置并即时生效（前端 Config 组件调用）。"""
+        """保存配置并即时生效（前端 Config 组件调用）。
+
+        注意：不能依赖 init_plugin 的「raw != merged 才写回」——前端总是传全量
+        字段时两者恒等，配置会只存在于内存、重启即丢，必须显式持久化。
+        """
         try:
             incoming = payload or {}
             merged = dict(self._config)
             merged.update({k: v for k, v in incoming.items() if k in DEFAULT_CONFIG})
             self.init_plugin(merged)
+            self.update_config(self._current_config())
             return schemas.Response(success=True, data=self._current_config(), message="配置已保存")
         except Exception as err:
             logger.error(f"影音新手村保存配置失败：{err}")
