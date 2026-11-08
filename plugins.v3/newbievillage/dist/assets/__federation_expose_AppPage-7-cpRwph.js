@@ -1,7 +1,7 @@
 import { importShared } from './__federation_fn_import-JrT3xvdd.js';
 import { r as resolveApi, d as domainTitle, u as unwrapResponse, a as renderCaseMarkdown } from './utils-CprB0h7l.js';
 
-const {createTextVNode:_createTextVNode$5,resolveComponent:_resolveComponent$5,withCtx:_withCtx$5,createVNode:_createVNode$5,renderList:_renderList$5,Fragment:_Fragment$5,openBlock:_openBlock$5,createElementBlock:_createElementBlock$5,toDisplayString:_toDisplayString$5,normalizeClass:_normalizeClass$1,createElementVNode:_createElementVNode$4,normalizeStyle:_normalizeStyle,createBlock:_createBlock$5,unref:_unref$3,createCommentVNode:_createCommentVNode$3} = await importShared('vue');
+const {createTextVNode:_createTextVNode$5,resolveComponent:_resolveComponent$5,withCtx:_withCtx$5,createVNode:_createVNode$5,renderList:_renderList$5,Fragment:_Fragment$5,openBlock:_openBlock$5,createElementBlock:_createElementBlock$5,toDisplayString:_toDisplayString$5,normalizeClass:_normalizeClass$1,createElementVNode:_createElementVNode$4,normalizeStyle:_normalizeStyle,createBlock:_createBlock$5,createCommentVNode:_createCommentVNode$3} = await importShared('vue');
 
 
 const _hoisted_1$4 = ["onClick"];
@@ -15,6 +15,10 @@ const _hoisted_4$3 = {
   class: "text-disabled"
 };
 
+const {computed: computed$3} = await importShared('vue');
+
+// 画质/规格天梯视图：双天梯 + 音乐规格梯 + 体积参考矩阵。
+// 数据来自词典服务的 ladders/size_matrix（远端可更新）。
 
 const _sfc_main$5 = {
   __name: 'LadderView',
@@ -25,8 +29,6 @@ const _sfc_main$5 = {
   emits: ['open-term'],
   setup(__props, { emit: __emit }) {
 
-// 画质/规格天梯视图：双天梯 + 音乐规格梯 + 体积参考矩阵。
-// 数据来自词典服务的 ladders/size_matrix（远端可更新）。
 const props = __props;
 
 const ladderOrder = ['video_resolution', 'video_source', 'music_quality'];
@@ -46,7 +48,7 @@ function shade(index, total) {
   return steps[Math.min(steps.length - 1, Math.floor((index / Math.max(1, total - 1)) * (steps.length - 1)))]
 }
 
-const matrixRows = computed(() => {
+const matrixRows = computed$3(() => {
   const m = props.sizeMatrix;
   if (!m?.rows || !m?.columns) return []
   return Object.entries(m.rows).map(([res, values]) => ({
@@ -206,7 +208,7 @@ return (_ctx, _cache) => {
                       ])
                     ]),
                     _createElementVNode$4("tbody", null, [
-                      (_openBlock$5(true), _createElementBlock$5(_Fragment$5, null, _renderList$5(_unref$3(matrixRows), (row) => {
+                      (_openBlock$5(true), _createElementBlock$5(_Fragment$5, null, _renderList$5(matrixRows.value, (row) => {
                         return (_openBlock$5(), _createElementBlock$5("tr", {
                           key: row.res
                         }, [
@@ -264,7 +266,7 @@ const _hoisted_9$1 = {
   class: "text-medium-emphasis"
 };
 
-const {computed: computed$3,onMounted: onMounted$2,ref: ref$3} = await importShared('vue');
+const {computed: computed$2,onMounted: onMounted$2,ref: ref$3} = await importShared('vue');
 
 const EXPANDED_KEY = 'nv_dict_expanded_groups';
 
@@ -323,10 +325,10 @@ const GROUP_ICONS = {
   工具与概念: 'mdi-tools',
 };
 
-const pluginBase = computed$3(() => `plugin/${props.pluginId}`);
-const apiClient = computed$3(() => resolveApi(props.api));
+const pluginBase = computed$2(() => `plugin/${props.pluginId}`);
+const apiClient = computed$2(() => resolveApi(props.api));
 
-const filtered = computed$3(() => {
+const filtered = computed$2(() => {
   const kw = q.value.trim().toLowerCase();
   return data.value.terms.filter(t => {
     if (domain.value && t.domain !== domain.value) return false
@@ -339,7 +341,7 @@ const filtered = computed$3(() => {
 });
 
 // 分组分节：有 group 的词条按组聚合（组序按 GROUP_ORDER），无组的归入「其他」
-const grouped = computed$3(() => {
+const grouped = computed$2(() => {
   const groups = new Map();
   for (const term of filtered.value) {
     const key = term.group || '';
@@ -358,9 +360,9 @@ const grouped = computed$3(() => {
   }))
 });
 
-const hasGrouping = computed$3(() => filtered.value.some(t => t.group));
+const hasGrouping = computed$2(() => filtered.value.some(t => t.group));
 
-const searching = computed$3(() => q.value.trim().length > 0);
+const searching = computed$2(() => q.value.trim().length > 0);
 
 function isGroupExpanded(name) {
   // 搜索时强制全部展开，避免命中结果被折叠
@@ -383,7 +385,7 @@ function toggleGroup(name) {
   }
 }
 
-const termByRef = computed$3(() => {
+const termByRef = computed$2(() => {
   const map = {};
   for (const t of data.value.terms) {
     map[t.term] = t;
@@ -876,7 +878,7 @@ const _hoisted_21 = {
   style: {"line-height":"1.9","white-space":"pre-wrap"}
 };
 
-const {computed: computed$2,onMounted: onMounted$1,ref: ref$2} = await importShared('vue');
+const {computed: computed$1,onMounted: onMounted$1,ref: ref$2} = await importShared('vue');
 
 
 const _sfc_main$3 = {
@@ -889,8 +891,8 @@ const _sfc_main$3 = {
 
 const props = __props;
 
-const pluginBase = computed$2(() => `plugin/${props.pluginId}`);
-const apiClient = computed$2(() => resolveApi(props.api));
+const pluginBase = computed$1(() => `plugin/${props.pluginId}`);
+const apiClient = computed$1(() => resolveApi(props.api));
 
 // 与后端 parse_engine.DIM_COLORS 保持一致
 const DIM_COLORS = {
@@ -943,7 +945,7 @@ const aiNotice = ref$2('');
 const selectedTerm = ref$2(null);
 
 // ref → 词条（精确匹配 term，其次匹配别名）
-const termByRef = computed$2(() => {
+const termByRef = computed$1(() => {
   const map = {};
   for (const t of dictTerms.value) {
     map[t.term] = t;
@@ -955,7 +957,7 @@ const termByRef = computed$2(() => {
 });
 
 const DIM_ORDER = ['episode', 'resolution', 'source', 'vcodec', 'audio', 'edition', 'format', 'quality', 'release_type', 'year', 'group'];
-const dimEntries = computed$2(() => {
+const dimEntries = computed$1(() => {
   if (!parsed.value) return []
   const dims = parsed.value.dims || {};
   return DIM_ORDER.filter(d => dims[d]).map(d => ({ dim: d, title: DIM_TITLES[d] || d, color: DIM_COLORS[d] || 'grey', items: dims[d] }))
@@ -1053,7 +1055,7 @@ function tryExample(text) {
 }
 
 // 画质档次徽章：按最高分辨率 × 来源映射（与天梯口径一致）
-const tier = computed$2(() => {
+const tier = computed$1(() => {
   if (!parsed.value || parsed.value.kind !== 'video') return null
   if ((parsed.value.warnings || []).length) {
     return { icon: 'mdi-alert-octagon', color: 'error', text: '应急枪版' }
@@ -1074,7 +1076,7 @@ const tier = computed$2(() => {
 });
 
 // 体积估算：分辨率 × 来源 查矩阵
-const sizeEstimate = computed$2(() => {
+const sizeEstimate = computed$1(() => {
   if (!preview.value || preview.value.media_type === '音乐' || !parsed.value) return null
   const matrix = dictSizeMatrix.value;
   if (!matrix?.rows || !matrix?.columns) return null
@@ -1717,7 +1719,7 @@ const _hoisted_2 = { class: "d-flex align-center flex-wrap ga-2" };
 const _hoisted_3 = { class: "text-h6 font-weight-bold" };
 const _hoisted_4 = ["innerHTML"];
 
-const {computed: computed$1,onMounted,ref: ref$1} = await importShared('vue');
+const {computed,onMounted,ref: ref$1} = await importShared('vue');
 
 
 const _sfc_main$2 = {
@@ -1736,10 +1738,10 @@ const cases = ref$1([]);
 const selected = ref$1(null);
 const detailLoading = ref$1(false);
 
-const pluginBase = computed$1(() => `plugin/${props.pluginId}`);
-const apiClient = computed$1(() => resolveApi(props.api));
+const pluginBase = computed(() => `plugin/${props.pluginId}`);
+const apiClient = computed(() => resolveApi(props.api));
 
-const storylines = computed$1(() => {
+const storylines = computed(() => {
   const groups = {};
   for (const c of cases.value) {
     const key = c.storyline || '综合'

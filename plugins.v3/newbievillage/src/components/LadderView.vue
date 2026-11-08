@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 // 画质/规格天梯视图：双天梯 + 音乐规格梯 + 体积参考矩阵。
 // 数据来自词典服务的 ladders/size_matrix（远端可更新）。
 const props = defineProps({
